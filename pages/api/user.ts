@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import mongoose from "@/lib/mongoose"
 import { searchUser, updateUser } from 'lib/api/user';
 import { getSession } from 'next-auth/react';
 import { getMdxSource } from 'lib/api/user';
@@ -7,6 +8,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log(await mongoose);
   if (req.method === 'GET') {
     try {
       const result = await searchUser(req.query.query as string);

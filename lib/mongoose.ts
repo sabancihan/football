@@ -1,7 +1,7 @@
 import  mongoose  from 'mongoose';
 
 const uri = process.env.MONGODB_URI as string; // your mongodb connection string
-const options = {bufferCommands: false, bufferMaxEntries: 0, useUnifiedTopology: true};
+const options = {}
 
 let client;
 let clientPromise: Promise<any>;
@@ -17,10 +17,10 @@ if (!process.env.MONGODB_URI) {
 if (process.env.NODE_ENV === 'development') {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
-  if (!global._mongoClientPromise) {
+  if (!global._mongoosePromise) {
     global._mongoosePromise = mongoose.connect(uri, options);
   }
-  clientPromise = global._mongoClientPromise;
+  clientPromise = global._mongoosePromise;
 } else {
   // In production mode, it's best to not use a global variable.
   clientPromise = mongoose.connect(uri, options);

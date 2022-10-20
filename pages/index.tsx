@@ -34,6 +34,9 @@ export const getStaticProps: GetStaticProps = async () => {
   const totalUsers = await getUserCount();
   const firstUser = await getFirstUser();
 
+
+  
+
   return {
     props: {
       meta: defaultMetaProps,

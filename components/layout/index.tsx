@@ -24,6 +24,8 @@ export default function Layout({
   clusterStillProvisioning?: boolean;
   children: ReactNode;
 }) {
+
+
   const router = useRouter();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);

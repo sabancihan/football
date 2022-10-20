@@ -1,8 +1,12 @@
-import clientPromise from '@/lib/mongodb';
+import User from 'models/User';
 import { remark } from 'remark';
 import remarkMdx from 'remark-mdx';
 import { serialize } from 'next-mdx-remote/serialize';
+import mongooseConnection from '@/lib/mongoose'
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
+
+
+
 
 export interface UserProps {
   name: string;
@@ -42,12 +46,14 @@ Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut si
 Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.`;
 
 export async function getUser(username: string): Promise<UserProps | null> {
-  const client = await clientPromise;
-  const collection = client.db('football').collection('users');
-  const results = await collection.findOne(
-    { username },
-    { projection: { _id: 0, emailVerified: 0 } }
-  );
+
+  await mongooseConnection;
+
+
+  const results = await User.findOne(
+    { username }).select({ _id: 0, emailVerified: 0 }).lean();
+
+
   if (results) {
     return {
       ...results,
@@ -56,17 +62,19 @@ export async function getUser(username: string): Promise<UserProps | null> {
   } else {
     return null;
   }
+
 }
 
 export async function getFirstUser(): Promise<UserProps | null> {
-  const client = await clientPromise;
-  const collection = client.db('football').collection('users');
-  const results = await collection.findOne(
-    {},
-    {
-      projection: { _id: 0, emailVerified: 0 }
-    }
-  );
+
+  await mongooseConnection;
+
+
+
+
+  const results = await User.findOne(
+    {}).select({ _id: 0, emailVerified: 0 }).lean();
+
   return {
     ...results,
     bioMdx: await getMdxSource(results.bio || placeholderBio)
@@ -74,9 +82,14 @@ export async function getFirstUser(): Promise<UserProps | null> {
 }
 
 export async function getAllUsers(): Promise<ResultProps[]> {
-  const client = await clientPromise;
-  const collection = client.db('football').collection('users');
-  return await collection
+
+  await mongooseConnection;
+ 
+
+
+
+
+  const result =  await User
     .aggregate([
       {
         //sort by follower count
@@ -112,13 +125,16 @@ export async function getAllUsers(): Promise<ResultProps[]> {
         }
       }
     ])
-    .toArray();
+
+    return result
 }
 
 export async function searchUser(query: string): Promise<UserProps[]> {
-  const client = await clientPromise;
-  const collection = client.db('football').collection('users');
-  return await collection
+
+  await mongooseConnection;
+
+
+  return await User
     .aggregate([
       {
         $search: {
@@ -191,17 +207,18 @@ export async function searchUser(query: string): Promise<UserProps[]> {
         }
       }
     ])
-    .toArray();
 }
 
 export async function getUserCount(): Promise<number> {
-  const client = await clientPromise;
-  const collection = client.db('football').collection('users');
-  return await collection.countDocuments();
+
+  await mongooseConnection;
+
+  return await User.countDocuments().lean();
 }
 
 export async function updateUser(username: string, bio: string) {
-  const client = await clientPromise;
-  const collection = client.db('football').collection('users');
-  return await collection.updateOne({ username }, { $set: { bio } });
+
+  await mongooseConnection;
+
+  return await User.updateOne({ username }, { $set: { bio } });
 }

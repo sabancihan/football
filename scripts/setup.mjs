@@ -1,6 +1,8 @@
 import { MongoClient } from 'mongodb';
 import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
+import User from 'models/User';
+import mongoose from 'mongoose';
 
 dotenv.config();
 
@@ -8,17 +10,13 @@ const setup = async () => {
   let client;
 
   try {
-    client = new MongoClient(process.env.MONGODB_URI);
-    await client.connect();
+    client = await mongoose.connect(process.env.MONGODB_URI);
 
-    const hasData = await client
-      .db('football')
-      .collection('users')
-      .countDocuments();
+    const hasData = await User.countDocuments().lean();
 
     if (hasData) {
       console.log('Database already exists with data');
-      client.close();
+      mongoose.disconnect();
       return;
     }
 
@@ -38,9 +36,7 @@ const setup = async () => {
       };
     });
 
-    const insert = await client
-      .db('football')
-      .collection('users')
+    const insert = await User
       .insertMany(records);
 
     if (insert.acknowledged) {
@@ -49,8 +45,8 @@ const setup = async () => {
   } catch (error) {
     return 'Database is not ready yet';
   } finally {
-    if (client) {
-      await client.close();
+    if (mongoose) {
+      await mongoose.disconnect();
     }
   }
 };
