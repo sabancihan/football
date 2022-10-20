@@ -3,7 +3,6 @@ import  mongoose  from 'mongoose';
 const uri = process.env.MONGODB_URI as string; // your mongodb connection string
 const options = {}
 
-let client;
 let clientPromise: Promise<any>;
 
 declare global {
