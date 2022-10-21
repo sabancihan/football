@@ -1,8 +1,8 @@
 import { MongoClient } from 'mongodb';
 import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
-import { sportScoreApi } from '../helpers/AxiosInterceptor.js';
-import ApiConfig from "../config/ApiConfig.json" assert {type : "json"}
+import { sportScoreApi } from 'helpers/AxiosInterceptor';
+import {SportScore} from "../config/ApiConfig.json"
  
 dotenv.config();
 const setup = async () => {
@@ -24,14 +24,14 @@ const setup = async () => {
     }
 
 
-    const superLeaguetTeams = await sportScoreApi.get(`seasons/${ApiConfig.SportScore.superLeagueSeasonId}/teams`)
+    const superLeaguetTeams = await sportScoreApi.get(`seasons/${SportScore.superLeagueSeasonId}/teams`)
 
 
     const teamIdList = superLeaguetTeams.data.data.teams.map(team => team.id)
 
 
     while (teamIdList) {
-      const teamsOfPlayers =  await Promise.all(teamIdList.splice(0,ApiConfig.SportScore.requestPerSecond).map(async teamId => {
+      const teamsOfPlayers =  await Promise.all(teamIdList.splice(0,SportScore.requestPerSecond).map(async teamId => {
         return  sportScoreApi.get(`teams/${teamId}/players`)
     }))
 
