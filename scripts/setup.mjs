@@ -29,13 +29,17 @@ const setup = async () => {
 
     const teamIdList = superLeaguetTeams.data.data.teams.map(team => team.id)
 
-    const playerlist = []
 
     while (teamIdList) {
       const teamsOfPlayers =  await Promise.all(teamIdList.splice(0,SportScore.requestPerSecond).map(async teamId => {
         return  sportScoreApi.get(`teams/${teamId}/players`)
     }))
-    playerlist.push(...(teamsOfPlayers.map(team => team.data.data)))
+
+    const insert = await client
+    .db('football')
+    .collection('players')
+    .insertMany(teamsOfPlayers.map(team => team.data.data));
+
     await new Promise(r => setTimeout(r, 1500));
   }
 
