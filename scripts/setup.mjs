@@ -1,11 +1,12 @@
 import { MongoClient } from 'mongodb';
 import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
-import axios from 'axios';
-
-
+import { sportScoreApi } from 'helpers/AxiosInterceptor';
+import {SportScore} from "../config/ApiConfig.json"
+ 
 dotenv.config();
 const setup = async () => {
+  
   let client;
   try {
     client = new MongoClient(process.env.MONGODB_URI);
@@ -21,24 +22,31 @@ const setup = async () => {
       client.close();
       return;
     }
-    const records = [...Array(10)].map(() => {
-      const [fName, lName] = faker.name.findName().split(' ');
-      const username = faker.internet.userName(fName, lName);
-      const email = faker.internet.email(fName, lName);
-      const image = faker.image.people(640, 480, true);
-      return {
-        name: `${fName} ${lName}`,
-        username,
-        email,
-        image,
-        followers: 0,
-        emailVerified: null
-      };
-    });
+
+
+    const superLeaguetTeams = await sportScoreApi.get(`seasons/${SportScore.superLeagueSeasonId}/teams`)
+
+
+    const teamIdList = superLeaguetTeams.data.data.teams.map(team => team.id)
+
+    const playerlist = []
+
+    while (teamIdList) {
+      const teamsOfPlayers =  await Promise.all(teamIdList.splice(0,SportScore.requestPerSecond).map(async teamId => {
+        return  sportScoreApi.get(`teams/${teamId}/players`)
+    }))
+    playerlist.push(...(teamsOfPlayers.map(team => team.data.data)))
+    await new Promise(r => setTimeout(r, 1500));
+  }
+
+
+    
+
+  
     const insert = await client
       .db('football')
-      .collection('users')
-      .insertMany(records);
+      .collection('players')
+      .insertMany(playerlist);
     if (insert.acknowledged) {
       console.log('Successfully inserted records');
     }
