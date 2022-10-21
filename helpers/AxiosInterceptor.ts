@@ -1,12 +1,12 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios"
 
-import ApiConfig from "../config/ApiConfig.json"
+import {SportScore} from "../config/ApiConfig.json"
 
 export const sportScoreApi = axios.create({
-    baseURL:   ApiConfig.SportScore.baseURL,
+    baseURL:   SportScore.baseURL,
     headers: {
         "Content-Type": "application/json",
-        "X-RapidAPI-Host": ApiConfig.SportScore.baseURL,
+        "X-RapidAPI-Host": SportScore.baseURL,
         "X-RapidAPI-Key": process.env.SPORTSCORE_API_KEY
     },
     params: {
