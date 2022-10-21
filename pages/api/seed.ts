@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { setup } from 'scripts/setup';
+import { setup } from 'scripts/setup.mjs';
 
 async function handler(_req: NextApiRequest, res: NextApiResponse) {
   const message = await setup();
