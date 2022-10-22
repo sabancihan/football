@@ -170,9 +170,10 @@ export async function getAllPlayers(): Promise<ResultProps[]> {
 export async function searchPlayer(query: string): Promise<UserProps[]> {
 
   await mongooseConnection;
+  
 
 
-  return await Player
+  const results =   await Player
     .aggregate([
       {
         $search: {
@@ -194,7 +195,7 @@ export async function searchPlayer(query: string): Promise<UserProps[]> {
       },
       // limit to 10 results
       {
-        $limit: 10
+        $limit: 10  
       },
       {
         $project: {
@@ -205,6 +206,8 @@ export async function searchPlayer(query: string): Promise<UserProps[]> {
         }
       } 
     ])
+
+    return results
 }
 
 export async function getPlayerCount(): Promise<number> {
