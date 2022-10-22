@@ -3,7 +3,7 @@ import type { AppProps as NextAppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import Layout from '@/components/layout';
 import { Session } from 'next-auth/core/types';
-import { ResultProps } from '@/lib/api/user';
+import { ResultProps } from '@/lib/api/player';
 import { MetaProps } from '@/components/layout/meta';
 
 type AppProps<P = any> = {
@@ -13,7 +13,7 @@ type AppProps<P = any> = {
 type CustomAppProps = {
   session: Session;
   clusterStillProvisioning?: boolean;
-  totalUsers: number;
+  totalPlayers: number;
   results: ResultProps[];
   meta : MetaProps
 

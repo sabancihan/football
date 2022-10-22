@@ -1,16 +1,21 @@
 import { GetStaticProps } from 'next';
 import Profile from '@/components/profile';
 import {
-  getAllUsers,
-  UserProps,
-  getUserCount,
-  getFirstUser
+  getAllPlayers,
+  PlayerProps,
+  getPlayerCount,
+  getFirstPlayer
+} from '@/lib/api/player';
+
+import {
+  UserProps
 } from '@/lib/api/user';
+
 import { defaultMetaProps } from '@/components/layout/meta';
 import clientPromise from '@/lib/mongodb';
 
-export default function Home({ user }: { user: UserProps }) {
-  return <Profile user={user} settings={false} />;
+export default function Home({ player }: { player: PlayerProps }) {
+  return <Profile player={player} settings={false} />;
 }
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -30,9 +35,9 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   }
 
-  const results = await getAllUsers();
-  const totalUsers = await getUserCount();
-  const firstUser = await getFirstUser();
+  const results = await getAllPlayers();
+  const totalPlayers = await getPlayerCount();
+  const firstpPlayer = await getFirstPlayer();
 
 
   
@@ -41,8 +46,8 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       meta: defaultMetaProps,
       results,
-      totalUsers,
-      user: firstUser
+      totalPlayers,
+      player: firstpPlayer
     },
     revalidate: 10
   };

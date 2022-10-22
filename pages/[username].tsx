@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 import { GetStaticProps } from 'next';
 import { defaultMetaProps } from '@/components/layout/meta';
-import { getUser, getAllUsers, getUserCount } from '@/lib/api/user';
+import { getFirstPlayer, getAllPlayers, getPlayer, getPlayerCount } from '@/lib/api/player';
 export { default } from '.';
 import clientPromise from '@/lib/mongodb';
 
@@ -21,10 +21,14 @@ export const getStaticPaths = async () => {
     };
   }
 
-  const results = await getAllUsers();
-  const paths = results.flatMap(({ users }) =>
-    users.map((user) => ({ params: { username: user.username } }))
+
+  const results = await getAllPlayers();
+  const paths = results.flatMap(({ players }) =>
+    players.map((player) => ({ params: { username: player.username } }))
   );
+
+
+    
   return {
     paths,
     fallback: true
@@ -32,6 +36,8 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+
+
   // You should remove this try-catch block once your MongoDB Cluster is fully provisioned
   try {
     await clientPromise;
@@ -49,31 +55,39 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 
   const { username } = context.params as Params;
-  const user = await getUser(username);
-  if (!user) {
+  const player = await getPlayer(username);
+
+
+
+  
+
+  if (!player) {
     return {
       notFound: true,
       revalidate: 10
     };
   }
 
-  const results = await getAllUsers();
-  const totalUsers = await getUserCount();
+  
 
-  const ogUrl = `https://mongodb.vercel.app/${user.username}`;
+  const results = await getAllPlayers();
+  const totalPlayers = await getPlayerCount();
+
+  const ogUrl = `https://mongodb.vercel.app/${player.username}`;
   const meta = {
     ...defaultMetaProps,
-    title: `${user.name}'s Profile | MongoDB Starter Kit`,
+    title: `${player.name}'s Profile`,
     ogImage: `https://api.microlink.io/?url=${ogUrl}&screenshot=true&meta=false&embed=screenshot.url`,
-    ogUrl: `https://mongodb.vercel.app/${user.username}`
+    ogUrl: `https://mongodb.vercel.app/${player.username}`
   };
+
 
   return {
     props: {
       meta,
       results,
-      totalUsers,
-      user
+      totalPlayers,
+      player
     },
     revalidate: 10
   };

@@ -1,20 +1,20 @@
 import Link from 'next/link';
 import BlurImage from '../blur-image';
-import { UserProps } from '@/lib/api/user';
 import { CheckInCircleIcon } from '@/components/icons';
+import { PlayerProps } from '@/lib/api/player';
 
-export default function DirectoryResults({ users }: { users: UserProps[] }) {
+export default function DirectoryResults({ players }: { players: PlayerProps[] }) {
   return (
     <ul role="list" className="relative z-0 directory-divide-y">
-      {users.map((user) => (
-        <li key={user.username}>
-          <Link href={`/${user.username}`}>
+      {players.map((player) => (
+        <li key={player.username}>
+          <Link href={`/${player.username}`}>
             <a>
               <div className="relative px-6 py-4 flex items-center space-x-3 focus-within:ring-0">
                 <div className="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden">
                   <BlurImage
-                    src={user.image}
-                    alt={user.name}
+                    src={player.image}
+                    alt={player.name}
                     width={300}
                     height={300}
                   />
@@ -24,14 +24,14 @@ export default function DirectoryResults({ users }: { users: UserProps[] }) {
                   <span className="absolute inset-0" aria-hidden="true" />
                   <div className="flex items-center space-x-1">
                     <p className="text-sm font-medium text-white truncate">
-                      {user.name}
+                      {player.name}
                     </p>
-                    {user.verified && (
+                    {true  && (
                       <CheckInCircleIcon className="w-4 h-4 text-white" />
                     )}
                   </div>
                   <p className="text-sm text-dark-accent-5 truncate">
-                    @{user.username}
+                    @{player.username}
                   </p>
                 </div>
               </div>

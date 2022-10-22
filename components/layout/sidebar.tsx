@@ -12,7 +12,7 @@ import {
   XIcon
 } from '@heroicons/react/outline';
 import Directory from './directory';
-import { ResultProps } from '@/lib/api/user';
+import { ResultProps } from '@/lib/api/player';
 
 export default function Sidebar({
   sidebarOpen,
@@ -75,7 +75,7 @@ export default function Sidebar({
                   </button>
                 </div>
               </Transition.Child>
-              <Directory results={results} totalUsers={totalUsers} />
+              <Directory results={results} totalPlayers={totalUsers} />
             </Dialog.Panel>
           </Transition.Child>
           <div className="flex-shrink-0 w-14" aria-hidden="true">

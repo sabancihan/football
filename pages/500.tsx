@@ -2,6 +2,7 @@ import Meta, { defaultMetaProps } from '@/components/layout/meta';
 export { getStaticProps } from '.';
 
 export default function Custom500() {
+  console.log('500');
   return (
     <div className="h-screen w-full flex justify-center items-center bg-black">
       <Meta

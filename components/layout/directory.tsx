@@ -1,4 +1,4 @@
-import { ResultProps, UserProps } from '@/lib/api/user';
+import { ResultProps } from '@/lib/api/player';
 import Link from 'next/link';
 import useSWR from 'swr';
 import fetcher from '@/lib/fetcher';
@@ -6,18 +6,19 @@ import { useDebounce } from '@/lib/hooks/use-debounce';
 import { useState } from 'react';
 import { DirectoryIcon, SearchIcon } from '@/components/icons';
 import DirectoryResults from './directory-results';
+import { PlayerProps } from '@/lib/api/player';
 
 export default function Directory({
   results,
-  totalUsers
+  totalPlayers
 }: {
   results: ResultProps[];
-  totalUsers: number;
+  totalPlayers: number;
 }) {
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, 200);
-  const { data: searchedUsers } = useSWR<UserProps[] | null>(
-    debouncedQuery.length > 0 && `api/user?query=${debouncedQuery}`,
+  const { data: searchedPlayers } = useSWR<PlayerProps[] | null>(
+    debouncedQuery.length > 0 && `api/player?query=${debouncedQuery}`,
     fetcher,
     {
       keepPreviousData: true
@@ -36,8 +37,8 @@ export default function Directory({
         </Link>
         <p className="mt-8 text-2xl text-white font-bold">Directory</p>
         <p className="mt-2 text-sm text-dark-accent-5">
-          Search directory of {Intl.NumberFormat('en-us').format(totalUsers)}{' '}
-          developers
+          Search directory of {Intl.NumberFormat('en-us').format(totalPlayers)}{' '}
+          Players
         </p>
         <form className="py-8 flex space-x-4" action="#">
           <div className="flex-1 min-w-0">
@@ -67,16 +68,16 @@ export default function Directory({
         aria-label="Directory"
       >
         {debouncedQuery.length === 0 ? (
-          results.map(({ _id: letter, users }) => (
+          results.map(({ _id: letter, players }) => (
             <div key={letter} className="relative">
               <div className="bg-dark-accent-1 px-6 py-1 text-sm font-bold text-white uppercase">
                 <h3>{letter}</h3>
               </div>
-              <DirectoryResults users={users} />
+              <DirectoryResults players={players} />
             </div>
           ))
-        ) : searchedUsers && searchedUsers.length > 0 ? (
-          <DirectoryResults users={searchedUsers} />
+        ) : searchedPlayers && searchedPlayers.length > 0 ? (
+          <DirectoryResults players={searchedPlayers} />
         ) : (
           <div className="px-6 py-6">
             <p className="text-center text-gray-500">No results found</p>

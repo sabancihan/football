@@ -1,27 +1,31 @@
-import User from 'models/User';
+import Player from 'models/Player';
 import { remark } from 'remark';
 import remarkMdx from 'remark-mdx';
 import { serialize } from 'next-mdx-remote/serialize';
 import mongooseConnection from '@/lib/mongoose'
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { UserProps } from './user';
 
 
 
 
-export interface UserProps {
+export interface PlayerProps {
   name: string;
   username: string;
-  email: string;
   image: string;
   bio: string;
   bioMdx: MDXRemoteSerializeResult<Record<string, unknown>>;
-  followers: number;
-  verified: boolean;
+  rating : number;
+  nationality : string;
 }
+
+
+
+
 
 export interface ResultProps {
   _id: string;
-  users: UserProps[];
+  players: PlayerProps[];
 }
 
 export async function getMdxSource(postContents: string) {
@@ -45,19 +49,37 @@ Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut si
 
 Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.`;
 
-export async function getUser(username: string): Promise<UserProps | null> {
+export async function getPlayer(slug: string): Promise<PlayerProps | null> {
 
   await mongooseConnection;
 
 
-  const results = await User.findOne(
-    { username }).select({ _id: 0, emailVerified: 0 }).lean();
+
+  const results = await Player.findOne({slug: slug}).select({ _id: 0 }).lean();
+
+  const ratingString =  `Player rating ${results?.rating.toString()}`
+ 
+
+
+    
+
+
+
+
+
+
+    
 
 
   if (results) {
     return {
-      ...results,
-      bioMdx: await getMdxSource(results.bio || placeholderBio)
+      name: results.name,
+      nationality: results.flag,
+      username: results.slug,
+      image: results.photo,
+      rating: results.rating,
+      bio: ratingString ,
+      bioMdx: await getMdxSource(ratingString|| placeholderBio)
     };
   } else {
     return null;
@@ -65,23 +87,36 @@ export async function getUser(username: string): Promise<UserProps | null> {
 
 }
 
-export async function getFirstUser(): Promise<UserProps | null> {
+export async function getFirstPlayer(): Promise<PlayerProps | null> {
 
   await mongooseConnection;
 
 
 
 
-  const results = await User.findOne(
+
+  const results = await Player.findOne(
     {}).select({ _id: 0 }).lean();
 
-  return {
-    ...results,
-    bioMdx: await getMdxSource(results.bio || placeholderBio)
-  };
+    const ratingString =  `Player rating ${results?.rating.toString()}`
+
+
+    if (results) {
+      return {
+        name: results.name,
+        nationality: results.flag,
+        username: results.slug,
+        image: results.photo,
+        rating: results.rating,
+        bio: ratingString ,
+        bioMdx: await getMdxSource(ratingString|| placeholderBio)
+      };
+    }
+
+  return null;
 }
 
-export async function getAllUsers(): Promise<ResultProps[]> {
+export async function getAllPlayers(): Promise<ResultProps[]> {
 
   await mongooseConnection;
  
@@ -89,12 +124,12 @@ export async function getAllUsers(): Promise<ResultProps[]> {
 
 
 
-  const result =  await User
+  const result =  await Player
     .aggregate([
       {
-        //sort by follower count
+        //sort by rating
         $sort: {
-          followers: -1
+          rating: -1
         }
       },
       {
@@ -105,14 +140,13 @@ export async function getAllUsers(): Promise<ResultProps[]> {
           _id: {
             $toLower: { $substrCP: ['$name', 0, 1] }
           },
-          users: {
+          players: {
             $push: {
               name: '$name',
-              username: '$username',
-              email: '$email',
-              image: '$image',
-              followers: '$followers',
-              verified: '$verified'
+              username: '$slug',
+              nationality: '$flag',
+              image: '$photo',
+              rating: '$rating',
             }
           },
           count: { $sum: 1 }
@@ -129,12 +163,12 @@ export async function getAllUsers(): Promise<ResultProps[]> {
     return result
 }
 
-export async function searchUser(query: string): Promise<UserProps[]> {
+export async function searchPlayer(query: string): Promise<UserProps[]> {
 
   await mongooseConnection;
 
 
-  return await User
+  return await Player
     .aggregate([
       {
         $search: {
@@ -177,7 +211,7 @@ export async function searchUser(query: string): Promise<UserProps[]> {
                   {
                     log1p: {
                       path: {
-                        value: 'followers'
+                        value: 'rating'
                       }
                     }
                   }
@@ -200,25 +234,27 @@ export async function searchUser(query: string): Promise<UserProps[]> {
       {
         $project: {
           _id: 0,
-          emailVerified: 0,
           score: {
             $meta: 'searchScore'
           }
         }
-      }
+      } 
     ])
 }
 
-export async function getUserCount(): Promise<number> {
+export async function getPlayerCount(): Promise<number> {
 
   await mongooseConnection;
 
-  return await User.countDocuments().lean();
+  const  playerCount = await Player.countDocuments().lean();
+
+
+  return playerCount;
 }
 
-export async function updateUser(username: string, bio: string) {
+export async function updatePlayer(slug: string, bio: string) {
 
   await mongooseConnection;
 
-  return await User.updateOne({ username }, { $set: { bio } });
+  return await Player.updateOne({ slug }, { $set: { bio } });
 }
