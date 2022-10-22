@@ -169,6 +169,7 @@ export async function getAllPlayers(): Promise<ResultProps[]> {
 
 export async function searchPlayer(query: string): Promise<UserProps[]> {
 
+
   await mongooseConnection;
   
 
@@ -200,9 +201,11 @@ export async function searchPlayer(query: string): Promise<UserProps[]> {
       {
         $project: {
           _id: 0,
-          score: {
-            $meta: 'searchScore'
-          }
+          name: '$name',
+          username: '$slug',
+          nationality: '$flag',
+          image: '$photo',
+          rating: '$rating',
         }
       } 
     ])
