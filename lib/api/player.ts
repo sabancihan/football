@@ -179,56 +179,17 @@ export async function searchPlayer(query: string): Promise<UserProps[]> {
           index: 'name-index',
           /* 
           name-index is a search index as follows:
-
-          {
-            "mappings": {
-              "fields": {
-                "followers": {
-                  "type": "number"
-                },
-                "name": {
-                  "analyzer": "lucene.whitespace",
-                  "searchAnalyzer": "lucene.whitespace",
-                  "type": "string"
-                },
-                "username": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-
           */
+
+      
+          
           text: {
             query: query,
             path: {
               wildcard: '*' // match on both name and username
             },
             fuzzy: {},
-            score: {
-              // search ranking algorithm: multiply relevance score by the log1p of follower count
-              function: {
-                multiply: [
-                  {
-                    score: 'relevance'
-                  },
-                  {
-                    log1p: {
-                      path: {
-                        value: 'rating'
-                      }
-                    }
-                  }
-                ]
-              }
-            }
           }
-        }
-      },
-      {
-        // filter out users that are not verified
-        $match: {
-          verified: true
         }
       },
       // limit to 10 results
