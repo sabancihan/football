@@ -55,7 +55,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 
   const { username } = context.params as Params;
+
   const player = await getPlayer(username);
+
+  console.log(player, 'player');
 
 
 

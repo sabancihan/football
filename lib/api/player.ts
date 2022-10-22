@@ -57,7 +57,11 @@ export async function getPlayer(slug: string): Promise<PlayerProps | null> {
 
   const results = await Player.findOne({slug: slug}).select({ _id: 0 }).lean();
 
-  const ratingString =  `Player rating ${results?.rating.toString()}`
+
+
+  const ratingString = results?.rating ?  `Player rating ${results?.rating.toString()}` : "No rating available"
+
+
  
 
 
@@ -133,7 +137,7 @@ export async function getAllPlayers(): Promise<ResultProps[]> {
         }
       },
       {
-        $limit: 100
+        $limit: 1000
       },
       {
         $group: {
