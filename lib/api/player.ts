@@ -5,6 +5,7 @@ import { serialize } from 'next-mdx-remote/serialize';
 import mongooseConnection from '@/lib/mongoose'
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { UserProps } from './user';
+import { PlayerStats } from 'responses/SportScore';
 
 
 
@@ -17,6 +18,7 @@ export interface PlayerProps {
   bioMdx: MDXRemoteSerializeResult<Record<string, unknown>>;
   rating : number;
   nationality : string;
+  statistics ?: PlayerStats;
 }
 
 
@@ -57,9 +59,69 @@ export async function getPlayer(slug: string): Promise<PlayerProps | null> {
 
   const results = await Player.findOne({slug: slug}).select({ _id: 0 }).lean();
 
+  const resultPlayer = results as PlayerProps;
+
+  const details  = resultPlayer?.statistics?.details;
 
 
-  const ratingString = results?.rating ?  `Player rating ${results?.rating.toString()}` : "No rating available"
+  console.log(details);
+
+
+  const stats =  Object.assign({}, ...(details ?? []) as any);
+
+  let customBio;
+
+
+  if (stats) {
+    customBio = `
+    Goals: ${stats.goals} \n
+    Assists: ${stats.assists} \n
+    Rating: ${resultPlayer.statistics?.rating} \n
+    Red Cards: ${stats.red_cards} \n
+    Yellow Cards: ${stats.yellow_cards} \n
+    Touches: ${stats.touches} \n
+    Shots: ${stats.total_shots_per_game} \n
+    Big Chances: ${stats.big_chance_created} \n
+    Key Passes: ${stats.key_passes} \n
+    Passes: ${stats.accurate_passes_per_game} \n
+    Tackles: ${stats.tackles_per_game} \n
+    Interceptions: ${stats.interceptions_per_game} \n
+    Fouls: ${stats.fouls} \n
+    Dribbles: ${stats.successful_dribbles_per_game} \n
+    Aerials: ${stats.aerial_duels_won_per_game} \n
+    Clearances: ${stats.total_clearances_per_game},
+    `;
+
+
+    
+
+  }
+
+
+  
+
+
+  if (results) {
+    const returnResult =  {
+      name: results.name,
+      nationality: results.flag,
+      username: results.slug,
+      image: results.photo,
+      rating: results.rating,
+      bio: customBio || placeholderBio,
+      bioMdx: await getMdxSource(customBio|| placeholderBio),
+      statistics: results?.statistics ?? null,
+    };
+
+    return returnResult;
+    
+    
+  }
+
+return null;
+
+
+
 
 
  
@@ -75,19 +137,7 @@ export async function getPlayer(slug: string): Promise<PlayerProps | null> {
     
 
 
-  if (results) {
-    return {
-      name: results.name,
-      nationality: results.flag,
-      username: results.slug,
-      image: results.photo,
-      rating: results.rating,
-      bio: ratingString ,
-      bioMdx: await getMdxSource(ratingString|| placeholderBio)
-    };
-  } else {
-    return null;
-  }
+
 
 }
 
@@ -102,19 +152,62 @@ export async function getFirstPlayer(): Promise<PlayerProps | null> {
   const results = await Player.findOne(
     {}).select({ _id: 0 }).lean();
 
-    const ratingString =  `Player rating ${results?.rating.toString()}`
+
+    const resultPlayer = results as PlayerProps;
+
+    const details  = resultPlayer?.statistics?.details;
+
+    console.log(details);
+
+    const stats =  details?.pop();
+
+    let customBio;
+
+
+    if (stats) {
+      customBio = `
+      Goals: ${stats.goals}
+      Assists: ${stats.assists}
+      Rating: ${resultPlayer.statistics?.rating}
+      Red Cards: ${stats.red_cards}
+      Yellow Cards: ${stats.yellow_cards}
+      Touches: ${stats.touches}
+      Shots: ${stats.total_shots_per_game},
+      Big Chances: ${stats.big_chance_created},
+      Key Passes: ${stats.key_passes},
+      Passes: ${stats.accurate_passes_per_game},
+      Tackles: ${stats.tackles_per_game},
+      Interceptions: ${stats.interceptions_per_game},
+      Fouls: ${stats.fouls},
+      Dribbles: ${stats.successful_dribbles_per_game},
+      Aerials: ${stats.aerial_duels_won_per_game},
+      Clearances: ${stats.total_clearances_per_game},
+      `;
+
+
+      
+
+    }
+
+
+    
 
 
     if (results) {
-      return {
+      const returnResult =  {
         name: results.name,
         nationality: results.flag,
         username: results.slug,
         image: results.photo,
         rating: results.rating,
-        bio: ratingString ,
-        bioMdx: await getMdxSource(ratingString|| placeholderBio)
+        bio: customBio || placeholderBio,
+        bioMdx: await getMdxSource(customBio|| placeholderBio),
+        statistics: results?.statistics ?? null,
       };
+
+      return returnResult;
+      
+      
     }
 
   return null;

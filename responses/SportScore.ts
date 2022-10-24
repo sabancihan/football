@@ -32,7 +32,7 @@ export interface TeamPlayers {
 }
 
 
-interface Player {
+export interface Player {
   id: number;
   sport_id: number;
   slug: string;
@@ -57,6 +57,7 @@ interface Player {
   characteristics?: Characteristic;
   positions?: Position;
   ability?: Ability[];
+  statistics ?: PlayerStats;
 }
 
 interface Ability {
@@ -79,3 +80,134 @@ interface Positive {
   value: number;
 }
 
+
+export interface PlayerStats {
+  id: number;
+  player_id: number;
+  season_id: number;
+  details: Detail[];
+  rating?: number;
+  season: Season;
+}
+
+interface Season {
+  id: number;
+  league_id: number;
+  slug: string;
+  name: string;
+  year_start: number;
+  year_end?: number;
+}
+
+interface Detail {
+  statistics_items: Statisticsitem[];
+  matches_total?: string;
+  matches_starting?: string;
+  minutes_per_game?: string;
+  group_name: string;
+  goals?: string;
+  goals_frequency?: string;
+  goals_average?: string;
+  total_shots_per_game?: string;
+  big_chance_missed?: string;
+  more?: More;
+  assists?: string;
+  touches?: string;
+  big_chance_created?: string;
+  key_passes?: string;
+  accurate_passes_per_game?: string;
+  successful_passes_own_half?: string;
+  successful_passes_opposition_half?: string;
+  successful_long_passes?: string;
+  accurate_chipped_passes?: string;
+  successful_crosses_and_corners?: string;
+  interceptions_per_game?: string;
+  tackles_per_game?: string;
+  possession_won_final_third?: string;
+  challenges_lost_per_game?: string;
+  total_clearances_per_game?: string;
+  error_lead_to_a_shot?: string;
+  error_lead_toa_goal?: string;
+  penalties_conceded?: string;
+  successful_dribbles_per_game?: string;
+  duels_won_per_game?: string;
+  ground_duels_won_per_game?: string;
+  aerial_duels_won_per_game?: string;
+  possession_lost?: string;
+  fouls?: string;
+  was_fouled?: string;
+  offsides?: string;
+  yellow_cards?: string;
+  yellow_red_cards?: string;
+  red_cards?: string;
+}
+
+interface More {
+  statistics_items: Statisticsitem2[];
+  goal_conversion: string;
+  penalties: string;
+  penalties_conversion: string;
+  set_piece_goals: string;
+  set_pieces_conversion: string;
+  goals_inside_box: string;
+  goals_outside_box: string;
+  headed_goals: string;
+  left_foot_goals: string;
+  right_foot_goals: string;
+  penalty_won: string;
+  group_name: string;
+}
+
+interface Statisticsitem2 {
+  goal_conversion?: string;
+  penalties?: string;
+  penalties_conversion?: string;
+  set_piece_goals?: string;
+  set_pieces_conversion?: string;
+  goals_inside_box?: string;
+  goals_outside_box?: string;
+  headed_goals?: string;
+  left_foot_goals?: string;
+  right_foot_goals?: string;
+  penalty_won?: string;
+}
+
+interface Statisticsitem {
+  matches_total?: string;
+  matches_starting?: string;
+  minutes_per_game?: string;
+  goals?: string;
+  goals_frequency?: string;
+  goals_average?: string;
+  total_shots_per_game?: string;
+  big_chance_missed?: string;
+  assists?: string;
+  touches?: string;
+  big_chance_created?: string;
+  key_passes?: string;
+  accurate_passes_per_game?: string;
+  successful_passes_own_half?: string;
+  successful_passes_opposition_half?: string;
+  successful_long_passes?: string;
+  accurate_chipped_passes?: string;
+  successful_crosses_and_corners?: string;
+  interceptions_per_game?: string;
+  tackles_per_game?: string;
+  possession_won_final_third?: string;
+  challenges_lost_per_game?: string;
+  total_clearances_per_game?: string;
+  error_lead_to_a_shot?: string;
+  error_lead_toa_goal?: string;
+  penalties_conceded?: string;
+  successful_dribbles_per_game?: string;
+  duels_won_per_game?: string;
+  ground_duels_won_per_game?: string;
+  aerial_duels_won_per_game?: string;
+  possession_lost?: string;
+  fouls?: string;
+  was_fouled?: string;
+  offsides?: string;
+  yellow_cards?: string;
+  yellow_red_cards?: string;
+  red_cards?: string;
+}
