@@ -64,7 +64,6 @@ export async function getPlayer(slug: string): Promise<PlayerProps | null> {
   const details  = resultPlayer?.statistics?.details;
 
 
-  console.log(details);
 
 
   const stats =  Object.assign({}, ...(details ?? []) as any);
@@ -157,7 +156,6 @@ export async function getFirstPlayer(): Promise<PlayerProps | null> {
 
     const details  = resultPlayer?.statistics?.details;
 
-    console.log(details);
 
     const stats =  details?.pop();
 
