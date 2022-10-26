@@ -1,7 +1,12 @@
 import  mongoose  from 'mongoose';
 
 const uri = process.env.MONGODB_URI as string; // your mongodb connection string
-const options = {}
+const options = {
+  useUnifiedTopology: true,
+  maxIdleTimeMS: 10000,
+  serverSelectionTimeoutMS: 10000,
+  socketTimeoutMS: 20000,
+}
 
 let clientPromise: Promise<any>;
 

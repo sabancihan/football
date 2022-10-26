@@ -23,6 +23,7 @@ export const getStaticPaths = async () => {
 
 
   const results = await getAllPlayers();
+
   const paths = results.flatMap(({ players }) =>
     players.map((player) => ({ params: { username: player.username } }))
   );

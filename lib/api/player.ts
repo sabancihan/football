@@ -101,24 +101,6 @@ export async function getPlayer(slug: string): Promise<PlayerProps | null> {
 return null;
 
 
-
-
-
- 
-
-
-    
-
-
-
-
-
-
-    
-
-
-
-
 }
 
 export async function getFirstPlayer(): Promise<PlayerProps | null> {
@@ -181,7 +163,7 @@ export async function getAllPlayers(): Promise<ResultProps[]> {
 
 
 
-  const result =  await Player
+  const results =  await Player
     .aggregate([
       {
         //sort by rating
@@ -217,7 +199,17 @@ export async function getAllPlayers(): Promise<ResultProps[]> {
       }
     ])
 
-    return result
+
+
+    
+
+
+    
+
+    
+
+    return results;
+
 }
 
 export async function searchPlayer(query: string): Promise<UserProps[]> {
@@ -249,7 +241,7 @@ export async function searchPlayer(query: string): Promise<UserProps[]> {
       },
       // limit to 10 results
       {
-        $limit: 10  
+        $limit: 1000  
       },
       {
         $project: {
@@ -263,14 +255,20 @@ export async function searchPlayer(query: string): Promise<UserProps[]> {
       } 
     ])
 
-    return results
+    
+
+    
+
+    
+
+    return results;
 }
 
 export async function getPlayerCount(): Promise<number> {
 
   await mongooseConnection;
 
-  const  playerCount = await Player.countDocuments().lean();
+  const  playerCount = await Player.count().lean();
 
 
   return playerCount;
