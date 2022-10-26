@@ -74,7 +74,7 @@ export async function getPlayer(slug: string): Promise<PlayerProps | null> {
 
 
   if (stats) {
-  customBio =   Object.entries(stats).map([key,value] =>  `${key.replace('_',' ')} : ${value}`).join('\n')
+  customBio =   Object.entries(stats).map(([key,value]) =>  `${key.replace('_',' ')} : ${value}`).join('\n')
 
   }
 
@@ -146,7 +146,7 @@ export async function getFirstPlayer(): Promise<PlayerProps | null> {
 
     if (stats) {
       
-      customBio =   Object.entries(stats).map([key,value] =>  `${key.replace('_',' ')} : ${value}`).join('\n')
+      customBio =   Object.entries(stats).map(([key,value]) =>  `${key.replace('_',' ')} : ${value}`).join('\n')
 
   }
 
