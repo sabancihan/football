@@ -6,6 +6,8 @@ import mongooseConnection from '@/lib/mongoose'
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { UserProps } from './user';
 import { PlayerStats } from 'responses/SportScore';
+import ApiConfig from 'config/ApiConfig.json';
+
 
 
 
@@ -18,7 +20,7 @@ export interface PlayerProps {
   bioMdx: MDXRemoteSerializeResult<Record<string, unknown>>;
   rating : number;
   nationality : string;
-  statistics ?: PlayerStats;
+  statistics ?: PlayerStats[];
 }
 
 
@@ -60,8 +62,11 @@ export async function getPlayer(slug: string): Promise<PlayerProps | null> {
 
   const resultPlayer = results as PlayerProps;
 
-  const details  = resultPlayer?.statistics?.details;
 
+
+  const wantedDetails  = resultPlayer?.statistics?.find(stat => stat?.season_id === ApiConfig.SportScore.superLeagueSeasonId);
+
+  const details = wantedDetails?.details;
 
 
 
@@ -117,8 +122,12 @@ export async function getFirstPlayer(): Promise<PlayerProps | null> {
 
     const resultPlayer = results as PlayerProps;
 
-    const details  = resultPlayer?.statistics?.details;
 
+    const wantedDetails  = resultPlayer?.statistics?.find(stat => stat?.season_id === ApiConfig.SportScore.superLeagueSeasonId);
+
+  
+    const details = wantedDetails?.details;
+  
 
 
     const stats =  Object.assign({}, ...(details ?? []) as any);
