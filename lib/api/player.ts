@@ -70,29 +70,11 @@ export async function getPlayer(slug: string): Promise<PlayerProps | null> {
 
   let customBio;
 
+ 
+
 
   if (stats) {
-    customBio = `
-    Goals: ${stats.goals} \n
-    Assists: ${stats.assists} \n
-    Rating: ${resultPlayer.statistics?.rating} \n
-    Red Cards: ${stats.red_cards} \n
-    Yellow Cards: ${stats.yellow_cards} \n
-    Touches: ${stats.touches} \n
-    Shots: ${stats.total_shots_per_game} \n
-    Big Chances: ${stats.big_chance_created} \n
-    Key Passes: ${stats.key_passes} \n
-    Passes: ${stats.accurate_passes_per_game} \n
-    Tackles: ${stats.tackles_per_game} \n
-    Interceptions: ${stats.interceptions_per_game} \n
-    Fouls: ${stats.fouls} \n
-    Dribbles: ${stats.successful_dribbles_per_game} \n
-    Aerials: ${stats.aerial_duels_won_per_game} \n
-    Clearances: ${stats.total_clearances_per_game},
-    `;
-
-
-    
+  customBio =   Object.entries(stats).map([key,value] =>  `${key.replace('_',' ')} : ${value}`).join('\n')
 
   }
 
@@ -163,32 +145,10 @@ export async function getFirstPlayer(): Promise<PlayerProps | null> {
 
 
     if (stats) {
-      customBio = `
-      Goals: ${stats.goals}
-      Assists: ${stats.assists}
-      Rating: ${resultPlayer.statistics?.rating}
-      Red Cards: ${stats.red_cards}
-      Yellow Cards: ${stats.yellow_cards}
-      Touches: ${stats.touches}
-      Shots: ${stats.total_shots_per_game},
-      Big Chances: ${stats.big_chance_created},
-      Key Passes: ${stats.key_passes},
-      Passes: ${stats.accurate_passes_per_game},
-      Tackles: ${stats.tackles_per_game},
-      Interceptions: ${stats.interceptions_per_game},
-      Fouls: ${stats.fouls},
-      Dribbles: ${stats.successful_dribbles_per_game},
-      Aerials: ${stats.aerial_duels_won_per_game},
-      Clearances: ${stats.total_clearances_per_game},
-      `;
-
-
       
+      customBio =   Object.entries(stats).map([key,value] =>  `${key.replace('_',' ')} : ${value}`).join('\n')
 
-    }
-
-
-    
+  }
 
 
     if (results) {
