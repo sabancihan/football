@@ -43,13 +43,12 @@ export async function getMdxSource(postContents: string) {
   // Serialize the content string into MDX
   const mdxSource = await serialize(contentHtml);
 
+
   return mdxSource;
 }
 
 export const placeholderBio = `
-Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam.
-
-Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.`;
+We have not yet written a bio for this player. If you are this player, please contact us at [`;
 
 export async function getPlayer(slug: string): Promise<PlayerProps | null> {
 
@@ -74,7 +73,7 @@ export async function getPlayer(slug: string): Promise<PlayerProps | null> {
 
 
   if (stats) {
-  customBio =   Object.entries(stats).map(([key,value]) =>  `${key.replace('_',' ')} : ${value}`).join('\n')
+    customBio =   Object.entries(stats).filter(([key,value]) => value !== Object(value)).map(([key,value]) =>  `${key.split('_').map(s => s[0].toUpperCase() + s.slice(1)).join(' ')} : ${value}`).join('<br/>')
 
   }
 
@@ -139,16 +138,19 @@ export async function getFirstPlayer(): Promise<PlayerProps | null> {
     const details  = resultPlayer?.statistics?.details;
 
 
-    const stats =  details?.pop();
+
+    const stats =  Object.assign({}, ...(details ?? []) as any);
 
     let customBio;
-
-
+  
+   
+  
+  
     if (stats) {
-      
-      customBio =   Object.entries(stats).map(([key,value]) =>  `${key.replace('_',' ')} : ${value}`).join('\n')
-
-  }
+      customBio =   Object.entries(stats).filter(([key,value]) => value !== Object(value)).map(([key,value]) =>  `${key.split('_').map(s => s[0].toUpperCase() + s.slice(1)).join(' ')} : ${value}`).join('<br/>')
+  
+    }
+  
 
 
     if (results) {
