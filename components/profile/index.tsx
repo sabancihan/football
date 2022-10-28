@@ -135,13 +135,13 @@ export default function Profile({
             {true ? (
               <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                 <a
-                  href={`https://github.com/${player.username}`}
+                  href={`https://www.google.com/search?q=${player.name}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex justify-center px-4 py-2 border border-gray-800 hover:border-white shadow-sm text-sm font-medium rounded-md text-white font-mono bg-black focus:outline-none focus:ring-0 transition-all"
                 >
                   <GitHubIcon className="mr-3 h-5 w-5 text-white" />
-                  <span>View GitHub Profile</span>
+                  <span>View in Google</span>
                 </a>
               </div>
             ) : (
@@ -257,6 +257,6 @@ export default function Profile({
 
 const tabs = [
   { name: 'Profile' },
-  { name: 'Work History' },
-  { name: 'Contact' }
+  { name: 'Leaderboards he took part' },
+  { name: 'Squads he took part' }
 ];

@@ -50,7 +50,7 @@ export async function getMdxSource(postContents: string) {
 }
 
 export const placeholderBio = `
-We have not yet written a bio for this player. If you are this player, please contact us at [`;
+Not a good player so he doesn't deserve to be in our website`;
 
 export async function getPlayer(slug: string): Promise<PlayerProps | null> {
 
@@ -86,7 +86,7 @@ export async function getPlayer(slug: string): Promise<PlayerProps | null> {
   
 
 
-  if (results) {
+  if (results) { //bura returnleniyor. statistics
     const returnResult =  {
       name: results.name,
       nationality: results.flag,
