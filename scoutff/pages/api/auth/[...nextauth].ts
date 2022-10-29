@@ -7,6 +7,7 @@ import User from "../../../models/User";
 
 
 import GoogleProvider from "next-auth/providers/google"
+import invariant from "tiny-invariant";
 
 
 
@@ -18,6 +19,8 @@ export default NextAuth({
     maxAge: 30 * 24 * 60 * 60, // 30 days
     updateAge: 24 * 60 * 60, // 24 hours
   },
+
+  
   callbacks: {
    
     async jwt({token, user}) {
@@ -37,17 +40,28 @@ export default NextAuth({
   
     providers: [
       CredentialsProvider({
-        // The name to display on the sign in form (e.g. 'Sign in with...')
+        id : "login",
         name: 'Credentials',
-        // The credentials is used to generate a suitable form on the sign in page.
-        // You can specify whatever fields you are expecting to be submitted.
-        // e.g. domain, username, password, 2FA token, etc.
-        // You can pass any HTML attribute to the <input> tag through the object.
+
         credentials: {
           email: { label: "Email", type: "text", placeholder: "futbolcu@deneme.edul.bar" },
           password: {  label: "Password", type: "password" }
         },
         async authorize(credentials, req) {
+          invariant(credentials, "Credentials must be provided")
+
+
+          //invariant control
+          invariant(credentials.email, "Email cannot be empty")
+          invariant(credentials.password, "Password cannot be empty")
+
+          const user = await User.findOne({ email: credentials.email });
+
+
+          invariant(user, "User not found")
+
+
+          invariant(user.password, "Password not found")
 
 
 
@@ -55,23 +69,57 @@ export default NextAuth({
 
 
 
-          if (credentials?.email && credentials?.password) {
-            const user = await User.findOne({ email: credentials.email });
 
 
 
-            if (user && user.password) {
-              const isValid = await bcrypt.compare(credentials.password, user.password);
-              if (isValid) {
-                return user;
-              }
-            }
+
+
+          const isValid = await bcrypt.compare(credentials.password, user.password);
+          if (isValid) {
+            return user;
           }
+            
+        
           
 
      
           // Return null if user data could not be retrieved
           return null
+        }
+      }),
+      CredentialsProvider({
+        id : "register",
+        name: 'Register',
+        credentials: {
+          name: { label: "Name", type: "text", placeholder: "Futbolcu" },
+          email: { label: "Email", type: "text", placeholder: "futbolcu@deneme.edul.bar" },
+          password: {  label: "Password", type: "password" },
+        },
+        async authorize(credentials, req) {
+
+          invariant(credentials, "Credentials must be provided")
+
+
+          //invariant control
+          invariant(credentials.email, "Email cannot be empty")
+          invariant(credentials.password, "Password cannot be empty")
+
+          //todo better mail validation
+          invariant(credentials.email.includes("@"), "Email must be valid") 
+
+            const user = await User.findOne({ email: credentials.email });
+
+            invariant(!user, "User already exists")
+
+            credentials.password = await bcrypt.hash(credentials.password, 8);
+
+
+            const {name, email, password} = credentials
+           
+            const newUser = new User({name,email,password});
+            await newUser.save();
+            return newUser;
+          
         }
       }),
 
