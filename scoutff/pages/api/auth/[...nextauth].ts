@@ -41,7 +41,7 @@ export default NextAuth({
     providers: [
       CredentialsProvider({
         id : "login",
-        name: 'Credentials',
+        name: 'Login',
 
         credentials: {
           email: { label: "Email", type: "text", placeholder: "futbolcu@deneme.edul.bar" },
