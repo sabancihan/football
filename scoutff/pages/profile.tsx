@@ -1,15 +1,40 @@
+import { decode, getToken } from "next-auth/jwt"
 import { useSession, signIn, signOut, getCsrfToken } from "next-auth/react"
 import Router, { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { GetServerSideProps } from "next/types"
+import React, { useEffect, useState } from "react"
+import invariant from "tiny-invariant"
 
-export default function LoginButton() {
+
+interface Props {
+  csrfToken: string,
+  token: string,
+}
+
+
+export const getServerSideProps : GetServerSideProps = async (context) => {
+  return {
+    props: {
+      csrfToken: await getCsrfToken(context),
+    },
+  }
+}
+
+
+export default function LoginButton({ csrfToken } : Props) {
+
+
 
 
   const router = useRouter()
 
 
+
+
   const deleteUserData = async () => {
-    const csrfToken = await getCsrfToken()
+    if (!csrfToken) {
+      return
+    }
 
     const res = await fetch('/api/auth/delete', {
       method: 'POST',
@@ -30,6 +55,47 @@ export default function LoginButton() {
 
       
     }
+  }
+
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    const currentTarget = e.currentTarget
+
+   
+
+
+
+
+
+    //Get name password and email from form
+    //currentTarget has property of name, email, password
+
+    const target = e.currentTarget as typeof e.currentTarget & {
+      name: { value: string };
+      password: { value: string };
+    };
+
+
+
+
+    const name = target.name.value
+    const password = target.password.value
+
+    // if all of the fields are empty, do nothing
+    if (!name  && !password) {
+      return
+    }
+
+
+
+
+
+    await signIn("update-account", { name : name,password : password, redirect: false })
+
+
+    
+
   }
 
 
@@ -58,38 +124,42 @@ export default function LoginButton() {
       </nav>
       <div className="container" style={{backgroundColor: '#D6FFF6', marginTop: '100px'}}>
         <div style={{marginLeft: '300px', marginRight: '300px'}}>
+
+          <form onSubmit={handleUpdate}>
           <div className="row" style={{borderStyle: 'double'}}>
             <div className="col-xxl-3">
-              <h1 style={{textAlign: 'right', marginTop: '10px', fontSize: '20px'}}>Email:</h1>
+              <h1 style={{textAlign: 'right', marginTop: '10px', fontSize: '20px'}}>Name:</h1>
             </div>
-            <div className="col-xxl-5">
-              <h1 style={{textAlign: 'left', marginTop: '10px', fontSize: '20px'}}>{session.user?.email}</h1>
+            <div className="col-xxl-4">
+            <input  className="form-control" type="text"  name="name" placeholder={session.user?.name ?? "Something is very wrong"} />
             </div>
-            <div className="col"><button className="btn btn-primary" type="button" style={{margin: '10px'}}>Change email</button></div>
           </div>
+
+
           <div className="row" style={{borderStyle: 'double'}}>
             <div className="col-xxl-3" style={{margin: '10px'}}>
               <h1 style={{textAlign: 'right', marginTop: '10px', fontSize: '20px'}}>Password:</h1>
             </div>
             <div className="col-xxl-5">
-              <h1 style={{textAlign: 'left', marginTop: '10px', fontSize: '20px'}}>****************</h1>
-            </div>
-            <div className="col"><button className="btn btn-primary" type="button" style={{margin: '10px'}}>Change password</button></div>
-          </div>
-          <div className="row" style={{borderStyle: 'double'}}>
-            <div className="col-xxl-3">
-              <h1 style={{textAlign: 'right', marginTop: '10px', fontSize: '20px'}}>Favorite Team:</h1>
-            </div>
-            <div className="col-xxl-4">
-              <h1 style={{textAlign: 'left', marginTop: '10px', fontSize: '20px'}}>Tuzlaspor</h1>
+              <input  className="form-control" type="password" name="password" placeholder="************" style={{margin: '10px'}} />
             </div>
           </div>
+         
+
+          <input type="hidden" id="csrfToken" name="csrfToken" defaultValue={csrfToken} />
+
+          <input   type="submit" value="Save Changes"/>
+
+          
+          </form>
+
           <div className="row" style={{borderStyle: 'none'}}>
             <div className="col-xxl-3" style={{margin: '10px'}}>
               <h1 style={{textAlign: 'right', marginTop: '10px', fontSize: '20px'}} />
             </div>
             <div className="col-xxl-5">
-              <h1 style={{textAlign: 'left', marginTop: '10px', fontSize: '20px'}} /><button onClick={() => deleteUserData()} className="btn btn-primary" type="button" style={{margin: '10px'}}>Delete my account</button>
+
+              <h1 style={{textAlign: 'left', marginTop: '10px', fontSize: '20px'}} /><button onClick={() => deleteUserData()} className="btn btn-primary" type="button" style={{margin: '10px',backgroundColor:"red"}}>Delete my account</button>
             </div>
             <div className="col" />
           </div>

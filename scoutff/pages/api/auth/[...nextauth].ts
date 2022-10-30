@@ -8,6 +8,8 @@ import User from "../../../models/User";
 
 import GoogleProvider from "next-auth/providers/google"
 import invariant from "tiny-invariant";
+import { decode, getToken } from "next-auth/jwt";
+
 
 
 
@@ -135,32 +137,71 @@ export default NextAuth({
           password: {  label: "Password", type: "password" },
         },
         
-        async authorize(credentials, req) {
+        async authorize(credentials,req) {
+
+
+          invariant(credentials, "Credentials must be provided")
 
 
 
-        
+          //Get only not empty values from credentials
+          //Ignore other credentials
+          const {name, email, password} = credentials
+          const update = {name, email, password}
 
+
+
+
+          //Remove empty values
+          for (const [key,value] of Object.entries(update)) {
+
+            if (!value) {
+              const typedKey = key as keyof typeof update
+              delete update[typedKey]
+          }
+        }
+
+
+
+
+          
+          const rawJwt = req.headers?.cookie.split("=")[1].split(";")[0]
+
+
+
+
+
+          invariant(rawJwt, "JWT must be provided")
+
+          //decode url encoded 
+          const jwt = decodeURIComponent(rawJwt)
+
+
+
+
+         const token =  await decode({
+            secret: process.env.NEXTAUTH_SECRET ?? "",
+            token: jwt,
+          
+          })
+         
+          invariant(token, "Token must be provided")
+          invariant(token.email, "Token does not contain email")
 
          
-         //const token = await getToken({ req, secret: process.env.SECRET })
+    
+          
 
-         //todo change this
-          const token = {
-            email: "bisiler@sabanciuin.vedu"
+
+
+          //Hash password if it is not empty
+          if (update.password) {
+            update.password = await bcrypt.hash(update.password, 8);
           }
+
 
         
-
-          if (!token || !credentials) {
-            return null;
-          }
-
-          if (credentials.password) {
-            credentials.password = await bcrypt.hash(credentials.password, 8);
-          }
-        
-          const user = await User.findOneAndUpdate({email: token.email}, credentials, {new: true});
+          const user = await User.findOneAndUpdate({email: token.email}, update, {new: true});
 
           return user;
 
