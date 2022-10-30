@@ -8,7 +8,6 @@ import User from "../../../models/User";
 
 import GoogleProvider from "next-auth/providers/google"
 import invariant from "tiny-invariant";
-import { getToken } from "next-auth/jwt";
 
 
 

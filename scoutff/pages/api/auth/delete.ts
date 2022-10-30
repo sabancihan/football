@@ -27,7 +27,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     
     if (data.csrfToken !== csrfToken) {
-        res.status(403).json({ message: "CSRF token invalid" })
         return
     }
 
