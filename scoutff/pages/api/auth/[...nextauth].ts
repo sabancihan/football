@@ -1,4 +1,4 @@
-import NextAuth from "next-auth"
+import NextAuth, { unstable_getServerSession } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import clientPromise from "../../../lib/mongoose";
 import MongooseAdapter from "../../../adapters/MongooseAdapter";
@@ -8,6 +8,7 @@ import User from "../../../models/User";
 
 import GoogleProvider from "next-auth/providers/google"
 import invariant from "tiny-invariant";
+import { getToken } from "next-auth/jwt";
 
 
 
@@ -103,6 +104,7 @@ export default NextAuth({
           //invariant control
           invariant(credentials.email, "Email cannot be empty")
           invariant(credentials.password, "Password cannot be empty")
+          invariant(credentials.name, "Name cannot be empty")
 
           //todo better mail validation
           invariant(credentials.email.includes("@"), "Email must be valid") 
@@ -122,6 +124,52 @@ export default NextAuth({
           
         }
       }),
+      CredentialsProvider({
+        id :"update-account",
+        name: 'Update Account',
+  
+
+        credentials: {
+          name: { label: "Name", type: "text", placeholder: "" },
+          email: { label: "Email", type: "text", placeholder: "" },
+          password: {  label: "Password", type: "password" },
+        },
+        
+        async authorize(credentials, req) {
+
+
+
+        
+
+
+         
+         //const token = await getToken({ req, secret: process.env.SECRET })
+
+         //todo change this
+          const token = {
+            email: "erhanb@sabanciuin.vedu"
+          }
+
+        
+
+          if (!token || !credentials) {
+            return null;
+          }
+
+          if (credentials.password) {
+            credentials.password = await bcrypt.hash(credentials.password, 8);
+          }
+        
+          const user = await User.findOneAndUpdate({email: token.email}, credentials, {new: true});
+
+          return user;
+
+          
+
+        }
+      }),
+
+
 
       GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID ?? "",
