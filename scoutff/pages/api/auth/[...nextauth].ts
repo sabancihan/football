@@ -61,6 +61,7 @@ export default NextAuth({
           const user = await User.findOne({ email: credentials.email });
 
 
+
           invariant(user, "User not found")
 
 
@@ -163,8 +164,15 @@ export default NextAuth({
 
 
 
+        const cookies = req.headers?.cookie.split(";")
+        const sessionCookie = cookies?.find((cookie : String) => cookie.includes("next-auth.session-token"))
+
+        const rawJwt = sessionCookie?.split("=")[1]
+
           
-          const rawJwt = req.headers?.cookie.split("=")[1].split(";")[0]
+        
+
+
 
 
 
@@ -183,9 +191,12 @@ export default NextAuth({
             token: jwt,
           
           })
+
+          console.log(token)
          
           invariant(token, "Token must be provided")
           invariant(token.email, "Token does not contain email")
+
 
          
     
