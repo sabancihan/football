@@ -1,5 +1,5 @@
 import { getToken } from "next-auth/jwt"
-import { getCsrfToken } from "next-auth/react"
+import { getCsrfToken, signOut } from "next-auth/react"
 import { redirect } from "next/dist/server/api-utils"
 import { NextApiRequest, NextApiResponse } from "next/types"
 import invariant from "tiny-invariant"
@@ -17,13 +17,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
 
+
  
     if (req.method !== "POST") {
         res.status(405).json({ message: "Method not allowed" })
         return
     }
 
-    const data = JSON.parse(req.body)
+    const data = req.body
 
     
     if (data.csrfToken !== csrfToken) {
@@ -46,9 +47,35 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     invariant(userInfo.email, "Email cannot be empty")
 
 
-    await User.deleteOne({ email: userInfo.email })
-    await Session.deleteMany({ userId: userInfo.email })
-    await Account.deleteMany({ userId: userInfo.email })
+    //ObjedtId of user
+    const userId = userInfo.sub
+
+
+    //transactional delete
+    const session = await Session.startSession()
+    session.startTransaction()
+    try {
+        await Account.deleteMany({ userId: userId })
+
+        await User.deleteOne({ _id: userId })
+
+        await Session.deleteMany({ userId: userId })
+
+        await session.commitTransaction()
+        session.endSession()
+
+    } catch (error) {
+        await session.abortTransaction()
+        session.endSession()
+        res.status(500).json({ message: "Internal Server Error" })
+        return
+    }
+
+    
+
+
+
+
 
 
 
@@ -59,7 +86,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         ])
 
 
-    res.redirect(302, "/login")
+
+    res.status(200).json({ message: "Success" })
+
+  
 
 
 }

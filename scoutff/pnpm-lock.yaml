@@ -7,6 +7,7 @@ specifiers:
   '@types/react': 18.0.23
   '@types/react-dom': 18.0.7
   bcrypt: ^5.1.0
+  bootstrap: ^5.2.2
   eslint: 8.26.0
   eslint-config-next: 13.0.0
   mongoose: ^6.7.0
@@ -20,6 +21,7 @@ specifiers:
 dependencies:
   '@next-auth/mongodb-adapter': 1.1.1_c2hs3f6tdo2m2hud5hzs3zngde
   bcrypt: 5.1.0
+  bootstrap: 5.2.2_@popperjs+core@2.11.6
   mongoose: 6.7.0
   next: 12.2.5_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.15.0_3xcjr4wz26biff45sz3jtokgje
@@ -1023,6 +1025,10 @@ packages:
     resolution: {integrity: sha512-MSAs9t3Go7GUkMhpKC44T58DJ5KGk2vBo+h1cqQeqlMfdGkxaVB78ZWpv9gYi/g2fa4sopag9gJsNvS8XGgWJA==}
     dev: false
 
+  /@popperjs/core/2.11.6:
+    resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
+    dev: false
+
   /@rushstack/eslint-patch/1.2.0:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
     dev: true
@@ -1278,6 +1284,14 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /bootstrap/5.2.2_@popperjs+core@2.11.6:
+    resolution: {integrity: sha512-dEtzMTV71n6Fhmbg4fYJzQsw1N29hJKO1js5ackCgIpDcGid2ETMGC6zwSYw09v05Y+oRdQ9loC54zB1La3hHQ==}
+    peerDependencies:
+      '@popperjs/core': ^2.11.6
+    dependencies:
+      '@popperjs/core': 2.11.6
     dev: false
 
   /bowser/2.11.0:

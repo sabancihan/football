@@ -24,6 +24,7 @@ export default NextAuth({
   callbacks: {
    
     async jwt({token, user}) {
+    
       if (user) {
         token.name = user.name
         token.email = user.email
@@ -146,7 +147,7 @@ export default NextAuth({
 
          //todo change this
           const token = {
-            email: "erhanb@sabanciuin.vedu"
+            email: "bisiler@sabanciuin.vedu"
           }
 
         
