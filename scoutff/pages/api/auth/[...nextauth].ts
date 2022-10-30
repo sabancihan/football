@@ -133,7 +133,6 @@ export default NextAuth({
 
         credentials: {
           name: { label: "Name", type: "text", placeholder: "" },
-          email: { label: "Email", type: "text", placeholder: "" },
           password: {  label: "Password", type: "password" },
         },
         
@@ -146,8 +145,8 @@ export default NextAuth({
 
           //Get only not empty values from credentials
           //Ignore other credentials
-          const {name, email, password} = credentials
-          const update = {name, email, password}
+          const {name,password} = credentials
+          const update = {name,  password}
 
 
 
