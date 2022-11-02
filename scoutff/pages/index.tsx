@@ -13,7 +13,7 @@ export default function LoginButton() {
   return (
     <div className="flex justify-center items-center h-screen  flex-col space-y-10  ">
       <p>You are not signed in</p>
-      <button  onClick={() => signIn()}>Sign in</button>
+      <button  onClick={() => signIn(undefined, {callbackUrl:"/profile"})}>Sign in</button>
     </div>
   )
 }

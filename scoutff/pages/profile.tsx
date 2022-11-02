@@ -111,7 +111,7 @@ export default function LoginButton({ csrfToken } : Props) {
         <div className="collapse navbar-collapse" id="navcol-2" style={{backgroundColor: '#6D6A75'}}><input type="search" style={{/*position: 'absolute', *//*alignSelf: 'center', *//*alignItems: 'center', *//*textAlign: 'center', */marginLeft: '400px'}} />
           <ul className="navbar-nav ms-auto">
             <li className="nav-item dropdown show"><a className="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown" href="#">Me&nbsp;</a>
-              <div className="dropdown-menu show" data-bs-popper="none"><a className="dropdown-item" href="#">Profile</a><a className="dropdown-item" href="#">Messages</a><a className="dropdown-item" href="#">Privacy &amp; Security</a></div>
+              <div className="dropdown-menu" data-bs-popper="none"><a className="dropdown-item" href="#">Profile</a><a className="dropdown-item" href="#">Messages</a><a className="dropdown-item" href="#">Privacy &amp; Security</a></div>
             </li>
             <li className="nav-item"><a className="nav-link" href="#">⭐ Favourite Players&nbsp;</a></li>
             <li onClick={() => signOut()} className="nav-item"><a className="nav-link" href="#">Logout</a></li>
@@ -122,32 +122,33 @@ export default function LoginButton({ csrfToken } : Props) {
 
       </nav>
       <div className="container" style={{backgroundColor: '#D6FFF6', marginTop: '100px'}}>
-        <div style={{marginLeft: '300px', marginRight: '300px'}}>
+        <div style={{marginInlineStart: '425px', marginInlineEnd: '300px'}}>
 
           <form onSubmit={handleUpdate}>
-          <div className="row" style={{borderStyle: 'double'}}>
-            <div className="col-xxl-3">
+          <div className="row" style={{borderStyle: 'double', width: '500px'}}>
+            <div className="col-xxl-3" style={{margin: '10px'}}>
               <h1 style={{textAlign: 'right', marginTop: '10px', fontSize: '20px'}}>Name:</h1>
             </div>
             <div className="col-xxl-4">
-            <input  className="form-control" type="text"  name="name" placeholder={session.user?.name ?? "Something is very wrong"} />
+            <input  className="form-control" type="text"  name="name" style={{marginTop: '12px'}} placeholder={session.user?.name ?? "Something is very wrong"} />
             </div>
           </div>
 
 
-          <div className="row" style={{borderStyle: 'double'}}>
+          <div className="row" style={{borderStyle: 'double', width: '500px' }}>
             <div className="col-xxl-3" style={{margin: '10px'}}>
               <h1 style={{textAlign: 'right', marginTop: '10px', fontSize: '20px'}}>Password:</h1>
             </div>
-            <div className="col-xxl-5">
-              <input  className="form-control" type="password" name="password" placeholder="************" style={{margin: '10px'}} />
+            <div className="col-xxl-4">
+              <input  className="form-control" type="password" name="password"  style={{marginTop: '12px'}}  placeholder="************"  />
+              
             </div>
           </div>
          
 
           <input type="hidden" id="csrfToken" name="csrfToken" defaultValue={csrfToken} />
 
-          <input   type="submit" value="Save Changes"/>
+          <input type="submit" value="Save Changes" style={{marginTop: '5px'}}/>
 
           
           </form>
@@ -174,6 +175,8 @@ export default function LoginButton({ csrfToken } : Props) {
   return (
     <div >
       <p>You are not signed in</p>
+      <button onClick={() => signIn()}>Sign in</button>
+
     </div>
   )
 }
