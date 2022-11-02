@@ -70,26 +70,26 @@ export default NextAuth({
           invariant(credentials, "Credentials must be provided")
 
 
-          console.log("credentials exist")
+
+
 
           //invariant control
           invariant(credentials.email, "Email cannot be empty")
           invariant(credentials.password, "Password cannot be empty")
 
-          console.log("password and email exist")
 
           const user = await User.findOne({ email: credentials.email }).lean();
 
-          console.log("user found")
+
 
 
 
           invariant(user, "Invalid user or password")
+          
 
 
           invariant(user.password, "Password not found")
 
-          console.log("user password found")
 
 
 
@@ -106,7 +106,6 @@ export default NextAuth({
           
           invariant(isValid, "Invalid password or email")
 
-          console.log("password is valid")
   
           
 
