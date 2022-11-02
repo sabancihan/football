@@ -1,8 +1,15 @@
 import { InferGetServerSidePropsType } from "next"
 import { CtxOrReq } from "next-auth/client/_utils"
 import { getCsrfToken, getSession, GetSessionParams } from "next-auth/react"
+import { useRouter } from 'next/router'
+
 
 export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+
+  const router = useRouter()
+
+
+
 
     return (
  <div>
@@ -63,6 +70,10 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
                         <div className="mb-3"><input className="form-control" type="password" name="password" placeholder="Password" /></div>
                         <div className="mb-3"><button className="btn btn-primary d-block w-100" type="submit">Login</button></div>
                       </form>
+                        <a href="/auth/signup" className="btn btn-outline-primary d-block w-100" type="button">Register</a>
+                        <div className="text-danger">
+                        {router.query.error ?? ""}
+                        </div>
                     </div>
                   </div>
                 </div>

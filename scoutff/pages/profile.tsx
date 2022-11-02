@@ -114,7 +114,7 @@ export default function LoginButton({ csrfToken } : Props) {
               <div className="dropdown-menu" data-bs-popper="none"><a className="dropdown-item" href="#">Profile</a><a className="dropdown-item" href="#">Messages</a><a className="dropdown-item" href="#">Privacy &amp; Security</a></div>
             </li>
             <li className="nav-item"><a className="nav-link" href="#">⭐ Favourite Players&nbsp;</a></li>
-            <li onClick={() => signOut()} className="nav-item"><a className="nav-link" href="#">Logout</a></li>
+            <li onClick={() => signOut({callbackUrl:"/auth/signin"})} className="nav-item"><a className="nav-link" href="#">Logout</a></li>
           </ul>
         </div>
       </div>
