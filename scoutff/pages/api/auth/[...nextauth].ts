@@ -73,7 +73,7 @@ export default NextAuth({
 
 
 
-          invariant(user, "User not found")
+          invariant(user, "Invalid user or password")
 
 
           invariant(user.password, "Password not found")
@@ -90,16 +90,13 @@ export default NextAuth({
 
 
           const isValid = await bcrypt.compare(credentials.password, user.password);
-          if (isValid) {
-            return  userToAdapterUser(user);
-          }
-            
-        
+          
+          invariant(isValid, "Invalid password or email")
+  
           
 
      
-          // Return null if user data could not be retrieved
-          return null
+          return  userToAdapterUser(user);
         }
       }),
       CredentialsProvider({
