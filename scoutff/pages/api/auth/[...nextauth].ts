@@ -7,7 +7,6 @@ import User from "../../../models/User";
 
 
 import GoogleProvider from "next-auth/providers/google"
-import invariant from "tiny-invariant";
 import { decode, getToken } from "next-auth/jwt";
 
 import { userToAdapterUser } from "../../../adapters/MongooseAdapter";
@@ -68,28 +67,21 @@ export default NextAuth({
 
 
           await clientPromise()
-          invariant(credentials, "Credentials must be provided")
-
-
-
-
-
-          //invariant control
-          invariant(credentials.email, "Email cannot be empty")
-          invariant(credentials.password, "Password cannot be empty")
-
+          if (!credentials?.email || !credentials?.password) throw new Error('Please enter all fields')
+          
 
           const user = await User.findOne({ email: credentials.email }).lean();
 
+          if (!user) throw new Error('No user with that exists')
 
 
 
+          if (!user?.password)  throw new Error('That user has no password')
 
-          invariant(user, "Invalid user or password")
+
           
 
 
-          invariant(user.password, "Password not found")
 
 
 
@@ -104,8 +96,9 @@ export default NextAuth({
 
 
           const isValid = await bcrypt.compare(credentials.password, user.password);
+
+          if (!isValid) throw new Error('Invalid password or email')
           
-          invariant(isValid, "Invalid password or email")
 
   
           
@@ -126,27 +119,27 @@ export default NextAuth({
           await clientPromise()
 
 
-          invariant(credentials, "Credentials must be provided")
+          
+
+          if (credentials?.email) throw new Error("Email cannot be empty")
+          if (credentials?.password) throw new Error("Password cannot be empty")
+          if (credentials?.name) throw new Error("Name cannot be empty")
+          if (credentials?.email.includes("@")) throw new Error("Email must be valid")
+          
 
 
-          //invariant control
-          invariant(credentials.email, "Email cannot be empty")
-          invariant(credentials.password, "Password cannot be empty")
-          invariant(credentials.name, "Name cannot be empty")
+         
 
-          //todo better mail validation
-          invariant(credentials.email.includes("@"), "Email must be valid") 
-
-            const user = await User.findOne({ email: credentials.email });
-
-            console.log(!user, "user")
-
-            invariant(!user, "User already exists")
-
-            credentials.password = await bcrypt.hash(credentials.password, 8);
+            const user = await User.findOne({ email: credentials!.email });
 
 
-            const {name, email, password} = credentials
+            if (user) throw new Error("User already exists")
+
+
+            credentials!.password = await bcrypt.hash(credentials!.password, 8);
+
+
+            const {name, email, password} = credentials!;
            
             const newUser = new User({name,email,password});
             await newUser.save();
@@ -171,7 +164,8 @@ export default NextAuth({
 
 
 
-          invariant(credentials, "Credentials must be provided")
+          if (!credentials) throw new Error("Credentials cannot be empty")
+
 
 
 
@@ -206,10 +200,10 @@ export default NextAuth({
 
 
 
+        if (!rawJwt) throw new Error("No session cookie found")
 
 
 
-          invariant(rawJwt, "JWT must be provided")
 
           //decode url encoded 
           const jwt = decodeURIComponent(rawJwt)
@@ -223,9 +217,10 @@ export default NextAuth({
           
           })
 
+
+          if (!token) throw new Error("Token is not valid")
+          if (!token?.email) throw new Error("Token is not valid")
          
-          invariant(token, "Token must be provided")
-          invariant(token.email, "Token does not contain email")
 
 
          
