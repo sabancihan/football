@@ -10,6 +10,7 @@ import GoogleProvider from "next-auth/providers/google"
 import invariant from "tiny-invariant";
 import { decode, getToken } from "next-auth/jwt";
 
+import { userToAdapterUser } from "../../../adapters/MongooseAdapter";
 
 
 
@@ -58,7 +59,7 @@ export default NextAuth({
           invariant(credentials.email, "Email cannot be empty")
           invariant(credentials.password, "Password cannot be empty")
 
-          const user = await User.findOne({ email: credentials.email });
+          const user = await User.findOne({ email: credentials.email }).lean();
 
 
 
@@ -80,7 +81,7 @@ export default NextAuth({
 
           const isValid = await bcrypt.compare(credentials.password, user.password);
           if (isValid) {
-            return user;
+            return  userToAdapterUser(user);
           }
             
         
@@ -123,7 +124,8 @@ export default NextAuth({
            
             const newUser = new User({name,email,password});
             await newUser.save();
-            return newUser;
+
+            return userToAdapterUser(newUser);
           
         }
       }),
@@ -192,7 +194,6 @@ export default NextAuth({
           
           })
 
-          console.log(token)
          
           invariant(token, "Token must be provided")
           invariant(token.email, "Token does not contain email")
@@ -211,9 +212,15 @@ export default NextAuth({
 
 
         
-          const user = await User.findOneAndUpdate({email: token.email}, update, {new: true});
+          const user = await User.findOneAndUpdate({email: token.email}, update, {new: true}).lean();
 
-          return user;
+
+        
+
+
+          
+
+          return userToAdapterUser(user);
 
           
 

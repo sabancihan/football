@@ -47,7 +47,6 @@ export default function LoginButton({ csrfToken } : Props) {
     })
     const data = await res.json()
     if (data.error) {
-      console.log(data.error)
     } else {
       //send to login page with router
       router.push('/api/auth/signin')
