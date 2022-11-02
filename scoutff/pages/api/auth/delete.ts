@@ -81,7 +81,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
 
+
     res.setHeader("Set-Cookie", [
+
+        `__Secure-next-auth.callback-url=${encodeURIComponent("/")}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
+        `__Secure-next-auth.session-token=${encodeURIComponent("")}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
+        `__Host-next-auth.csrf-token=${encodeURIComponent("")}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
+        
         `next-auth.callback-url=${encodeURIComponent("/")}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
         `next-auth.csrf-token=${encodeURIComponent("")}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
         `next-auth.session-token=${encodeURIComponent("")}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
