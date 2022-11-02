@@ -4,7 +4,7 @@ import { getCsrfToken, getSession, GetSessionParams } from "next-auth/react"
 import { useRouter } from 'next/router'
 import Link from "next/link"
 
-export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof getSeraverSideProps>) {
+export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
   const router = useRouter()
 
@@ -71,7 +71,7 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
                         <div className="mb-3"><button className="btn btn-primary d-block w-100" type="submit">Login</button></div>
                       </form>
                       <Link href="/auth/signup">
-                        <a className="text-decoration-none">Don't have an account? Sign up</a>
+                        <a className="text-decoration-none">Dont have an account? Sign up</a>
                       </Link>
                         <div className="text-danger">
                         {router.query.error ?? ""}
