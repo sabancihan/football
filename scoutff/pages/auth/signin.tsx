@@ -55,7 +55,7 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
                         <div className="mb-3"><button className="btn btn-primary d-block w-100" type="submit">Login</button></div>
                       </form>
                       <Link href="/auth/signup">
-                        <a className="text-decoration-none">Dont have an account? Sign up</a>
+                        <a className="text-decoration-none">Dont have an account? Signup</a>
                       </Link>
                         <div className="text-danger">
                         {router.query?.error ? decodeURIComponent(router.query.error as string) : null}
