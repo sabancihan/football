@@ -66,6 +66,7 @@ export default NextAuth({
         },
         async authorize(credentials, req) {
 
+
           await clientPromise()
           invariant(credentials, "Credentials must be provided")
 
@@ -137,6 +138,8 @@ export default NextAuth({
           invariant(credentials.email.includes("@"), "Email must be valid") 
 
             const user = await User.findOne({ email: credentials.email });
+
+            console.log(!user, "user")
 
             invariant(!user, "User already exists")
 
