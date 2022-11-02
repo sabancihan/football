@@ -41,6 +41,16 @@ export default NextAuth({
   
   }
   ,
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/api/auth/signout",
+    error: "/api/auth/error", // Error code passed in query string as ?error=
+    verifyRequest: "/api/auth/verify-request", // (used for check email message)
+    newUser: "/profile" // If set, new users will be directed here on first sign in
+  },
+
+
+  
   
     providers: [
       CredentialsProvider({
