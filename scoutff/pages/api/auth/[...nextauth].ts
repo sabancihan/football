@@ -39,8 +39,9 @@ export default NextAuth({
 
     
   
-  }
-  ,
+  },
+  
+  
   pages: {
     signIn: "/auth/signin",
     signOut: "/api/auth/signout",
@@ -49,6 +50,8 @@ export default NextAuth({
     newUser: "/profile" // If set, new users will be directed here on first sign in
   },
 
+
+  
 
   
   
@@ -62,14 +65,22 @@ export default NextAuth({
           password: {  label: "Password", type: "password" }
         },
         async authorize(credentials, req) {
+
+          await clientPromise()
           invariant(credentials, "Credentials must be provided")
 
+
+          console.log("credentials exist")
 
           //invariant control
           invariant(credentials.email, "Email cannot be empty")
           invariant(credentials.password, "Password cannot be empty")
 
+          console.log("password and email exist")
+
           const user = await User.findOne({ email: credentials.email }).lean();
+
+          console.log("user found")
 
 
 
@@ -77,6 +88,8 @@ export default NextAuth({
 
 
           invariant(user.password, "Password not found")
+
+          console.log("user password found")
 
 
 
@@ -92,6 +105,8 @@ export default NextAuth({
           const isValid = await bcrypt.compare(credentials.password, user.password);
           
           invariant(isValid, "Invalid password or email")
+
+          console.log("password is valid")
   
           
 
@@ -108,6 +123,8 @@ export default NextAuth({
           password: {  label: "Password", type: "password" },
         },
         async authorize(credentials, req) {
+          await clientPromise()
+
 
           invariant(credentials, "Credentials must be provided")
 
@@ -140,6 +157,7 @@ export default NextAuth({
         id :"update-account",
         name: 'Update Account',
   
+        
 
         credentials: {
           name: { label: "Name", type: "text", placeholder: "" },
@@ -147,6 +165,8 @@ export default NextAuth({
         },
         
         async authorize(credentials,req) {
+          await clientPromise()
+
 
 
           invariant(credentials, "Credentials must be provided")

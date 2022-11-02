@@ -57,9 +57,9 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
                       <Link href="/auth/signup">
                         <a className="text-decoration-none">Dont have an account? Signup</a>
                       </Link>
-                        <div className="text-danger">
-                        {router.query?.error ? decodeURIComponent(router.query.error as string) : null}
-                        </div>
+                        {router?.query?.error && ( <div className="alert alert-danger" role="alert">
+                          {router?.query?.error}
+                        </div>)}
                     </div>
                   </div>
                 </div>

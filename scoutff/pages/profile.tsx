@@ -1,9 +1,8 @@
 import { decode, getToken } from "next-auth/jwt"
 import { useSession, signIn, signOut, getCsrfToken } from "next-auth/react"
-import Router, { useRouter } from "next/router"
+import  { useRouter } from "next/router"
 import { GetServerSideProps } from "next/types"
 import React, { useEffect, useState } from "react"
-import invariant from "tiny-invariant"
 
 
 interface Props {
@@ -174,9 +173,7 @@ export default function LoginButton({ csrfToken } : Props) {
   }
   return (
     <div >
-      <p>You are not signed in</p>
-      <button onClick={() => signIn()}>Sign in</button>
-
+      <p>Loading ....</p>
     </div>
   )
 }
