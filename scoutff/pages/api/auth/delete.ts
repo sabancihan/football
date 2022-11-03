@@ -57,11 +57,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const session = await Session.startSession()
     session.startTransaction()
     try {
-        await Account.deleteMany({ userId: userId })
+        
+        await Promise.all([
+            User.deleteOne({ _id: userId }),
+            Account.deleteOne({ userId }),
+            Session.deleteMany({ userId })
+        ])
 
-        await User.deleteOne({ _id: userId })
-
-        await Session.deleteMany({ userId: userId })
 
         await session.commitTransaction()
         session.endSession()
