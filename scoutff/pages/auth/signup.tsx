@@ -24,6 +24,7 @@ export default function SignUp({  }: InferGetServerSidePropsType<typeof getServe
       name: { value: string }
     }
 
+
     if (target.password.value !== target.passwordConfirm.value) {
       setErrorMessages("Passwords do not match")
       return

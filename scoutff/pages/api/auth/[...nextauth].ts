@@ -119,12 +119,13 @@ export default NextAuth({
           await clientPromise()
 
 
+
           
 
-          if (credentials?.email) throw new Error("Email cannot be empty")
-          if (credentials?.password) throw new Error("Password cannot be empty")
-          if (credentials?.name) throw new Error("Name cannot be empty")
-          if (credentials?.email.includes("@")) throw new Error("Email must be valid")
+          if (!credentials?.email) throw new Error("Email cannot be empty")
+          if (!credentials?.password) throw new Error("Password cannot be empty")
+          if (!credentials?.name) throw new Error("Name cannot be empty")
+          if (!credentials?.email.includes("@")) throw new Error("Email must be valid")
           
 
 
