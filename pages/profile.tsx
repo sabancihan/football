@@ -1,8 +1,10 @@
+import { unstable_getServerSession } from "next-auth"
 import { decode, getToken } from "next-auth/jwt"
 import { useSession, signIn, signOut, getCsrfToken } from "next-auth/react"
 import  { useRouter } from "next/router"
 import { GetServerSideProps } from "next/types"
 import React, { useEffect, useState } from "react"
+import { authOptions } from "./api/auth/[...nextauth]"
 
 
 interface Props {
@@ -12,6 +14,22 @@ interface Props {
 
 
 export const getServerSideProps : GetServerSideProps = async (context) => {
+
+  const session = await unstable_getServerSession(context.req, context.res,authOptions)
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/auth/signin',
+        permanent: false,
+      },
+    }
+  }
+
+
+
+
+
   return {
     props: {
       csrfToken: await getCsrfToken(context),

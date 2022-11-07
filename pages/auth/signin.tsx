@@ -4,6 +4,9 @@ import { getCsrfToken, getSession, GetSessionParams, signIn } from "next-auth/re
 import { useRouter } from 'next/router'
 import Link from "next/link"
 import { useState } from "react"
+import { unstable_getServerSession } from "next-auth"
+import { GetServerSideProps } from "next/types"
+import { authOptions } from "../api/auth/[...nextauth]"
 
 export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
@@ -105,8 +108,8 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
     
 }
 
-export  const getServerSideProps = async (context : CtxOrReq  ) => {
-    const session = await getSession(context)
+export  const getServerSideProps : GetServerSideProps = async (context) => {
+    const session = await unstable_getServerSession(context.req, context.res,authOptions)
 
 
     

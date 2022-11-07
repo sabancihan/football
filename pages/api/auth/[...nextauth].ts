@@ -1,4 +1,4 @@
-import NextAuth, { unstable_getServerSession } from "next-auth"
+import NextAuth, { NextAuthOptions, unstable_getServerSession } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import clientPromise from "../../../lib/mongoose";
 import MongooseAdapter from "../../../adapters/MongooseAdapter";
@@ -13,7 +13,7 @@ import { userToAdapterUser } from "../../../adapters/MongooseAdapter";
 
 
 
-export default NextAuth({
+export const authOptions :  NextAuthOptions = {
   adapter: MongooseAdapter({client: clientPromise(), options: {databaseName: "login"}}),
 
   session: {
@@ -264,5 +264,9 @@ export default NextAuth({
       
     
     ]
-  })
+  }
+
+
+
+export default NextAuth(authOptions)
 
