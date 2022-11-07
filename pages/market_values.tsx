@@ -8,16 +8,16 @@ import { authOptions } from "./api/auth/[...nextauth]"
 
 interface PlayerSummary {
     name : string,
-    goals : string,
+    market_value : number,
 }
 
 interface ServerProps {
-    playerWithGoals : Array<PlayerSummary>
+    playerWithMarketValues : Array<PlayerSummary>
 }
 
 
 
-export default function General({playerWithGoals} : ServerProps) {
+export default function General({playerWithMarketValues} : ServerProps) {
 
 
     
@@ -32,18 +32,18 @@ export default function General({playerWithGoals} : ServerProps) {
           <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
-            <th scope="col">Goals</th>
+            <th scope="col">MarketValues</th>
 
           </tr>
         </thead>
         <tbody>
             {
-                playerWithGoals.map((player,index) => {
+                playerWithMarketValues.map((player,index) => {
                     return (
                         <tr key={player.name}>
                             <th scope="row">{index+1}</th>
                             <td>{player.name}</td>
-                            <td>{player.goals}</td>
+                            <td>{player.market_value}</td>
                         </tr>
                     )
                 })
@@ -77,16 +77,16 @@ export const getServerSideProps = async (context : GetServerSidePropsContext<Par
     await clientPromise()
 
 
-    const playerWithGoals = await 
-                                Player.find({goals : {$ne : null}})
-                                .select('name goals -_id')
-                                .sort({goals : -1})
+    const playerWithMarketValues = await 
+                                Player.find({market_value : {$ne : null}})
+                                .select('name market_value -_id')
+                                .sort({market_value : -1})
                                 .lean()
 
 
-    //const playerWithSuperLeagueGoals = await
+    //const playerWithSuperLeagueMarketValues = await
       //                                      Player.find({"statistics.season_id" : 19367},{_id:0,name:1,statistics : {$elemMatch : {season_id : 19367}}})
-        //                                    .sort({"statistics.details.goals" : -1})
+        //                                    .sort({"statistics.details.market_value" : -1})
           //                                  .lean()
                                             
     
@@ -94,7 +94,7 @@ export const getServerSideProps = async (context : GetServerSidePropsContext<Par
     
     return {
         props: {
-            playerWithGoals
+            playerWithMarketValues
         },
     }
     }

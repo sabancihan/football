@@ -41,7 +41,7 @@ export default function General({playerWithRatings} : ServerProps) {
                 playerWithRatings.map((player,index) => {
                     return (
                         <tr key={player.name}>
-                            <th scope="row">{index}</th>
+                            <th scope="row">{index+1}</th>
                             <td>{player.name}</td>
                             <td>{player.rating}</td>
                         </tr>

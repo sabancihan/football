@@ -32,6 +32,16 @@ const Index = () => {
           </a>{' '}
           
         </li>
+
+        <li>
+          <span role="img" aria-label="rating">
+          💰
+          </span>{' '}
+          <a href="/market_values" rel="nofollow">
+            Market Value
+          </a>{' '}
+          
+        </li>
         
       </ul>
       
