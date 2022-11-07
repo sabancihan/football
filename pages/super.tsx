@@ -9,15 +9,16 @@ import { authOptions } from "./api/auth/[...nextauth]"
 interface PlayerSummary {
     name : string,
     rating : number,
+
 }
 
 interface ServerProps {
-    playerWithRatings : Array<PlayerSummary>
+    playerWithSuperLeagueRatings : Array<PlayerSummary>
 }
 
 
 
-export default function Deneme({playerWithRatings} : ServerProps) {
+export default function Super({playerWithSuperLeagueRatings} : ServerProps) {
 
 
     
@@ -38,7 +39,7 @@ export default function Deneme({playerWithRatings} : ServerProps) {
         </thead>
         <tbody>
             {
-                playerWithRatings.map((player,index) => {
+                playerWithSuperLeagueRatings.map((player,index) => {
                     return (
                         <tr key={player.name}>
                             <th scope="row">{index}</th>
@@ -77,18 +78,23 @@ export const getServerSideProps = async (context : GetServerSidePropsContext<Par
     await clientPromise()
 
 
-    const playerWithRatings = await 
-                                Player.find({rating : {$ne : null}})
-                                .select('name rating -_id')
-                                .sort({rating : -1})
-                                .lean()
 
+    const playerWithSuperLeagueRatings = await
+            Player.
+                aggregate()
+                .unwind("statistics")
+                .match({ "statistics.season_id" : 19367 })
+                .project({name : 1, _id :0, "rating": "$statistics.rating"})
+                .sort({"rating" : -1})
+
+
+                                            
     
 
     
     return {
         props: {
-            playerWithRatings
+            playerWithSuperLeagueRatings
         },
     }
     }
