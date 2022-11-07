@@ -38,6 +38,12 @@ export const getServerSideProps : GetServerSideProps = async (context) => {
 }
 
 
+/*export function navigateToLeaderboards(){
+  const router = useRouter()
+  router.push('/super')
+
+}*/
+
 export default function LoginButton({ csrfToken } : Props) {
 
 
@@ -128,7 +134,7 @@ export default function LoginButton({ csrfToken } : Props) {
         <div className="collapse navbar-collapse" id="navcol-2" style={{backgroundColor: '#6D6A75'}}><input type="search" style={{/*position: 'absolute', *//*alignSelf: 'center', *//*alignItems: 'center', *//*textAlign: 'center', */marginLeft: '400px'}} />
           <ul className="navbar-nav ms-auto">
             <li className="nav-item dropdown show"><a className="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown" href="#">Me&nbsp;</a>
-              <div className="dropdown-menu" data-bs-popper="none"><a className="dropdown-item" href="#">Profile</a><a className="dropdown-item" href="#">Messages</a><a className="dropdown-item" href="#">Privacy &amp; Security</a></div>
+              <div className="dropdown-menu show" data-bs-popper="none"><a className="dropdown-item" href="/leaderboards">Leaderboards</a><a className="dropdown-item" href="#">Profile</a><a className="dropdown-item" href="#">Messages</a><a className="dropdown-item" href="#">Privacy &amp; Security</a></div>
             </li>
             <li className="nav-item"><a className="nav-link" href="#">⭐ Favourite Players&nbsp;</a></li>
             <li onClick={() => signOut({callbackUrl:"/auth/signin"})} className="nav-item"><a className="nav-link" href="#">Logout</a></li>
