@@ -34,7 +34,7 @@ import {
               </Text>
               <br />{" "}
               <Text color={"blue.400"} as={"span"}>
-                Next.js
+                ASFSAFSASAF
               </Text>{" "}
             </Heading>
             <Text fontSize={{ base: "md", lg: "lg" }} color={"gray.500"}>

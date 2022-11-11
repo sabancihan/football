@@ -4,8 +4,7 @@ import HomeUI from "./HomeUI";
 const HomeCompIndex = () => {
   return (
     <div>
-      <HomeUI></HomeUI>
-    </div>
+<HomeUI></HomeUI>  </div>
   );
 };
 
