@@ -1,7 +1,9 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 
 
 const Index = () => {
+  const router = useRouter();
 
   return (
     <div>
@@ -15,18 +17,19 @@ const Index = () => {
           <span role="img" aria-label="rating">
             🔥
           </span>{' '}
-          <Link href="/super">
-            <a>Ratings</a>
-          </Link>          
+          <a href="/super" rel="nofollow">
+            Ratings
+          </a>{' '}
+          
         </li>
 
         <li>
           <span role="img" aria-label="rating">
            ⚽
           </span>{' '}
-          <Link href="/topscorers">
-            <a>Top Scorers</a>
-          </Link>          
+          <a href="/topscorers" rel="nofollow">
+            Top Scorers
+          </a>{' '}
           
         </li>
 
@@ -34,9 +37,9 @@ const Index = () => {
           <span role="img" aria-label="rating">
           💰
           </span>{' '}
-          <Link href="/market_values">
-            <a>Market Values</a>
-          </Link>       
+          <a href="/market_values" rel="nofollow">
+            Market Value
+          </a>{' '}
           
         </li>
         

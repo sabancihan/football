@@ -5,7 +5,6 @@ import  { useRouter } from "next/router"
 import { GetServerSideProps } from "next/types"
 import React, { useEffect, useState } from "react"
 import { authOptions } from "./api/auth/[...nextauth]"
-import Link from "next/link"
 
 
 interface Props {
@@ -135,13 +134,7 @@ export default function LoginButton({ csrfToken } : Props) {
         <div className="collapse navbar-collapse" id="navcol-2" style={{backgroundColor: '#6D6A75'}}><input type="search" style={{/*position: 'absolute', *//*alignSelf: 'center', *//*alignItems: 'center', *//*textAlign: 'center', */marginLeft: '400px'}} />
           <ul className="navbar-nav ms-auto">
             <li className="nav-item dropdown show"><a className="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown" href="#">Me&nbsp;</a>
-              <div className="dropdown-menu show" data-bs-popper="none">
-                <Link href="/leaderboards">
-                <a className="dropdown-item">Leaderboards</a>
-                </Link>
-                <a className="dropdown-item" href="#">Profile</a>
-                <a className="dropdown-item" href="#">Messages</a>
-                <a className="dropdown-item" href="#">Privacy &amp; Security</a></div>
+              <div className="dropdown-menu show" data-bs-popper="none"><a className="dropdown-item" href="/leaderboards">Leaderboards</a><a className="dropdown-item" href="#">Profile</a><a className="dropdown-item" href="#">Messages</a><a className="dropdown-item" href="#">Privacy &amp; Security</a></div>
             </li>
             <li className="nav-item"><a className="nav-link" href="#">⭐ Favourite Players&nbsp;</a></li>
             <li onClick={() => signOut({callbackUrl:"/auth/signin"})} className="nav-item"><a className="nav-link" href="#">Logout</a></li>
