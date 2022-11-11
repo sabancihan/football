@@ -4,7 +4,6 @@ import '../styles/globals.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import { ChakraProvider } from "@chakra-ui/react";
 import React from "react";
-import Layout from "../components/layout/Layout";
 
 // Use the <SessionProvider> to improve performance and allow components that call
 // `useSession()` anywhere in your application to access the `session` object.
