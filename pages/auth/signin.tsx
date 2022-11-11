@@ -38,7 +38,7 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
       setErrorMessages(result.error)
 
     } else {
-      router.push('/profile')
+      router.push('/main')
     }
 
  
