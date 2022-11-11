@@ -8,7 +8,7 @@ import { authOptions } from "./api/auth/[...nextauth]"
 
 interface PlayerSummary {
     name : string,
-    goals : string,
+    goals : Number,
 }
 
 interface ServerProps {
@@ -43,7 +43,7 @@ export default function General({playerWithGoals} : ServerProps) {
                         <tr key={player.name}>
                             <th scope="row">{index+1}</th>
                             <td>{player.name}</td>
-                            <td>{player.goals}</td>
+                            <td>{player.goals.toString()}</td>
                         </tr>
                     )
                 })
@@ -77,17 +77,22 @@ export const getServerSideProps = async (context : GetServerSidePropsContext<Par
     await clientPromise()
 
 
-    const playerWithGoals = await 
-                                Player.find({goals : {$ne : null}})
-                                .select('name goals -_id')
-                                .sort({goals : -1})
-                                .lean()
+
+    const playerWithGoals = await
+            Player.
+                aggregate()
+                .unwind("statistics")
+                .unwind("statistics.details")
+                .match({ "statistics.season_id" : 19367 , "statistics.details.goals" : {$ne : null} })
+                .project({name : 1,_id: 0,goals : { $toInt : "$statistics.details.goals" }})
+                .sort({"goals" : -1})
 
 
-    //const playerWithSuperLeagueGoals = await
-      //                                      Player.find({"statistics.season_id" : 19367},{_id:0,name:1,statistics : {$elemMatch : {season_id : 19367}}})
-        //                                    .sort({"statistics.details.goals" : -1})
-          //                                  .lean()
+
+        
+        
+
+
                                             
     
 
