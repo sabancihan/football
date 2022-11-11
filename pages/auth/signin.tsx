@@ -38,7 +38,7 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
       setErrorMessages(result.error)
 
     } else {
-      router.push('/main')
+      router.push('/profile')
     }
 
  
@@ -116,7 +116,7 @@ export  const getServerSideProps : GetServerSideProps = async (context) => {
     if (session) {
         return {
         redirect: {
-            destination: '/main',
+            destination: '/profile',
             permanent: false,
         },
         }
