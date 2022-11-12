@@ -7,6 +7,7 @@ import dbConnect from "../../../lib/mongoose"
 import Account from "../../../models/Account"
 import Session from "../../../models/Session"
 import User from "../../../models/User"
+import VerificationToken from "../../../models/VerificationToken"
 
 //Register Post API
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -65,7 +66,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await Promise.all([
             User.deleteOne({ _id: userId }),
             Account.deleteOne({ userId }),
-            Session.deleteMany({ userId })
+            Session.deleteMany({ userId }),
+            VerificationToken.deleteMany({ identifier: userInfo.email })
         ])
 
 

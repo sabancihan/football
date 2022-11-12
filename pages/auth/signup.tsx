@@ -39,6 +39,12 @@ export default function SignUp({  }: InferGetServerSidePropsType<typeof getServe
       password: target.password.value,
     })
 
+    console.log(result, "register result")
+
+    const emailSend = await signIn('email', {email : target.email.value, redirect: false})
+
+    console.log(emailSend, "email send")
+
     if (result && result.error) {
       setErrorMessages(result.error)
 
@@ -116,7 +122,7 @@ export default function SignUp({  }: InferGetServerSidePropsType<typeof getServe
                         
                         <div className="mb-3"><button  className="btn btn-primary d-block w-100" type="submit">Register</button></div>
                       </form>
-                      <Link href="/auth/signup">
+                      <Link href="/auth/signin">
                         <a className="text-decoration-none">Already have an acouunt? Sign in</a>
                       </Link>
                       {errorMessages && <div className="text-danger">{errorMessages}</div>}

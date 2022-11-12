@@ -8,5 +8,6 @@ declare module "next-auth" {
     name: string
     username: string
     role: string  
+    emailVerified : Date | null
   }
 }

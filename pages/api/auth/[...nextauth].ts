@@ -1,5 +1,7 @@
 import NextAuth, { NextAuthOptions, unstable_getServerSession } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
+import EmailProvider from "next-auth/providers/email";
+
 import clientPromise from "../../../lib/mongoose";
 import MongooseAdapter from "../../../adapters/MongooseAdapter";
 import bcrypt from "bcrypt"
@@ -10,6 +12,8 @@ import GoogleProvider from "next-auth/providers/google"
 import { decode, getToken } from "next-auth/jwt";
 
 import { userToAdapterUser } from "../../../adapters/MongooseAdapter";
+import { sign } from "crypto";
+import { signIn } from "next-auth/react";
 
 
 
@@ -35,6 +39,32 @@ export const authOptions :  NextAuthOptions = {
       return token
     },
 
+    async signIn({user, account, profile, email, credentials}) {
+
+
+      if (email?.verificationRequest)
+        return true
+
+        
+      //update user if email is verified
+      if (!user.emailVerified  && account?.provider === "email") {
+        const {email} = user
+        user = await User.findOneAndUpdate({email}, {emailVerified: new Date()}, {new: true}).lean()
+      }
+
+      //get baseurl from request
+      const baseUrl = process.env.NEXTAUTH_URL
+
+      const errorPage = `${baseUrl}/error?error=EmailNotVerified`
+
+
+
+      return user?.emailVerified ? true : errorPage
+
+      
+
+    }
+
 
     
   
@@ -44,7 +74,7 @@ export const authOptions :  NextAuthOptions = {
   pages: {
     signIn: "/auth/signin",
     signOut: "/api/auth/signout",
-    error: "/auth/signin", // Error code passed in query string as ?error=
+    error: "/api/auth/error", // Error code passed in query string as ?error=
     verifyRequest: "/api/auth/verify-request", // (used for check email message)
     newUser: "/profile" // If set, new users will be directed here on first sign in
   },
@@ -55,6 +85,19 @@ export const authOptions :  NextAuthOptions = {
   
   
     providers: [
+      EmailProvider({
+        server : {
+          host: process.env.EMAIL_SERVER_HOST,
+          port: process.env.EMAIL_SERVER_PORT,
+          auth: {
+            user: process.env.EMAIL_SERVER_USER,
+            pass: process.env.EMAIL_SERVER_PASSWORD
+          }
+        },
+        from: process.env.EMAIL_FROM,
+        
+      }),
+
       CredentialsProvider({
         id : "login",
         name: 'Login',
@@ -144,6 +187,10 @@ export const authOptions :  NextAuthOptions = {
            
             const newUser = new User({name,email,password});
             await newUser.save();
+
+            
+
+
 
             return userToAdapterUser(newUser);
           

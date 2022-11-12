@@ -6,6 +6,7 @@ interface IUser {
     image: string;
     password: string;
     role: string;
+    emailVerified: Date | null;
 
 }
 
@@ -33,6 +34,10 @@ const userSchema = new Schema<IUser>({
         enum: ["user", "admin", "commentator", "premium"],
 
     },
+    emailVerified: {
+        type: Date,
+        default: null
+    }
 })
 
 

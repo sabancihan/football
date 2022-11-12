@@ -34,7 +34,9 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
       password: target.password.value,
     })
 
+
     if (result && result.error) {
+      console.log(result, "result")
       setErrorMessages(result.error)
 
     } else {

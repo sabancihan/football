@@ -4,14 +4,15 @@ import mongoose from "mongoose"
 import Account from "../models/Account"
 import Session from "../models/Session"
 import User from "../models/User"
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
-import dbConnect from "../lib/mongoose"
+import VerificationToken from "../models/VerificationToken"
+
+
 
 interface MongooseAdapterOptions {
     databaseName: string
 }
 
-MongoDBAdapter
+
 interface MongooseAdapterProps {
         options: MongooseAdapterOptions
         client: Promise<typeof mongoose>
@@ -24,6 +25,7 @@ interface ConvertUser {
     image: string
     role: string
     _id ?: string
+    emailVerified: Date | null
 }
 
 
@@ -37,7 +39,7 @@ export const userToAdapterUser = (user: ConvertUser | null): AdapterUser => {
         email: user?.email ?? "",
         image: user?.image ?? "",
         role: user?.role ?? "",
-        emailVerified: null,
+        emailVerified: user?.emailVerified ?? null,
         username : "",
     }
 }
@@ -50,6 +52,8 @@ export default function MongooseAdapter({client,options}  : MongooseAdapterProps
 
     return {
         async createUser(user) {
+
+            console.log("create user", user)
 
             const newUser =  new User(user)
             await newUser.save()
@@ -80,11 +84,15 @@ export default function MongooseAdapter({client,options}  : MongooseAdapterProps
         async createSession(session) {
 
 
+
+
             const newSession =  new Session(session)
             await newSession.save()
             return newSession
         },
         async getSessionAndUser(sessionToken) {
+
+
 
  
 
@@ -134,17 +142,36 @@ export default function MongooseAdapter({client,options}  : MongooseAdapterProps
 
         },
         async linkAccount(data) {
-
-      
-            
+        
             const account = await new Account(data)
             await account.save()
             return account
         },
 
-   
+        async createVerificationToken(data) {
 
-     
+            console.log(data)
+            
+            const token = await new VerificationToken(data)
+            await token.save()
+            return token
+            
+                
+               
+            },
+
+        async useVerificationToken(data) {
+                
+                const verificationToken = await VerificationToken.findOneAndDelete({token: data.token})
+                if (!verificationToken) return null
+                delete verificationToken._id
+                return verificationToken
+  
+        },
+
+
+   
+        
         
     }
 
