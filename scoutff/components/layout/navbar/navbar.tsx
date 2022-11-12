@@ -21,11 +21,11 @@ import Link from "next/link";
 const Links = [
   {
     name: "Register",
-    path: "/register",
+    path: "/auth/register",
   },
   {
-    name: "Profile",
-    path: "/profile",
+    name: "Squads",
+    path: "/squads",
   },
   {
     name: "Leaderboards",
@@ -36,7 +36,39 @@ const Links = [
     path: "/with-mongo-db",
   },
 ];
-
+const LogoLink = [
+  {
+    name:"Scoutff" ,
+    path: "/",
+  },
+];
+const dropdownLink1 = [
+  {
+    name:"Profile" ,
+    path: "/profile",
+  },
+];
+const dropdownLink2 = [
+  {
+    name:"Help                                  \t" ,
+    path: "/help",
+  },
+ 
+];
+const dropdownLink3 = [
+  {
+    name:"Log Out" ,
+    path: "/auth/signin",
+    
+  },
+];
+const buttonLink = [
+  {
+    name:"Favorite Players" ,
+    path: "/favorites",
+    
+  },
+];
 const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
   <Box
     px={2}
@@ -44,7 +76,7 @@ const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
     rounded={"md"}
     _hover={{
       textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
+      bg: useColorModeValue("gray.100", "gray.700"),
     }}
   >
     <Link href={path}>{children}</Link>
@@ -65,10 +97,17 @@ export default function Navbar() {
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={"center"}>
-            <Box>Scoutff</Box>
-
-          </HStack>
+          <HStack
+              as={"nav"}
+              spacing={4}
+              display={{ base: "none", md: "flex" }}
+            >
+              {LogoLink.map(({ name, path }) => (
+                <NavLink key={path} path={path}>
+                  {name}
+                </NavLink>
+              ))}
+            </HStack>
           <Flex alignItems={"center"}>
           <HStack
               as={"nav"}
@@ -84,33 +123,78 @@ export default function Navbar() {
 
             
             <Button
-              variant={"solid"}
-              colorScheme={"yellow"}
+              variant={"outline"}
+              colorScheme={"blue"}
               size={"sm"}
               mr={4}
-              leftIcon={<AddIcon />}
+              //leftIcon={<AddIcon />}
             >
-              Favorite Players
+              <HStack
+              as={"nav"}
+              spacing={4}
+              display={{ base: "none", md: "flex" }}
+            >
+              {buttonLink.map(({ name, path }) => (
+                <NavLink key={path} path={path}>
+                  {name}
+                </NavLink>
+              ))}
+            </HStack>
             </Button>
             <Menu>
               <MenuButton
                 as={Button}
-                rounded={"full"}
+                rounded={"md"}
                 variant={"link"}
                 cursor={"pointer"}
               >
                 <Avatar
                   size={"sm"}
                   src={
-                    "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                    "https://bit.ly/sage-adebayo"
                   }
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
+                <MenuItem>
+                    <HStack
+                    as={"nav"}
+                    spacing={4}
+                    display={{ base: "none", md: "flex" }}
+                    >
+                    {dropdownLink1.map(({ name, path }) => (
+                      <NavLink key={path} path={path}>
+                        {name}
+                      </NavLink>
+                    ))}
+                    </HStack>
+                  </MenuItem>
+                      <MenuItem><HStack
+                        as={"nav"}
+                        spacing={4}
+                        display={{ base: "none", md: "flex" }}
+                        >
+                        {dropdownLink2.map(({ name, path }) => (
+                          <NavLink key={path} path={path}>
+                            {name}
+                          </NavLink>
+                        ))}
+                  </HStack></MenuItem>
+                      <MenuDivider />
+                      <MenuItem
+                      textColor={"red"}
+                      ><HStack
+                    as={"nav"}
+                    spacing={4}
+                    display={{ base: "none", md: "flex" }}
+                  >
+                    {dropdownLink3.map(({ name, path }) => (
+                      <NavLink key={path} path={path}>
+                        {name}
+                      </NavLink>
+                    ))}
+                  </HStack>
+                </MenuItem>
               </MenuList>
             </Menu>
           </Flex>
