@@ -1,15 +1,65 @@
 import { Box, Button, Container, Heading, Input } from "@chakra-ui/react"
 import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import { CtxOrReq } from "next-auth/client/_utils"
-import { getCsrfToken, getSession, GetSessionParams } from "next-auth/react"
+import { getCsrfToken, getSession, GetSessionParams, signIn } from "next-auth/react"
 import Layout from "../../components/layout/Layout"
 import * as React from "react";
 import { Center, Image, Flex, Badge, Text, Stack, FormControl, FormLabel, Checkbox, Link, useColorModeValue } from "@chakra-ui/react";
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]"
+import { useRouter } from "next/router"
+import { useState } from "react"
 
 
 export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<typeof getServerSideProps>*/) {
+
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState<String>("");
+
+
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    
+
+    
+
+    const target = e.currentTarget as typeof e.currentTarget & {
+      email: { value: string }
+      password: { value: string }
+      firstName: { value: string }
+      lastName: { value: string }
+    }
+
+
+
+
+    const result = await signIn('login',
+    {
+      redirect: false,
+      email: target.email.value,
+      password: target.password.value,
+    })
+
+
+ 
+
+    if (result && result.error) {
+      setErrorMessage(result.error)
+
+    } else {
+      router.push('/profile')
+    }
+
+ 
+  
+
+    
+
+
+  }
+  
 
     return (
  <div>
@@ -26,6 +76,7 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Sign in to your account</Heading>
         </Stack>
+        <form onSubmit={handleFormSubmit}>
         <Box
           rounded={'lg'}
           bg={useColorModeValue('white', 'gray.700')}
@@ -48,7 +99,7 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
                 <Checkbox>Remember me</Checkbox>
                 <Link color={'blue.400'}>Forgot password?</Link>
               </Stack>
-              <Button
+              <Button type="submit"
                 bg={'blue.400'}
                 color={'white'}
                 _hover={{
@@ -59,6 +110,7 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
             </Stack>
           </Stack>
         </Box>
+        </form>
       </Stack>
     </Flex>
 
