@@ -2,9 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/auth/register": "pages/auth/register.js",
-  "/favorites": "pages/favorites.js",
-  "/squads": "pages/squads.js",
-  "/": "pages/index.js",
-  "/leaderboards": "pages/leaderboards.js"
+  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
+  "/auth/signin": "pages/auth/signin.js"
 }

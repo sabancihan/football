@@ -14,17 +14,7 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
    
 <Layout>
   
-<Flex height="100vh" alignItems="center" justifyContent="center">
 
-  <Flex direction="column" background="gray.100" p={12} rounded={6}>
-
-  <Heading mb={6}>Log in</Heading>
-  <Input placeholder= "Enter the email adress" variant="filled" type="email" />
-  <Input placeholder= "Enter the password" variant="filled" type="password" />
-<Button mb={6} colorScheme="facebook"> Log in </Button>
-  </Flex>
-
-</Flex>
 <Flex
       minH={'100vh'}
       align={'center'}
