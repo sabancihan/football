@@ -1,10 +1,12 @@
 import { Box, Button, Container, Heading, Input } from "@chakra-ui/react"
-import { InferGetServerSidePropsType } from "next"
+import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import { CtxOrReq } from "next-auth/client/_utils"
 import { getCsrfToken, getSession, GetSessionParams } from "next-auth/react"
 import Layout from "../../components/layout/Layout"
 import * as React from "react";
 import { Center, Image, Flex, Badge, Text, Stack, FormControl, FormLabel, Checkbox, Link, useColorModeValue } from "@chakra-ui/react";
+import { unstable_getServerSession } from "next-auth"
+import { authOptions } from "../api/auth/[...nextauth]"
 
 
 export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<typeof getServerSideProps>*/) {
@@ -66,24 +68,22 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
 
     
 }
-/*
-export  const getServerSideProps = async (context : CtxOrReq  ) => {
-    const session = await getSession(context)
-    const csrfToken = await getCsrfToken(context)
+
+export  const getServerSideProps : GetServerSideProps = async (context) => {
+  const session = await unstable_getServerSession(context.req, context.res,authOptions)
 
 
-    
-    if (session) {
-        return {
-        redirect: {
-            destination: '/profile',
-            permanent: false,
-        },
-        }
-    }
-    
-    return {
-        props: { csrfToken },
-    }
-    }
-*/
+  
+  if (session) {
+      return {
+      redirect: {
+          destination: '/profile',
+          permanent: false,
+      },
+      }
+  }
+  
+  return {
+      props: {  },
+  }
+  }

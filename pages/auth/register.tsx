@@ -14,13 +14,13 @@ import {
     useColorModeValue,
     Link,
   } from '@chakra-ui/react';
-import { InferGetServerSidePropsType } from "next"
-import { CtxOrReq } from "next-auth/client/_utils"
-import { getCsrfToken, getSession, GetSessionParams } from "next-auth/react"
+import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import Layout from "../../components/layout/Layout"
 import * as React from "react";
   import { useState } from 'react';
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { unstable_getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]';
   
   export default function SignupCard() {
     const [showPassword, setShowPassword] = useState(false);
@@ -101,3 +101,23 @@ import * as React from "react";
       </Layout>
     );
   }
+
+
+  export  const getServerSideProps : GetServerSideProps = async (context) => {
+    const session = await unstable_getServerSession(context.req, context.res,authOptions)
+
+
+    
+    if (session) {
+        return {
+        redirect: {
+            destination: '/profile',
+            permanent: false,
+        },
+        }
+    }
+    
+    return {
+        props: {  },
+    }
+    }
