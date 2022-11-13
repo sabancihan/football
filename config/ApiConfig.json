@@ -1,8 +1,0 @@
-{
-    "SportScore": {
-        "baseURL":  "https://sportscore1.p.rapidapi.com/",
-        "superLeagueSeasonId":  19367,
-        "superleagueID":  284,
-        "requestPerSecond" : 5
-    }
-}
