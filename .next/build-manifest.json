@@ -30,6 +30,11 @@
       "static/chunks/main.js",
       "static/chunks/pages/auth/signin.js"
     ],
+    "/leaderboards": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/leaderboards.js"
+    ],
     "/profile": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",

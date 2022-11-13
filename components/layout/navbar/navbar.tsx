@@ -157,32 +157,47 @@ export default function Navbar() {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>
-                    <HStack
-                    as={"nav"}
-                    spacing={4}
-                    display={{ base: "none", md: "flex" }}
-                    >
-                    {dropdownLink1.map(({ name, path }) => (
+
+
+
+                  
+                  {dropdownLink1.map(({ name, path }) => (
                       <NavLink key={path} path={path}>
-                        {name}
+                            <MenuItem >
+                          <HStack
+                          as={"nav"}
+                          spacing={4}
+                          display={{ base: "none", md: "flex" }}
+                          >
+                          </HStack>
+                          {name}
+                        </MenuItem>
                       </NavLink>
                     ))}
-                    </HStack>
-                  </MenuItem>
-                      <MenuItem><HStack
-                        as={"nav"}
-                        spacing={4}
-                        display={{ base: "none", md: "flex" }}
-                        >
-                        {dropdownLink2.map(({ name, path }) => (
+                    
+      
+                    <MenuDivider />
+
+
+
+                  {dropdownLink2.map(({ name, path }) => (
                           <NavLink key={path} path={path}>
-                            {name}
+                             <MenuItem>
+                             <HStack
+                              as={"nav"}
+                              spacing={4}
+                              display={{ base: "none", md: "flex" }}
+                              >
+                          </HStack>
+                          {name}
+                          </MenuItem>
                           </NavLink>
+                          
                         ))}
-                  </HStack></MenuItem>
+
+                     
                       <MenuDivider />
-                      <MenuItem
+                      <MenuItem  onClick={() => signOut({callbackUrl: "/auth/signin"})}
                       textColor={"red"}
                       ><HStack
                     as={"nav"}
@@ -190,8 +205,10 @@ export default function Navbar() {
                     display={{ base: "none", md: "flex" }}
                   >
                     {dropdownLink3.map(({ name, path }) => (
-                      <NavLink  key={path} path={path}>
-                        <p onClick={() => signOut()} >{name}</p>
+                      <NavLink   key={path} path={path}>
+                        <div>
+                          {name}
+                        </div>
                       </NavLink>
                     ))}
                   </HStack>

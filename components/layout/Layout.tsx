@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { ReactNode } from "react";
 import Navbar from "./navbar/navbar";
 
@@ -6,11 +7,12 @@ interface ILayoutProps {
 }
 
 const Layout = ({ children }: ILayoutProps) => {
+  const router = useRouter();
   return (
     <>
-      <Navbar />
+      {/* Exclude urls starting with /auth */}
+      {!router.pathname.startsWith("/auth") && <Navbar />}
       {children}
-      {/* <Footer/> */}
     </>
   );
 };
