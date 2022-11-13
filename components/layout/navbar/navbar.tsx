@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 // const Links = ["Dashboard", "Projects", "Team"];
 const Links = [
   {
@@ -189,8 +190,8 @@ export default function Navbar() {
                     display={{ base: "none", md: "flex" }}
                   >
                     {dropdownLink3.map(({ name, path }) => (
-                      <NavLink key={path} path={path}>
-                        {name}
+                      <NavLink  key={path} path={path}>
+                        <p onClick={() => signOut()} >{name}</p>
                       </NavLink>
                     ))}
                   </HStack>

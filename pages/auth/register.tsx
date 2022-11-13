@@ -13,6 +13,10 @@ import {
     Text,
     useColorModeValue,
     Link,
+    Alert,
+    AlertDescription,
+    AlertIcon,
+    AlertTitle,
   } from '@chakra-ui/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import Layout from "../../components/layout/Layout"
@@ -150,7 +154,21 @@ import { signIn } from 'next-auth/react';
                   Sign up
                 </Button>
               </Stack>
-              <Stack pt={6}>
+
+
+            {
+              errorMessage &&      
+              <Stack pt={3}>
+                <Alert status='error'>
+                  <AlertIcon />
+                  <AlertTitle>Error!</AlertTitle>
+                  <AlertDescription>{errorMessage}</AlertDescription>
+                </Alert>
+             </Stack>
+            }
+       
+
+              <Stack pt={3}>
                 <Text align={'center'}>
                   Already a user? <Link href='./signin' color={'blue.400'}>Login</Link>
                 </Text>

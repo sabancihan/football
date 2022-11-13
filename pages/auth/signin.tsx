@@ -1,4 +1,4 @@
-import { Box, Button, Container, Heading, Input } from "@chakra-ui/react"
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Container, Heading, Input } from "@chakra-ui/react"
 import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import { CtxOrReq } from "next-auth/client/_utils"
 import { getCsrfToken, getSession, GetSessionParams, signIn } from "next-auth/react"
@@ -107,7 +107,27 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
                 }}>
                 Sign in
               </Button>
+
             </Stack>
+
+            {
+              errorMessage &&      
+              <Stack pt={3}>
+                <Alert status='error'>
+                  <AlertIcon />
+                  <AlertTitle>Error!</AlertTitle>
+                  <AlertDescription>{errorMessage}</AlertDescription>
+                </Alert>
+             </Stack>
+            }
+       
+
+            <Stack pt={3}>
+                <Text align={'center'}>
+                  Don't have an account? <Link href='./register' color={'blue.400'}>Sign Up </Link>
+                </Text>
+            </Stack>
+
           </Stack>
         </Box>
         </form>
