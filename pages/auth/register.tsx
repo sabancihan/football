@@ -61,19 +61,30 @@ import { signIn } from 'next-auth/react';
         name: target.firstName.value + " " + target?.lastName?.value ?? "",
         password: target.password.value,
       })
+
+
+      const error = result?.error
+
+      if (error && error !== "EmailNotVerified") {
+        setErrorMessage(error)
+        return
+      }
+
   
       console.log(result, "register result")
   
       const emailSend = await signIn('email', {email : target.email.value, redirect: false})
+
+      if (emailSend && emailSend.error) {
+        setErrorMessage(emailSend.error)
+        return
+      }
   
       console.log(emailSend, "email send")
   
-      if (result && result.error) {
-        setErrorMessage(result.error)
   
-      } else {
-        router.push('/profile')
-      }
+      router.push('/profile')
+      
   
    
     
