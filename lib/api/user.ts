@@ -2,6 +2,8 @@ import User from "../../models/User";
 import Player from "../../models/Player";
 import mongooseConnection from "../mongoose"
 
+import { IPlayer } from "../../models/Player";
+
 interface IAddFavPlayer {
     userId: string;
     playerId: string;
@@ -82,14 +84,22 @@ export async function addFavourite({userId,playerId} : IAddFavPlayer): Promise<b
   }
 
 
-  export async function getTopFavourites() {
+
+export async function getUserFavourites({userId} : {userId: string}) {
 
     await mongooseConnection();
 
-    const players = await Player.find().sort({ likedBy: -1 }).limit(10).lean();
+    const user = await User.findById(userId)
+                        .populate("likedPlayers","name -_id")
+                        .select("likedPlayers -_id")
 
-    return players;
+                        user?.likedPlayers
+    
+    const likedPlayers : Array<String> = (user?.likedPlayers ?? []).map((player)  => player.name);
 
-  }
+                        
 
+    
 
+    return likedPlayers;
+}

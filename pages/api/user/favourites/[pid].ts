@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const userId = userInfo.sub
 
-    const convertToStatus = (status: boolean) => status ? res.status(200).json({ message: "Success" }) : res.status(400).json({ message: "User or Player does not exist" })
+    const convertToStatus = (status: boolean) => status ? res.status(200).json({ message: "Success" }) : res.status(404).json({ message: "User or Player does not exist" })
 
     
 

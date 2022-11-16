@@ -1,13 +1,14 @@
 import mongoose, { Schema } from "mongoose";
+import { IPlayer } from "./Player";
 
-interface IUser {
+export interface IUser {
     name: string;
     email: string;
     image: string;
     password: string;
     role: string;
     emailVerified: Date | null;
-    likedPlayers: Array<Schema.Types.ObjectId>;
+    likedPlayers: Array<IPlayer>;
 
 }
 
