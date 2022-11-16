@@ -13,7 +13,7 @@ import LBCompIndex from "../components/leaderboard/ui";
 export default function Home() {
   return (
     <div>
-      <Head>
+      <Head>  
         <title>Leaderboards | Scoutff</title>
         <meta name="description" content="Scoutff 2022." />
         <link rel="icon" href="/favicon.ico" />

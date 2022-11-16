@@ -7,6 +7,7 @@ interface IUser {
     password: string;
     role: string;
     emailVerified: Date | null;
+    likedPlayers: Array<Schema.Types.ObjectId>;
 
 }
 
@@ -37,7 +38,12 @@ const userSchema = new Schema<IUser>({
     emailVerified: {
         type: Date,
         default: null
-    }
+    },
+    likedPlayers: [{
+        type: Schema.Types.ObjectId,
+        ref: "Player",
+        default: []
+    }]
 })
 
 
