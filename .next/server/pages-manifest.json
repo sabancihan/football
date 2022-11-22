@@ -1,22 +1,5 @@
 {
   "/_app": "pages/_app.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
-  "/api/auth/delete": "pages/api/auth/delete.js",
-  "/api/comment": "pages/api/comment.js",
-  "/api/user/favourites/[pid]": "pages/api/user/favourites/[pid].js",
-  "/customsquads": "pages/customsquads.html",
   "/_error": "pages/_error.js",
-  "/": "pages/index.html",
-  "/squadby": "pages/squadby.html",
-  "/squads": "pages/squads.html",
-  "/Top%20Ratings": "pages/Top%20Ratings.js",
-  "/Highest%20market%20values": "pages/Highest%20market%20values.js",
-  "/favorites": "pages/favorites.js",
-  "/help": "pages/help.js",
-  "/auth/signin": "pages/auth/signin.js",
-  "/profile": "pages/profile.js",
-  "/leaderboards": "pages/leaderboards.js",
-  "/auth/register": "pages/auth/register.js",
-  "/_document": "pages/_document.js",
-  "/404": "pages/404.html"
+  "/_document": "pages/_document.js"
 }

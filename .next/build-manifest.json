@@ -1,105 +1,39 @@
 {
   "polyfillFiles": [
-    "static/chunks/polyfills-c67a75d1b6f99dc8.js"
+    "static/chunks/polyfills.js"
   ],
-  "devFiles": [],
-  "ampDevFiles": [],
+  "devFiles": [
+    "static/chunks/react-refresh.js"
+  ],
+  "ampDevFiles": [
+    "static/chunks/webpack.js",
+    "static/chunks/amp.js"
+  ],
   "lowPriorityFiles": [
-    "static/sosV94qQT_K8XRXwRjC15/_buildManifest.js",
-    "static/sosV94qQT_K8XRXwRjC15/_ssgManifest.js"
+    "static/development/_buildManifest.js",
+    "static/development/_ssgManifest.js"
   ],
   "rootMainFiles": [],
   "pages": {
-    "/": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/pages/index-31b244643763a219.js"
-    ],
-    "/Highest%20market%20values": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/pages/Highest%20market%20values-28323e7b4eb3d3ff.js"
-    ],
-    "/Top%20Ratings": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/pages/Top%20Ratings-2548a590694f430a.js"
-    ],
     "/_app": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/css/5277c2fa0d54462d.css",
-      "static/chunks/pages/_app-c93a088f4857866e.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_app.js"
     ],
     "/_error": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/pages/_error-15049b4ccf6c9b91.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_error.js"
     ],
     "/auth/register": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/688-f12fb93e4423f89e.js",
-      "static/chunks/pages/auth/register-ebca79d3237524cf.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/auth/register.js"
     ],
     "/auth/signin": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/pages/auth/signin-a785da6b6743b9f6.js"
-    ],
-    "/customsquads": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/pages/customsquads-968ddfe7868184da.js"
-    ],
-    "/favorites": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/755-82eebe54407bb5b9.js",
-      "static/chunks/pages/favorites-6a96f8d62cf9ce4b.js"
-    ],
-    "/help": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/755-82eebe54407bb5b9.js",
-      "static/chunks/pages/help-c91c1f567910eb9c.js"
-    ],
-    "/leaderboards": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/845-1cae78b67694fc05.js",
-      "static/chunks/pages/leaderboards-20e1ee0750c50db7.js"
-    ],
-    "/profile": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/845-1cae78b67694fc05.js",
-      "static/chunks/688-f12fb93e4423f89e.js",
-      "static/chunks/pages/profile-84d8b384b96bcff4.js"
-    ],
-    "/squadby": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/pages/squadby-cba4ebaae3c3b47b.js"
-    ],
-    "/squads": [
-      "static/chunks/webpack-afcdf5af329a8fd0.js",
-      "static/chunks/framework-f436470a49335e19.js",
-      "static/chunks/main-6106a0fa77454c26.js",
-      "static/chunks/pages/squads-0b5a75ae07bdf53a.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/auth/signin.js"
     ]
   },
   "ampFirstPages": []
