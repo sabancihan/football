@@ -15,7 +15,7 @@
       ],
       "name": "middleware",
       "page": "/",
-      "regexp": "^/.*$",
+      "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/dashboard(.json)?[\\/#\\?]?$|^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/profile(.json)?[\\/#\\?]?$",
       "wasm": [],
       "assets": []
     }
