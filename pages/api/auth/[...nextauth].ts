@@ -44,7 +44,7 @@ export const authOptions :  NextAuthOptions = {
     async signIn({user, account, profile, email, credentials}) {
 
       //get baseurl from request
-      const baseUrl = process.env.VERCEL_URL ?? process.env.NEXTAUTH_URL
+      const baseUrl = (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ?? process.env.NEXTAUTH_URL
       const errorPage = `${baseUrl}/error?error=EmailNotVerified`
 
       const userNotExist = `${baseUrl}/error?error=UserNotExist`
