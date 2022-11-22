@@ -1,11 +1,16 @@
-import React from "react";
+import React, { ReactChildren } from "react";
 import LeaderboardUI from "./LeaderboardUI";
+import type { RatingPlayers, MarketPlayers } from "../../../pages/leaderboards";
 
-const LBCompIndex = () => {
+
+
+const LBCompIndex = ({children} : React.PropsWithChildren) => {
   return (
     <div>
-<LeaderboardUI></LeaderboardUI>  </div>
+      {children}
+    </div>
   );
 };
+
 
 export default LBCompIndex;
