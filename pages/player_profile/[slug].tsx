@@ -61,6 +61,9 @@ const convertToQuery = (slug : string) => {
       photo
       has_photo
       position_name
+      preferred_foot
+      weight
+      height
 
       team {
         name
@@ -104,6 +107,10 @@ type PlayerProps = {
   age?: number
   _id: string
   team?: TeamInterface
+  weight?:number
+  height?:number
+  preferred_foot?:number
+
 
 }
 
@@ -247,6 +254,7 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
     const {data} =  client ?   await client.query<GraphQLProps<PlayerWithStatisticsInterface>>({
       query: convertToQuery(slug as string),
     }) : {data : {player : {}}};
+
 
 
 
