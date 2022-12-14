@@ -68,7 +68,7 @@ const SearchBar = () => {
   }, [debouncedSearch,client]);
 
   return (
-  <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),0)}>
+  <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
     <HStack zIndex={200}  >
       <InputGroup>
       <InputLeftElement>
