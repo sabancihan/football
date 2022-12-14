@@ -121,7 +121,7 @@ const PlayerPage= ({shirt_number, name, image, position, goals, assists, appeara
       <Flex justifyContent="center" alignItems="center" mb="6">
         <HStack>
           <SimpleGrid columns={3} alignItems="center">
-        <Image src={image} borderRadius='full' boxSize='200px'/>
+        <Image alt={"player"} src={image} borderRadius='full' boxSize='200px'/>
 
         <VStack>
         <Heading size="md" fontWeight="bold" ml="4" color={"gray.800"}>
@@ -134,7 +134,7 @@ const PlayerPage= ({shirt_number, name, image, position, goals, assists, appeara
         </VStack>
 
         <VStack>
-          <Image src={team?.logo} borderRadius='full' boxSize='100px'/>
+          <Image alt={"logo"} src={team?.logo} borderRadius='full' boxSize='100px'/>
           <Text fontSize="sm">{team?.name}</Text>
         </VStack>
         </SimpleGrid>

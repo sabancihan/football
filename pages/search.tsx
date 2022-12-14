@@ -65,13 +65,15 @@ const SearchBar = () => {
     }
 
     if (debouncedSearch) fetchData();
-  }, [debouncedSearch]);
+  }, [debouncedSearch,client]);
 
   return (
   <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),0)}>
     <HStack zIndex={200}  >
       <InputGroup>
-      <InputLeftElement children={<SearchIcon/>}  />
+      <InputLeftElement>
+      <SearchIcon/>
+      </InputLeftElement>
       <Input placeholder="Search"
     type= "search"
     colorScheme="teal" 

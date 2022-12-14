@@ -99,12 +99,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "G" && gkCheck < 1){
         gkCheck++;
         return (
-          <VStack>
+          <VStack key={player.name}>
             <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
             <Center>
-              <Tr key={index}>
+              <Tr key={player.name} >
                 <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
               </Tr>
             </Center>
@@ -114,7 +114,7 @@ export default function SquadsUI({data, title} : Props) {
           </VStack>
         )
       }else{
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -126,12 +126,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D" && dfCheck3 < 1 && dfCheck3 > -1){
         dfCheck3++;
         return (
-          <VStack>
+          <VStack key={player.name}>
             <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
           <Center>
-            <Tr key={index}>
+            <Tr key={player.name} >
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
             </Tr>
           </Center>
@@ -145,7 +145,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "D"){
           dfCheck3++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -156,12 +156,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D" && dfCheck2 < 2 && dfCheck2 > 0){
         dfCheck2++;
         return (
-          <VStack>
+          <VStack key={player.name}>
             <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
           <Center>
-            <Tr key={index}>
+            <Tr key={player.name} >
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
             </Tr>
           </Center>
@@ -175,7 +175,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "D"){
           dfCheck2++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -186,12 +186,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D" && dfCheck1 < 3 && dfCheck1 > 1){
         dfCheck1++;
         return (
-          <VStack>
+          <VStack key={player.name}>
             <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -206,7 +206,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "D"){
           dfCheck1++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -218,12 +218,12 @@ export default function SquadsUI({data, title} : Props) {
         dfCheck++;
         return (
 
-          <VStack>
+          <VStack key={player.name}>
             <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -238,7 +238,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "D"){
           dfCheck++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -248,12 +248,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M" && mfCheck2 < 3  && mfCheck2 > 1){
         mfCheck2++;
         return (
-          <VStack>
+          <VStack key={player.name}>
             <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -268,7 +268,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "M"){
           mfCheck2++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -278,12 +278,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M" && mfCheck1 < 2 && mfCheck1 > 0){
         mfCheck1++;
         return (
-          <VStack>
+          <VStack key={player.name}>
                         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -297,7 +297,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "M"){
           mfCheck1++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -307,12 +307,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M" && mfCheck < 1 && mfCheck > -1){
         mfCheck++;
         return (
-          <VStack>
+          <VStack key={player.name}>
                         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -328,7 +328,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "M"){
           mfCheck++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -338,12 +338,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F" && fwCheck2 < 3  && fwCheck2 > 1){
         fwCheck2++;
         return (
-          <VStack>
+          <VStack key={player.name}>
             <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>            
             <Center>
-            <Tr key={index}>
+            <Tr key={player.name} >
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
             </Tr>
             </Center>
@@ -359,7 +359,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "F"){
           fwCheck2++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -369,12 +369,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F" && fwCheck1 < 2  && fwCheck1 > 0){
         fwCheck1++;
         return (
-          <VStack>
+          <VStack key={player.name}>
                         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -388,7 +388,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "F"){
           fwCheck1++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -398,12 +398,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F" && fwCheck < 1  && fwCheck > -1){
         fwCheck++;
         return (
-          <VStack>
+          <VStack key={player.name}>
                         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -417,7 +417,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "F"){
           fwCheck++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -447,12 +447,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "G" && gkCheck < 1 ){
       gkCheck++;
       return (
-        <VStack>
+        <VStack key={player.name}>
                       <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
           <Center>
-            <Tr key={index}>
+            <Tr key={player.name} >
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
             </Tr>
           </Center>
@@ -462,7 +462,7 @@ export default function SquadsUI({data, title} : Props) {
         </VStack>
       )
     }else{
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -474,12 +474,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "D" && dfCheck3 < 1 && dfCheck3 > -1){
       dfCheck3++;
       return (
-        <VStack>
+        <VStack key={player.name}>
             <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
         <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
         </Center>
@@ -493,7 +493,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D"){
         dfCheck3++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -504,12 +504,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "D" && dfCheck2 < 2 && dfCheck2 > 0){
       dfCheck2++;
       return (
-        <VStack>
+        <VStack key={player.name}>
             <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
             </Center>
         <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
         </Center>
@@ -523,7 +523,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D"){
         dfCheck2++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -534,13 +534,13 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "D" && dfCheck1 < 3 && dfCheck1 > 1){
       dfCheck1++;
       return (
-        <VStack>
+        <VStack key={player.name}>
           <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
           </Center>
 
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -555,7 +555,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D"){
         dfCheck1++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -567,12 +567,12 @@ export default function SquadsUI({data, title} : Props) {
       dfCheck++;
       return (
 
-        <VStack>
+        <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -587,7 +587,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D"){
         dfCheck++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -597,12 +597,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "M" && mfCheck2 < 3  && mfCheck2 > 1){
       mfCheck2++;
       return (
-        <VStack>
+        <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -617,7 +617,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M"){
         mfCheck2++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -627,12 +627,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "M" && mfCheck1 < 2 && mfCheck1 > 0){
       mfCheck1++;
       return (
-        <VStack>
+        <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>          
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -646,7 +646,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M"){
         mfCheck1++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -656,12 +656,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "M" && mfCheck < 1 && mfCheck > -1){
       mfCheck++;
       return (
-        <VStack>
+        <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>          
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -677,7 +677,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M"){
         mfCheck++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -687,12 +687,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "F" && fwCheck2 < 3  && fwCheck2 > 1){
       fwCheck2++;
       return (
-        <VStack>
+        <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>          
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -708,7 +708,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F"){
         fwCheck2++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -718,12 +718,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "F" && fwCheck1 < 2  && fwCheck1 > 0){
       fwCheck1++;
       return (
-        <VStack>
+        <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>          
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -737,7 +737,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F"){
         fwCheck1++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -747,12 +747,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "F" && fwCheck < 1  && fwCheck > -1){
       fwCheck++;
       return (
-        <VStack>
+        <VStack key={player.name}>
                   <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -766,7 +766,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F"){
         fwCheck++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -802,12 +802,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "G" && gkCheck < 1){
       gkCheck++;
       return (
-        <VStack>
+        <VStack key={player.name}>
                   <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
           <Center>
-            <Tr key={index}>
+            <Tr key={player.name} >
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
             </Tr>
           </Center>
@@ -817,7 +817,7 @@ export default function SquadsUI({data, title} : Props) {
         </VStack>
       )
     }else{
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -829,12 +829,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "D" && dfCheck3 < 1 && dfCheck3 > -1){
       dfCheck3++;
       return (
-        <VStack>
+        <VStack key={player.name}>
                   <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
         </Center>
@@ -848,7 +848,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D"){
         dfCheck3++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -859,12 +859,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "D" && dfCheck2 < 2 && dfCheck2 > 0){
       dfCheck2++;
       return (
-        <VStack>
+        <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
         </Center>
@@ -878,7 +878,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D"){
         dfCheck2++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -889,12 +889,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "D" && dfCheck1 < 3 && dfCheck1 > 1){
       dfCheck1++;
       return (
-        <VStack>
+        <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -909,7 +909,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D"){
         dfCheck1++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -921,12 +921,12 @@ export default function SquadsUI({data, title} : Props) {
       dfCheck++;
       return (
 
-        <VStack>
+        <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -941,7 +941,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D"){
         dfCheck++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -951,12 +951,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "M" && mfCheck2 < 3  && mfCheck2 > 1){
       mfCheck2++;
       return (
-        <VStack>
+        <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -971,7 +971,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M"){
         mfCheck2++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -981,12 +981,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "M" && mfCheck1 < 2 && mfCheck1 > 0){
       mfCheck1++;
       return (
-        <VStack>
+        <VStack key={player.name}>
                   <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -1000,7 +1000,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M"){
         mfCheck1++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -1010,12 +1010,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "M" && mfCheck < 1 && mfCheck > -1){
       mfCheck++;
       return (
-        <VStack>
+        <VStack key={player.name}>
                   <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -1031,7 +1031,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M"){
         mfCheck++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -1041,12 +1041,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "F" && fwCheck2 < 3  && fwCheck2 > 1){
       fwCheck2++;
       return (
-        <VStack>
+        <VStack key={player.name}>
                   <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -1062,7 +1062,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F"){
         fwCheck2++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -1072,12 +1072,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "F" && fwCheck1 < 2  && fwCheck1 > 0){
       fwCheck1++;
       return (
-        <VStack>
+        <VStack key={player.name}>
                   <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -1091,7 +1091,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F"){
         fwCheck1++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -1101,12 +1101,12 @@ export default function SquadsUI({data, title} : Props) {
     if(player.position === "F" && fwCheck < 1  && fwCheck > -1){
       fwCheck++;
       return (
-        <VStack>
+        <VStack key={player.name}>
                   <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
         <Center>
-        <Tr key={index}>
+        <Tr key={player.name} >
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
         </Center>
@@ -1120,7 +1120,7 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F"){
         fwCheck++;
       }
-      return(<Tr></Tr>)
+      return(<Tr key={player.name}></Tr>)
     }
 
   })
@@ -1151,12 +1151,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "G" && gkCheck < 1 && player.age < 24){
         gkCheck++;
         return (
-          <VStack>
+          <VStack key={player.name}>
                     <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
             <Center>
-              <Tr key={index}>
+              <Tr key={player.name} >
                 <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
               </Tr>
             </Center>
@@ -1166,7 +1166,7 @@ export default function SquadsUI({data, title} : Props) {
           </VStack>
         )
       }else{
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -1178,12 +1178,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D" && dfCheck3 < 1 && dfCheck3 > -1 && player.age < 24){
         dfCheck3++;
         return (
-          <VStack>
+          <VStack key={player.name}>
                     <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
           <Center>
-            <Tr key={index}>
+            <Tr key={player.name} >
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
             </Tr>
           </Center>
@@ -1197,7 +1197,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "D" && player.age < 24){
           dfCheck3++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -1208,12 +1208,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D" && dfCheck2 < 2 && dfCheck2 > 0 && player.age < 24){
         dfCheck2++;
         return (
-          <VStack>
+          <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
           <Center>
-            <Tr key={index}>
+            <Tr key={player.name} >
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
             </Tr>
           </Center>
@@ -1227,7 +1227,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "D" && player.age < 22){
           dfCheck2++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -1238,12 +1238,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "D" && dfCheck1 < 3 && dfCheck1 > 1 && player.age < 24){
         dfCheck1++;
         return (
-          <VStack>
+          <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"}  src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -1258,7 +1258,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "D" && player.age < 24){
           dfCheck1++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -1270,12 +1270,12 @@ export default function SquadsUI({data, title} : Props) {
         dfCheck++;
         return (
 
-          <VStack>
+          <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -1290,7 +1290,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "D" && player.age < 24){
           dfCheck++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -1300,12 +1300,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M" && mfCheck2 < 3  && mfCheck2 > 1 && player.age < 24){
         mfCheck2++;
         return (
-          <VStack>
+          <VStack key={player.name}>
         <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -1320,7 +1320,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "M" && player.age < 24){
           mfCheck2++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -1330,12 +1330,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M" && mfCheck1 < 2 && mfCheck1 > 0 && player.age < 24 ){
         mfCheck1++;
         return (
-          <VStack>
+          <VStack key={player.name}>
                     <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -1349,7 +1349,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "M" && player.age < 24){
           mfCheck1++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -1359,12 +1359,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "M" && mfCheck < 1 && mfCheck > -1 && player.age < 24){
         mfCheck++;
         return (
-          <VStack>
+          <VStack key={player.name}>
                     <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -1380,7 +1380,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "M" && player.age < 24){
           mfCheck++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -1390,12 +1390,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F" && fwCheck2 < 3  && fwCheck2 > 1 && player.age < 24){
         fwCheck2++;
         return (
-          <VStack>
+          <VStack key={player.name}>
                     <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
             <Center>
-            <Tr key={index}>
+            <Tr key={player.name} >
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
             </Tr>
             </Center>
@@ -1411,7 +1411,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "F" && player.age < 24){
           fwCheck2++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -1421,12 +1421,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F" && fwCheck1 < 2  && fwCheck1 > 0 && player.age < 24){
         fwCheck1++;
         return (
-          <VStack>
+          <VStack key={player.name}>
                     <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -1440,7 +1440,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "F" && player.age < 24){
           fwCheck1++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -1450,12 +1450,12 @@ export default function SquadsUI({data, title} : Props) {
       if(player.position === "F" && fwCheck < 1  && fwCheck > -1 && player.age < 24){
         fwCheck++;
         return (
-          <VStack>
+          <VStack key={player.name}>
                     <Center>
-            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            <Image alt={"playerPhoto"} src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
         </Center>
           <Center>
-          <Tr key={index}>
+          <Tr key={player.name} >
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
           </Tr>
           </Center>
@@ -1469,7 +1469,7 @@ export default function SquadsUI({data, title} : Props) {
         if(player.position === "F" && player.age < 24){
           fwCheck++;
         }
-        return(<Tr></Tr>)
+        return(<Tr key={player.name}></Tr>)
       }
 
     })
@@ -1533,7 +1533,7 @@ export default function SquadsUI({data, title} : Props) {
           <Player position='F' myData={forwardData2}></Player>
 
           
-          <VStack marginX='60px'>
+          <VStack  marginX='60px'>
             <Player position='M' myData={midfieldData3}></Player>
           </VStack>
 
@@ -1547,7 +1547,7 @@ export default function SquadsUI({data, title} : Props) {
             <Player position='M' myData={midfieldData2}></Player>
           </VStack>  
 
-          <VStack marginLeft='30px'>
+          <VStack  marginLeft='30px'>
             <Player position='M' myData={midfieldData}></Player>
           </VStack>
 
@@ -1555,19 +1555,19 @@ export default function SquadsUI({data, title} : Props) {
         </Center>
 
         <Center marginTop='18px' fontSize='20px'>
-          <VStack>
+          <VStack >
             <Player position='D' myData={defenceData}></Player>
           </VStack>  
 
-          <VStack marginX='10px'>
+          <VStack  marginX='10px'>
             <Player position='D' myData={defenceData2}></Player>
           </VStack>
 
-          <VStack marginX='10px'>
+          <VStack  marginX='10px'>
             <Player position='D' myData={defenceData3}></Player>
           </VStack>  
 
-          <VStack>
+          <VStack >
             <Player position='D' myData={defenceData4}></Player>
           </VStack>
 
@@ -1622,7 +1622,7 @@ export default function SquadsUI({data, title} : Props) {
           </Center>
   
           <Center fontSize='20px'>
-            <VStack marginRight='30px'>
+            <VStack  marginRight='30px'>
               <Player position='M' myData={midfieldDataAge2}></Player>
             </VStack>  
   
@@ -1634,7 +1634,7 @@ export default function SquadsUI({data, title} : Props) {
           </Center>
   
           <Center marginTop='18px' fontSize='20px'>
-            <VStack>
+            <VStack >
               <Player position='D' myData={defenceDataAge1}></Player>
             </VStack>  
   
@@ -1646,7 +1646,7 @@ export default function SquadsUI({data, title} : Props) {
               <Player position='D' myData={defenceDataAge3}></Player>
             </VStack>  
   
-            <VStack>
+            <VStack >
               <Player position='D' myData={defenceDataAge4}></Player>
             </VStack>
   
@@ -1693,7 +1693,7 @@ export default function SquadsUI({data, title} : Props) {
               <Player position='F' myData={forwardDataYoung2}></Player>
     
               
-              <VStack marginX='60px'>
+              <VStack  marginX='60px'>
                 <Player position='M' myData={midfieldDataYoung3}></Player>
               </VStack>
     
@@ -1707,7 +1707,7 @@ export default function SquadsUI({data, title} : Props) {
                 <Player position='M' myData={midfieldDataYoung2}></Player>
               </VStack>  
     
-              <VStack marginLeft='30px'>
+              <VStack  marginLeft='30px'>
                 <Player position='M' myData={midfieldDataYoung}></Player>
               </VStack>
     
@@ -1715,15 +1715,15 @@ export default function SquadsUI({data, title} : Props) {
             </Center>
     
             <Center  marginTop='18px' fontSize='20px'>
-              <VStack>
+              <VStack >
                 <Player position='D' myData={defenceDataYoung}></Player>
               </VStack>  
     
-              <VStack marginX='10px'>
+              <VStack  marginX='10px'>
                 <Player position='D' myData={defenceDataYoung2}></Player>
               </VStack>
     
-              <VStack marginX='10px'>
+              <VStack  marginX='10px'>
                 <Player position='D' myData={defenceDataYoung3}></Player>
               </VStack>  
     
@@ -1773,7 +1773,7 @@ export default function SquadsUI({data, title} : Props) {
             <Player position='F' myData={forwardDataYellow2}></Player>
   
             
-            <VStack marginX='60px'>
+            <VStack  marginX='60px'>
               <Player position='M' myData={midfieldDataYellow3}></Player>
             </VStack>
   
@@ -1783,11 +1783,11 @@ export default function SquadsUI({data, title} : Props) {
           </Center>
   
           <Center fontSize='20px'>
-            <VStack marginRight='30px'>
+            <VStack  marginRight='30px'>
               <Player position='M' myData={midfieldDataYellow2}></Player>
             </VStack>  
   
-            <VStack marginLeft='30px'>
+            <VStack  marginLeft='30px'>
               <Player position='M' myData={midfieldDataYellow}></Player>
             </VStack>
   
@@ -1795,19 +1795,19 @@ export default function SquadsUI({data, title} : Props) {
           </Center>
   
           <Center marginTop='18px' fontSize='20px'>
-            <VStack>
+            <VStack >
               <Player position='D' myData={defenceDataYellow1}></Player>
             </VStack>  
   
-            <VStack marginX='10px'>
+            <VStack  marginX='10px'>
               <Player position='D' myData={defenceDataYellow2}></Player>
             </VStack>
   
-            <VStack marginX='10px'>
+            <VStack  marginX='10px'>
               <Player position='D' myData={defenceDataYellow3}></Player>
             </VStack>  
   
-            <VStack>
+            <VStack >
               <Player position='D' myData={defenceDataYellow4}></Player>
             </VStack>
   
