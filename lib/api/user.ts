@@ -1,224 +1,105 @@
-import User from 'models/User';
-import { remark } from 'remark';
-import remarkMdx from 'remark-mdx';
-import { serialize } from 'next-mdx-remote/serialize';
-import mongooseConnection from '@/lib/mongoose'
-import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
+import User from "../../models/User";
+import Player from "../../models/Player";
+import mongooseConnection from "../mongoose"
 
+import { IPlayer } from "../../models/Player";
 
-
-
-export interface UserProps {
-  name: string;
-  username: string;
-  email: string;
-  image: string;
-  bio: string;
-  bioMdx: MDXRemoteSerializeResult<Record<string, unknown>>;
-  followers: number;
-  verified: boolean;
+interface IAddFavPlayer {
+    userId: string;
+    playerId: string;
 }
 
-export interface ResultProps {
-  _id: string;
-  users: UserProps[];
-}
-
-export async function getMdxSource(postContents: string) {
-  // Use remark plugins to convert markdown into HTML string
-  const processedContent = await remark()
-    // Native remark plugin that parses markdown into MDX
-    .use(remarkMdx)
-    .process(postContents);
-
-  // Convert converted html to string format
-  const contentHtml = String(processedContent);
-
-  // Serialize the content string into MDX
-  const mdxSource = await serialize(contentHtml);
-
-  return mdxSource;
-}
-
-export const placeholderBio = `
-Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam.
-
-Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.`;
-
-export async function getUser(username: string): Promise<UserProps | null> {
-
-  await mongooseConnection;
+export async function addFavourite({userId,playerId} : IAddFavPlayer): Promise<boolean> {
 
 
-  const results = await User.findOne(
-    { username }).select({ _id: 0, emailVerified: 0 }).lean();
+  
+     const session = await mongooseConnection().then(mongoose => mongoose.startSession());
+     session.startTransaction();
+ 
+     try {
+         await Promise.all([
+             User.findByIdAndUpdate(userId, {
+                 $addToSet: {
+                     likedPlayers: playerId
+                     }
+                 }).then(user => user ? Promise.resolve() : Promise.reject("User not found")),
 
+             Player.findByIdAndUpdate(playerId, {
+                 $addToSet: {
+                     likedBy: userId
+                     }
+                 }).then(player => player ? Promise.resolve() : Promise.reject("Player not found"))
+         ])
+         await session.commitTransaction();
+         session.endSession();
+         return true;
+ 
+     }
+     catch (error) {
+         await session.abortTransaction();
+         session.endSession();
+         return false;
+     }
+ 
+  
+  
 
-  if (results) {
-    return {
-      ...results,
-      bioMdx: await getMdxSource(results.bio || placeholderBio)
-    };
-  } else {
-    return null;
+  
   }
 
-}
-
-export async function getFirstUser(): Promise<UserProps | null> {
-
-  await mongooseConnection;
+  export async function removeFavourite({userId,playerId} : IAddFavPlayer): Promise<boolean> {
 
 
+    
+    const session = await mongooseConnection().then(mongoose => mongoose.startSession());
+    session.startTransaction();
 
-
-  const results = await User.findOne(
-    {}).select({ _id: 0 }).lean();
-
-  return {
-    ...results,
-    bioMdx: await getMdxSource(results.bio || placeholderBio)
-  };
-}
-
-export async function getAllUsers(): Promise<ResultProps[]> {
-
-  await mongooseConnection;
- 
-
-
-
-
-  const result =  await User
-    .aggregate([
-      {
-        //sort by follower count
-        $sort: {
-          followers: -1
-        }
-      },
-      {
-        $limit: 100
-      },
-      {
-        $group: {
-          _id: {
-            $toLower: { $substrCP: ['$name', 0, 1] }
-          },
-          users: {
-            $push: {
-              name: '$name',
-              username: '$username',
-              email: '$email',
-              image: '$image',
-              followers: '$followers',
-              verified: '$verified'
-            }
-          },
-          count: { $sum: 1 }
-        }
-      },
-      {
-        //sort alphabetically
-        $sort: {
-          _id: 1
-        }
-      }
-    ])
-
-    return result
-}
-
-export async function searchUser(query: string): Promise<UserProps[]> {
-
-  await mongooseConnection;
-
-
-  return await User
-    .aggregate([
-      {
-        $search: {
-          index: 'name-index',
-          /* 
-          name-index is a search index as follows:
-
-          {
-            "mappings": {
-              "fields": {
-                "followers": {
-                  "type": "number"
-                },
-                "name": {
-                  "analyzer": "lucene.whitespace",
-                  "searchAnalyzer": "lucene.whitespace",
-                  "type": "string"
-                },
-                "username": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-
-          */
-          text: {
-            query: query,
-            path: {
-              wildcard: '*' // match on both name and username
-            },
-            fuzzy: {},
-            score: {
-              // search ranking algorithm: multiply relevance score by the log1p of follower count
-              function: {
-                multiply: [
-                  {
-                    score: 'relevance'
-                  },
-                  {
-                    log1p: {
-                      path: {
-                        value: 'followers'
-                      }
+    try {
+        await Promise.all([
+            User.findByIdAndUpdate(userId, {
+                $pull: {
+                    likedPlayers: playerId
                     }
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      {
-        // filter out users that are not verified
-        $match: {
-          verified: true
-        }
-      },
-      // limit to 10 results
-      {
-        $limit: 10
-      },
-      {
-        $project: {
-          _id: 0,
-          emailVerified: 0,
-          score: {
-            $meta: 'searchScore'
-          }
-        }
-      }
-    ])
-}
+                }).then(user => user ? Promise.resolve() : Promise.reject("User not found")),
 
-export async function getUserCount(): Promise<number> {
+            Player.findByIdAndUpdate(playerId, {
+                $pull: {
+                    likedBy: userId
+                    }
+                }).then(player => player ? Promise.resolve() : Promise.reject("Player not found"))
+        ])
+        await session.commitTransaction();
+        session.endSession();
+        return true;
 
-  await mongooseConnection;
+    }
+    catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        return false;
+    }
 
-  return await User.countDocuments().lean();
-}
 
-export async function updateUser(username: string, bio: string) {
 
-  await mongooseConnection;
+  }
 
-  return await User.updateOne({ username }, { $set: { bio } });
+
+
+export async function getUserFavourites({userId} : {userId: string}) {
+
+    await mongooseConnection();
+
+    const user = await User.findById(userId)
+                        .populate("likedPlayers","name -_id")
+                        .select("likedPlayers -_id")
+
+                        user?.likedPlayers
+    
+    const likedPlayers : Array<String> = (user?.likedPlayers ?? []).map((player)  => player.name);
+
+                        
+
+    
+
+    return likedPlayers;
 }

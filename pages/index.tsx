@@ -1,54 +1,30 @@
-import { GetStaticProps } from 'next';
-import Profile from '@/components/profile';
-import {
-  getAllPlayers,
-  PlayerProps,
-  getPlayerCount,
-  getFirstPlayer
-} from '@/lib/api/player';
+import { useSession, signIn, signOut } from "next-auth/react"
+import { Button } from "@chakra-ui/react";
+import Head from "next/head";
+import Image from "next/image";
+import React from "react";
+import styles from "../styles/Home.module.css";
+import Link from "next/link";
+import HomeCompIndex from "../components/home/ui";
+import Navbar from "../components/layout/navbar/navbar";
 
-import {
-  UserProps
-} from '@/lib/api/user';
 
-import { defaultMetaProps } from '@/components/layout/meta';
-import clientPromise from '@/lib/mongodb';
+export default function Home() {
+  
+  return (
+    <div>
+      <Head>
+        <title>Scoutff Official Website</title>
+        <meta name="description" content="Scoutff 2022." />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-export default function Home({ player }: { player: PlayerProps }) {
-  return <Profile player={player} settings={false} />;
+      <main>
+        <HomeCompIndex />
+
+      </main>
+    </div>
+  );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  // You should remove this try-catch block once your MongoDB Cluster is fully provisioned
-  try {
-    await clientPromise;
-  } catch (e: any) {
-    if (e.code === 'ENOTFOUND') {
-      // cluster is still provisioning
-      return {
-        props: {
-          clusterStillProvisioning: true
-        }
-      };
-    } else {
-      throw new Error(`Connection limit reached. Please try again later.`);
-    }
-  }
 
-  const results = await getAllPlayers();
-  const totalPlayers = await getPlayerCount();
-  const firstpPlayer = await getFirstPlayer();
-
-
-  
-
-  return {
-    props: {
-      meta: defaultMetaProps,
-      results,
-      totalPlayers,
-      player: firstpPlayer
-    },
-    revalidate: 10
-  };
-};

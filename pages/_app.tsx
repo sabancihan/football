@@ -1,35 +1,33 @@
-import '@/styles/globals.css';
-import type { AppProps as NextAppProps } from 'next/app';
-import { SessionProvider } from 'next-auth/react';
-import Layout from '@/components/layout';
-import { Session } from 'next-auth/core/types';
-import { ResultProps } from '@/lib/api/player';
-import { MetaProps } from '@/components/layout/meta';
+import { SessionProvider } from "next-auth/react"
+import type { AppProps } from "next/app"
+import '../styles/globals.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import { ChakraProvider } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import Layout from "../components/layout/Layout";
 
-type AppProps<P = any> = {
-  pageProps: P;
-} & Omit<NextAppProps<P>, "pageProps">;
+// Use the <SessionProvider> to improve performance and allow components that call
+// `useSession()` anywhere in your application to access the `session` object.
+export default function MyApp({ Component, pageProps: { session, ...pageProps} }: AppProps) {
 
-type CustomAppProps = {
-  session: Session;
-  clusterStillProvisioning?: boolean;
-  totalPlayers: number;
-  results: ResultProps[];
-  meta : MetaProps
+  // Reset the user access token in cookies on a regular interval
 
-  
 
-}
 
-export default function MyApp({
-  Component,
-  pageProps,
-}: AppProps<CustomAppProps>) {
   return (
-    <SessionProvider session={pageProps.session}>
-      <Layout {...pageProps}>
-        <Component {...pageProps} />
-      </Layout>
+    <SessionProvider session={session}>
+
+    
+      <ChakraProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ChakraProvider>
+
     </SessionProvider>
   );
+  
 }
+
+
+

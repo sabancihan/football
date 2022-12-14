@@ -1,35 +1,51 @@
-import  mongoose  from 'mongoose';
+import mongoose from 'mongoose'
 
-const uri = process.env.MONGODB_URI as string; // your mongodb connection string
-const options = {
-  useUnifiedTopology: true,
-  maxIdleTimeMS: 10000,
-  serverSelectionTimeoutMS: 10000,
-  socketTimeoutMS: 20000,
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/login'
+
+if (!MONGODB_URI) {
+  throw new Error(
+    'Please define the MONGODB_URI environment variable inside .env.local'
+  )
 }
 
-let clientPromise: Promise<any>;
+/**
+ * Global is used here to maintain a cached connection across hot reloads
+ * in development. This prevents connections growing exponentially
+ * during API Route usage.
+ */
+let cached = global.mongooseGlobal
 
-declare global {
-  var _mongoosePromise: Promise<any>;
+if (!cached) {
+  cached = global.mongooseGlobal = { conn: null, promise: null }
 }
 
-if (!process.env.MONGODB_URI) {
-  throw new Error('Please add your Mongo URI to .env.local');
-}
-
-if (process.env.NODE_ENV === 'development') {
-  // In development mode, use a global variable so that the value
-  // is preserved across module reloads caused by HMR (Hot Module Replacement).
-  if (!global._mongoosePromise) {
-    global._mongoosePromise = mongoose.connect(uri, options);
+async function dbConnect() {
+  if (cached.conn) {
+    return cached.conn
   }
-  clientPromise = global._mongoosePromise;
-} else {
-  // In production mode, it's best to not use a global variable.
-  clientPromise = mongoose.connect(uri, options);
+
+  if (!cached.promise) {
+    const opts : mongoose.ConnectOptions | null = {
+    
+    
+      bufferCommands: false,
+      dbName: "login"
+      
+    }
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      return mongoose
+    })
+  }
+
+  try {
+    cached.conn = await cached.promise
+  } catch (e) {
+    cached.promise = null
+    throw e
+  }
+
+  return cached.conn
 }
 
-// Export a module-scoped MongoClient promise. By doing this in a
-// separate module, the client can be shared across functions.
-export default clientPromise;
+export default dbConnect

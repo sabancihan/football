@@ -1,20 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: true,
   reactStrictMode: true,
+  swcMinify: true,
   images: {
-    domains: [
-      'avatars.githubusercontent.com',
-      'avatar.tobi.sh',
-      'cloudflare-ipfs.com',
-      'loremflickr.com',
-      'tipsscore.com'
-    ]
+    domains: ["tipsscore.com"],
   },
-  experimental: {
-    legacyBrowsers: false,
-    browsersListForSwc: true
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/auth/signin',
+        permanent: true,
+      },
+    ]
   }
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

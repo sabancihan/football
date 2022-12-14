@@ -1,49 +1,56 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from "mongoose";
+import { IPlayer } from "./Player";
 
-/* PetSchema will correspond to a collection in your MongoDB database. */
-const UserSchema = new mongoose.Schema({
-  name: {
-    /* The name of this user */
+export interface IUser {
+    name: string;
+    email: string;
+    image: string;
+    password: string;
+    role: string;
+    emailVerified: Date | null;
+    likedPlayers: Array<IPlayer>;
 
-    type: String,
-    required: [true, 'Please provide a name for this user.'],
-    maxlength: [60, 'Name cannot be more than 60 characters'],
-  },
-  username: {
-    /* The username of this user */
-
-    type: String,
-    required: [true, "Please provide a username for this user"],
-    maxlength: [60, "Username cannot be more than 60 characters"],
-  },
-  email: {
-    /* The email of this user */
-
-    type: String,
-    required: [true, "Please provide a email for this user"],
-    maxlength: [100, "Username cannot be more than 100 characters"],
-  },
-  image: {
-    /* The image url of this user */
-
-    type: String,
-    required: [true, "Please provide a image url for this user"],
-    maxlength: [200, "Image url cannot be more than 200 characters"],
-  },
-  followers: {
-    type: Number,
-    default: 0,
-},
-emailVerified:{
-    type: Boolean,
-    default: false
-},
-verified:{
-    type: Boolean,
 }
 
 
+const userSchema = new Schema<IUser>({
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: String,
+    image: {
+        type: String,
+        default: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Fvectors%2Fsoccer-player-avatar&psig=AOvVaw3EIsK1iTJWeFNyYmNJLfap&ust=1667127936735000&source=images&cd=vfe&ved=0CA0QjRxqFwoTCIi_xtWlhfsCFQAAAAAdAAAAABAE"
+    },
+    
+    role:  {
+        type: String,
+        default: "user",
+        
+        enum: ["user", "admin", "commentator", "premium"],
 
+    },
+    emailVerified: {
+        type: Date,
+        default: null
+    },
+    likedPlayers: [{
+        type: Schema.Types.ObjectId,
+        ref: "Player",
+        default: []
+    }]
 })
 
-export default mongoose.models.User || mongoose.model('User', UserSchema)
+
+type InterfaceUser = mongoose.Document & IUser
+
+
+
+export default (mongoose.models.User  as mongoose.Model<InterfaceUser>) || mongoose.model("User",userSchema)
+

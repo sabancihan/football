@@ -1,50 +1,56 @@
-import { PlayerProps } from '@/lib/api/player'
-import mongoose, { InferSchemaType } from 'mongoose'
+import mongoose, { Schema } from "mongoose";
+import { IUser } from "./User";
+
+export interface IPlayer {
+    name: string;
+    slug: string;
+    rating: number;
+    photo: string;
+    flag: string;
+    likedBy : Array<IUser>;
+    market_value: string;
+}
 
 
-/* PetSchema will correspond to a collection in your MongoDB database. */
-const PlayerSchema = new mongoose.Schema({
-  name: {
-    /* The name of this user */
+const playerSchema = new Schema<IPlayer>({
+    name: {
+        type: String,
+        required: [true, "Please enter a name"],
+    },
+    slug: {
+        type: String,
+        required: [true, "Please enter a slug"],
+    },
+    rating: {
+        type: Number,
+        default: 0,
+    },
+    photo: {
+        type: String,
+        required : [true, "Please enter a photo"],
+    },
+    flag : {
+        type: String,
+        required : [true, "Please enter a flag"],
+    },
+    likedBy: [{
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: []
+    }],
+    market_value: {
+        type: String,
+        required : [true, "Please enter a market value"],
+    }
 
-    type: String,
-    required: [true, 'Please provide a name for this user.'],
-    maxlength: [60, 'Name cannot be more than 60 characters'],
-  },
-  slug: {
-    /* The username of this user */
-
-    type: String,
-    alias: "username",
-    required: [true, "Please provide a username for this user"],
-    maxlength: [60, "Username cannot be more than 60 characters"],
-  },
-  flag: {
-    /* The email of this user */
-
-    type: String,
-    alias : "nationality",
-    required: [true, "Please provide a email for this user"],
-    maxlength: [100, "Username cannot be more than 100 characters"],
-  },
-  photo: {
-    /* The image url of this user */
-
-    type: String,
-    alias: "image",
-    required: [true, "Please provide a image url for this user"],
-    maxlength: [200, "Image url cannot be more than 200 characters"],
-  },
-
-  rating : {
-    type : Number,
-    default : 0
-  }
-
-
-
+    
 
 })
 
 
-export default mongoose.models.Player || mongoose.model('Player', PlayerSchema)
+type InterfacePlayer = mongoose.Document & IPlayer
+
+
+
+export default (mongoose.models.Player  as mongoose.Model<InterfacePlayer>) || mongoose.model("Player",playerSchema)
+
