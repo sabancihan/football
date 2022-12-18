@@ -6,8 +6,8 @@ import { initUpdateDatabase } from "../../lib/init/initMongo";
 async function handler (_req : NextApiRequest, res : NextApiResponse) {
 
     try {
-        dbConnect().then(() => initUpdateDatabase())
-        await new Promise(r => setTimeout(r, 1000));
+        await dbConnect();
+        await initUpdateDatabase()
         return res.status(200).json({message : "Success"})
     }
 

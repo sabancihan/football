@@ -6,9 +6,9 @@ import dbConnect from "../../lib/mongoose";
 async function handler (_req : NextApiRequest, res : NextApiResponse) {
 
     try {
-        dbConnect().then(() => generateWeeklyReports())
-        await new Promise(r => setTimeout(r, 1000));
-
+        await dbConnect()
+        await generateWeeklyReports();
+        console.log("Success")
         return res.status(200).json({message : "Success"})
     }
 
