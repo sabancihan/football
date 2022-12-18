@@ -16,6 +16,18 @@ import { sign } from "crypto";
 import { signIn } from "next-auth/react";
 
 
+import {v2} from "cloudinary"
+
+v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: process.env.CLOUDINARY_SECURE === "true",
+});
+
+
+
+
 
 export const authOptions :  NextAuthOptions = {
   adapter: MongooseAdapter({client: clientPromise(), options: {databaseName: "login"}}),
@@ -103,7 +115,7 @@ export const authOptions :  NextAuthOptions = {
       EmailProvider({
         server : {
           host: process.env.EMAIL_SERVER_HOST,
-          port: process.env.EMAIL_SERVER_PORT,
+          port: parseInt(process.env.EMAIL_SERVER_PORT || "587"),
           auth: {
             user: process.env.EMAIL_SERVER_USER,
             pass: process.env.EMAIL_SERVER_PASSWORD
@@ -221,12 +233,14 @@ export const authOptions :  NextAuthOptions = {
       CredentialsProvider({
         id :"update-account",
         name: 'Update Account',
+        
   
         
 
         credentials: {
           name: { label: "Name", type: "text", placeholder: "" },
           password: {  label: "Password", type: "password" },
+          image : {label:"Image", type:"file"},
         },
         
         async authorize(credentials,req) {
@@ -241,9 +255,17 @@ export const authOptions :  NextAuthOptions = {
 
           //Get only not empty values from credentials
           //Ignore other credentials
-          const {name,password} = credentials
+          const {name,password,image} = credentials
+
           
-          const update = {name,  password}
+          const update = {name,  password,image}
+
+
+
+
+          
+
+          
 
 
 
@@ -259,6 +281,10 @@ export const authOptions :  NextAuthOptions = {
               delete update[typedKey]
           }
         }
+
+
+
+
 
 
 
@@ -284,6 +310,21 @@ export const authOptions :  NextAuthOptions = {
           const jwt = decodeURIComponent(rawJwt)
 
 
+          try {
+            const token =  await decode({
+              secret: process.env.NEXTAUTH_SECRET ?? "",
+              token: jwt,
+            
+            })
+
+            console.log(token)
+          }
+          catch (err) {
+            console.log(err)
+          }
+
+
+
 
 
          const token =  await decode({
@@ -292,9 +333,58 @@ export const authOptions :  NextAuthOptions = {
           
           })
 
+          
+
 
           if (!token) throw new Error("Token is not valid")
           if (!token?.email) throw new Error("Token is not valid")
+
+        
+
+
+
+          if (update.image) {
+            //upload base64 image to cloudinary
+            const fileName = `${token.sub}.jpg`
+
+            //convert update.image to buffer
+            
+            try {
+              const {secure_url} = await v2.uploader.upload(update.image, {
+                folder: "next-auth",
+                resource_type: "raw",
+                public_id : fileName,
+                unique_filename: true,
+                overwrite: true,
+                allowed_formats: ["jpg","png","jpeg"],
+                transformation: {
+                  width: 500,
+                  height: 500,
+                  crop: "fill"
+                }
+              })
+
+              update.image = secure_url
+
+            
+
+            }
+            catch (err) {
+              console.log(err,"err")
+            }
+
+
+
+
+
+
+
+  
+          
+            
+  
+          }
+
          
 
 

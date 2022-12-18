@@ -29,6 +29,22 @@ import { GetServerSideProps } from "next/types"
 import React, { useEffect, useState } from "react"
 import invariant from "tiny-invariant"
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone"
+
+import {BiUpload} from "react-icons/bi"
+
+import {AiOutlineClose} from "react-icons/ai"
+
+import { BiPhotoAlbum } from "react-icons/bi";
+
+
+const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve((reader.result as string));
+  reader.onerror = error => reject(error);
+});
+
 
   interface Props {
     csrfToken: string,
@@ -48,6 +64,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
     lastName: string;
     password: string;
     confirmPassword: string;
+    image : Array<File>
   };
   
 
@@ -58,6 +75,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
     const router = useRouter()
 
     const names = name.split(" ")
+
+    const [image,setImage] = useState<Array<File> | undefined>(undefined)
 
 
     
@@ -109,15 +128,24 @@ import { SubmitHandler, useForm } from "react-hook-form";
     })
 
 
+    
  
     //Join first and last name if any of 
 
     const newNames = [data.firstName,data.lastName].map((name,index) => name === "" ? (names.at(index) ?? "") : name ).join(" ")
 
-    console.log(newNames)
 
 
   
+
+    const img = image?.at(0)
+
+
+
+
+
+
+    const imageConst =   img ?  await toBase64(img) : undefined
 
     
 
@@ -126,14 +154,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 
 
-
-
-
-
-
     if (data && (data.password === data.confirmPassword)) {
 
-        await signIn("update-account", { ...data , name : (newNames === name) ? "" : newNames,redirect: false })
+
+        await signIn("update-account", { ...data ,image : imageConst ?? undefined, name : (newNames === name) ? "" : newNames,redirect: false })
 
         toast({
           title: "Updated",
@@ -210,6 +234,44 @@ import { SubmitHandler, useForm } from "react-hook-form";
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>
+            <Dropzone 
+                  onDrop={(files) => setImage(files)}
+                  onReject={(files) => console.log('rejected files', files)}
+                  maxSize={3 * 1024 ** 2}
+                  accept={IMAGE_MIME_TYPE}
+                  multiple={false}>
+
+
+                    
+
+              <Center>
+                <HStack spacing={5}>
+                  <Dropzone.Accept>
+                    <BiUpload/>
+                    
+                  </Dropzone.Accept>
+
+                  <Dropzone.Reject>
+                    <AiOutlineClose/>
+                  </Dropzone.Reject>
+
+                  <Dropzone.Idle>
+                    <BiPhotoAlbum/>
+                  </Dropzone.Idle>
+
+                  <Text>
+                    {image ? image.at(0)?.name : "Drop your image here"}
+
+                  </Text>
+
+                </HStack>
+
+
+              </Center>
+            </Dropzone>
+    
+          </GridItem>
+          <GridItem colSpan={2}>
           </GridItem>
           <GridItem colSpan={1}>
             <Button size="lg" w="full" bg="green.300" color="whiteAlpha.900"                   type='submit'
@@ -233,7 +295,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 
                 
-                console.log("Successfully Deleted");
               }}
               buttonText="Delete Account"
               isDanger={true}

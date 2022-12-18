@@ -1,4 +1,5 @@
 import { ApolloClient, gql, HttpLink, InMemoryCache } from "@apollo/client";
+// import ReactCountryFlag from "react-country-flag"
 import {
     Box,
     Center,
@@ -19,6 +20,8 @@ import {
     Td,
     Tbody,
     Thead,
+    Spacer,
+    Grid,
   } from "@chakra-ui/react";
 import axios from "axios";
 import { stat } from "fs";
@@ -56,9 +59,14 @@ const convertToQuery = (slug : string) => {
       flag
       age
       slug
+      preferred_foot
+      height
+      weight
+      nationality_code
       name
       shirt_number
       photo
+      market_value
       has_photo
       position_name
       preferred_foot
@@ -106,10 +114,14 @@ type PlayerProps = {
   rating?: number
   age?: number
   _id: string
+  // likedBy?: Array<number>
+  flag?: string
+  nationality_code?: string
+  preferred_foot?: string
+  market_value: number 
+  weight?:number | string
+  height?:number | string
   team?: TeamInterface
-  weight?:number
-  height?:number
-  preferred_foot?:number
 
 
 }
@@ -117,7 +129,7 @@ type PlayerProps = {
 
 
 
-const PlayerPage= ({shirt_number, name, image, position, goals, assists, appearances, rating, age,_id, team} : PlayerProps &  {csrfToken : string}) => {
+const PlayerPage= ({market_value, nationality_code, flag, height, weight, preferred_foot, shirt_number, name, image, position, goals, assists, appearances, rating, age,_id, team} : Omit<PlayerProps,"market_value"> &  {csrfToken : string, market_value: string}) => {
 
   const [csrfToken, setCsrfToken] = React.useState<string | undefined>(undefined);
 
@@ -136,7 +148,7 @@ const PlayerPage= ({shirt_number, name, image, position, goals, assists, appeara
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
-    <Box p="4" w="800px" mx="auto" textAlign="center" rounded="md" boxShadow="md">
+    <Box p="4" w="850px" mx="auto" textAlign="center" rounded="md" boxShadow="md" bgColor="ghostwhite">
       <Flex justifyContent="center" alignItems="center" mb="6">
         <HStack>
           <SimpleGrid columns={3} alignItems="center">
@@ -157,32 +169,82 @@ const PlayerPage= ({shirt_number, name, image, position, goals, assists, appeara
           <Text fontSize="sm">{team?.name}</Text>
         </VStack>
         </SimpleGrid>
+        
         </HStack>
       </Flex>
+      <HStack p="8" w="full" mx="auto" rounded="lg" boxShadow="lg">
+      <Flex>
 
-      <HStack p="4" w="full" mx="auto" rounded="md" boxShadow="md">
-      <Table>
-          <Thead>
-          <Tr>
-            <Th fontWeight="bold" textAlign="center">Goals</Th>
-            <Th fontWeight="bold" textAlign="center">Assists</Th>
-            <Th fontWeight="bold" textAlign="center">Appearances</Th>
-            <Th fontWeight="bold" textAlign="center">Rating</Th>
-          </Tr>
-          </Thead>
-        
-        <Tbody>
-          
-            <Tr>
-              <Td textAlign="center">{goals}</Td>
-              <Td textAlign="center">{assists}</Td>
-              <Td textAlign="center">{appearances}</Td>
-              <Td textAlign="center">{rating}</Td>
-            </Tr>
-                   
-        </Tbody>
-      </Table>
+      <Flex justifyContent="center" alignItems="center" mb="6">
+
+<HStack p="4" w="full" mx="auto" boxShadow="md" alignItems={"center"} >
+    <VStack>
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Value</Text>
+    <Text textAlign="center">€{market_value} M</Text>
+  </Box>
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Weight</Text>
+    <Text textAlign="center">{weight}</Text>
+  </Box>
+  </VStack>
+  <VStack>
+
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Preferred Foot</Text>
+    <Text textAlign="center">{preferred_foot}</Text>
+  </Box>
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Height</Text>
+    <Text textAlign="center">{height}</Text>
+  </Box>
+
+  </VStack>
+  <VStack>
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Country</Text>
+    <Text textAlign="center">{nationality_code}</Text>
+  </Box>
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Liked By</Text>
+    <Text textAlign="center">0</Text>
+  </Box>
+  </VStack>
+  </HStack>
+  </Flex>
+    <Spacer width={"80px"}>
+    </Spacer>
+    <Flex justifyContent="center" alignItems="center" mb="6">
+
+<HStack p="4" w="full" mx="auto"  boxShadow="md" alignItems={"center"}>
+    <VStack>
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Goals</Text>
+    <Text textAlign="center">{goals}</Text>
+  </Box>
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Assists</Text>
+    <Text textAlign="center">{assists}</Text>
+  </Box>
+  </VStack>
+  <VStack>
+
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Appearances</Text>
+    <Text textAlign="center">{appearances}</Text>
+  </Box>
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Rating</Text>
+    <Text textAlign="center">{rating}</Text>
+  </Box>
+  </VStack>
+
+  </HStack>
+  </Flex>
+
+    </Flex>
     </HStack>
+
       </Box>
     </Flex>
     
@@ -212,10 +274,17 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
         goals= {data?.statistics?.attacking?.goals}
         assists= {data?.statistics?.passes?.assists}
         appearances= {data?.statistics?.matches?.matches_total}
-        rating= {data?.statistics?.rating}
+        rating= {data?.statistics?.rating?.toFixed(2)}
         age= {data?.age}
         team={data?.team}
+        flag={data?.flag}
+        weight={ data?.weight ? data.weight  : 'N/A' } 
+        market_value={data?.market_value ? ((data.market_value)/1000000).toFixed(2) : 'N/A'}
+        nationality_code={data?.nationality_code}
+        height={ data?.height ? data.height.toFixed(2) : 'N/A' }
+        preferred_foot={data?.preferred_foot}
         shirt_number = {`#${data.shirt_number}`}
+        // likedBy = {data?.likedBy.length}
         csrfToken = {csrfToken}
       />
     );
