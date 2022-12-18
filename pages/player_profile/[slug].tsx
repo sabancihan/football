@@ -235,7 +235,7 @@ const PlayerPage= ({market_value, nationality_code, flag, height, weight, prefer
   </Box>
   <Box p="4">
     <Text fontWeight="bold" textAlign="center">Rating</Text>
-    <Text textAlign="center">{rating}</Text>
+    <Text textAlign="center">{rating?.toFixed(2)}</Text>
   </Box>
   </VStack>
 
@@ -274,7 +274,7 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
         goals= {data?.statistics?.attacking?.goals}
         assists= {data?.statistics?.passes?.assists}
         appearances= {data?.statistics?.matches?.matches_total}
-        rating= {data?.statistics?.rating?.toFixed(2)}
+        rating= {data?.statistics?.rating}
         age= {data?.age}
         team={data?.team}
         flag={data?.flag}

@@ -6,11 +6,9 @@ import LBCompIndex from "../components/leaderboard/ui";
 
 import * as Realm from "realm-web";
 import { ApolloClient, DocumentNode, gql, HttpLink, InMemoryCache ,NormalizedCacheObject,useQuery} from "@apollo/client";
-import Player, { IPlayer } from "../models/Player";
 import { InferGetStaticPropsType } from "next";
 import LeaderboardUI from "../components/leaderboard/ui/LeaderboardUI";
 import { getClient } from "../lib/realm/login";
-import { useApp } from "../hook/useApp";
 
 // 2. Function to create GraphQL client
 
