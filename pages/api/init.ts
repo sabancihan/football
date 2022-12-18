@@ -7,7 +7,7 @@ async function handler (_req : NextApiRequest, res : NextApiResponse) {
 
     try {
         await dbConnect();
-        await initUpdateDatabase()
+        initUpdateDatabase()
         return res.status(200).json({message : "Success"})
     }
 
