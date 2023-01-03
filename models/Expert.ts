@@ -7,7 +7,8 @@ export interface IExpert extends IUser {
         comment : string,
         players : Array<PlayerInterface | null>
         _id ?: Schema.Types.ObjectId
-    }>
+    }>,
+    bio? : string
 }
 
 
@@ -34,6 +35,11 @@ const expertSchema  = new Schema<IExpert>({
 
         default : {}
     },
+    bio : {
+        type : String,
+        required : false
+    },
+
 
 
 
