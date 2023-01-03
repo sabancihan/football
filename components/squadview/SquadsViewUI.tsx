@@ -12,21 +12,23 @@ import {
   InputGroup,
   InputLeftElement,
   Link,
-
+  Text,
   LinkBox,
 
   Spinner,
+
+  Textarea,
 
   useToast, VStack,
 
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { gql, useApolloClient } from "@apollo/client";
-import useDebounce from "../../../hook/useDebounce";
-import { PlayerInterface } from "../../../interfaces/PlayerInterface";
 import axios from "axios";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { SearchIcon } from "@chakra-ui/icons";
+import { PlayerInterface } from "../../interfaces/PlayerInterface";
+import useDebounce from "../../hook/useDebounce";
 
 
 type Props = {
@@ -37,7 +39,6 @@ type Props = {
       }>;
       } | null,
       whichExpert: string;
-      isAuthor: boolean;
 
 
   
@@ -64,7 +65,7 @@ type FormValues = {
 
 
 
-export default function SquadsUI({isAuthor,squad, whichExpert} :  Props) {  
+export default function SquadsUItwo({squad, whichExpert} :  Props) {  
 
 const convertToQuery = (graphqlQuery: string) => gql`query {playerSearch(input : {limit:5,path:"name",query:"${graphqlQuery}"}) { _id name slug photo team{name logo} }}`;
 
@@ -128,13 +129,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
 
     
 
-    toast({
-      title: "Success",
-      description: "Squad has been inserted",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    })
+
 
 
 
@@ -144,27 +139,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
 
 
 
-    const [search, setSearch] = useState<string | null>(null);
-    const debouncedSearch = useDebounce(search, 500);
-    const [foundPlayers,setFoundPlayers] = useState<Array<PlayerInterface>>([]);
-    const [loading, setLoading] = useState<boolean>(false);
-    const client = useApolloClient();
-    const [focus,setFocus] = useState<number>(-1);
 
-    useEffect(() => {
-      // search the api
-      async function fetchData() {
-        setLoading(true);  
-        setFoundPlayers([]);
-        const datas = await client.query({
-          query: convertToQuery(debouncedSearch),
-        }) 
-        console.log(datas);
-        setFoundPlayers(datas.data.playerSearch);
-        setLoading(false);
-      }
-      if (debouncedSearch) fetchData();
-    }, [debouncedSearch,client]);
 
   
 
@@ -175,84 +150,9 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
       
       
       <Image boxSize='35px' src={item.photo} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-        <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${item.slug}`}>{item.name}</Link>
+      <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${item.slug}`}>{item.name}</Link>
         
-        <div onFocus={ () => setFocus(index)} onBlur={() => setTimeout(() => {setFocus(-1); setFoundPlayers([]);},100)}>
-
-          <HStack zIndex={200}  >
-            <InputGroup>
-              <InputLeftElement>
-              <SearchIcon/>
-              </InputLeftElement>
-              <Input
-                  placeholder="Search" 
-                _placeholder={{ color: 'blue.100' }}
-                type= "search"
-                colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
-                />
-            </InputGroup>
-
-            {loading && focus === index && <Spinner />}
-
-
-        </HStack>
-
-        {focus === index && 
-
-        <div style={{position:"absolute"}}>
-          {foundPlayers.map((player) => {
-                return (
-            
-                  <LinkBox zIndex={900} key={player.slug}
-                
-                  backgroundColor="Background"
-                  width= "250px"
-                  maxHeight={70}
-                  
-                        rounded="lg"
-                        _hover={{
-                          color: "gray",
-                          transform: 'scale(1.05)',
-                          transition: 'all 0.5s ease',
-                          bg: 'gray.200',
-                        }}
-                        as="article" borderWidth='1px' >
-                    
-                  <Flex key={player.slug} p={4} >
-                    
-                      <Avatar
-                        src={player.photo}
-                        width="40px"
-                        height="40px"
-                      />
-                    
-                    <Flex direction="column" ml={4}>
-                      <Button zIndex={600} onClick={()=> {
-                        update(index, {
-                          _id: player._id,
-                          name: player.name,
-                          photo: player.photo,
-                          slug: player.slug,
-                          footballPosition: item.footballPosition
-                        })
-                      }}
-                      >
-                        {player.name}
-                      </Button>
-            
-
-                    </Flex>
-                  </Flex>
-                  </LinkBox>
-                );
-
-          })}
-        
-        </div>
-        }
                  
-        </div>
       
     </VStack> 
     );
@@ -271,7 +171,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
 
     <Flex>
       <VStack>
-      <Input {...register("comment")}  placeholder={"Enter a comment"} _placeholder={{ opacity: 1, color: 'grey.700' }} size='lg' />
+      <Input fontFamily = "sans-serif" fontSize="14px" border={0} readOnly={true} unselectable="on" {...register("comment")}  placeholder={"Enter a comment"} _placeholder={{ opacity: 1, color: 'grey.700' }} size='lg' />
       <HStack w='688px'>
         {/*https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png*/}
       <Box backgroundImage='https://pbs.twimg.com/media/DG9CaHdXYAEmLw5.jpg' 
@@ -282,11 +182,11 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
 
         h='746px' flex='1'> 
 
-          <Center marginTop='10px' fontSize='20px'>
+          <Center marginTop='40px' fontSize='20px'>
             {playerStack.get("ST")}
           </Center>
 
-          <Center marginTop='1px' fontSize='20px'>
+          <Center marginTop='40px' fontSize='20px'>
 
             {playerStack.get("LW")}
             
@@ -298,7 +198,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
             {playerStack.get("RW")}
           </Center>
 
-          <Center marginTop='1px' fontSize='20px'>
+          <Center marginTop='40px' fontSize='20px'>
             <VStack marginRight='50px'>
               {playerStack.get("LCM")}
             </VStack>
@@ -307,7 +207,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
             </VStack>
           </Center>
 
-          <Center marginTop='1px' fontSize='20px'>
+          <Center marginTop='40px' fontSize='20px'>
             <VStack>
               {playerStack.get("LB")}
             </VStack>
@@ -322,7 +222,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
             </VStack>
           </Center>
 
-          <Center marginTop='1px' fontSize='20px'>
+          <Center marginTop='40px' fontSize='20px'>
             {playerStack.get("GK")}
           </Center>
 
@@ -333,11 +233,6 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
       </HStack>
 
 
-      {isAuthor &&
-      <HStack>
-        <Button type={"submit"}>  Save</Button>
-      </HStack>
-      }
 
       </VStack>
 

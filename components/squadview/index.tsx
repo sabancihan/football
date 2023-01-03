@@ -1,8 +1,8 @@
 import React from "react";
-import SquadsUI from "./SquadsUI";
+import SquadsUItwo from "./SquadsViewUI";
 import { Text, Flex, VStack, HStack, Button } from "@chakra-ui/react";
-import { PlayerInterface } from "../../../interfaces/PlayerInterface";
-import { useSession } from "next-auth/react";
+import { PlayerInterface } from "../../interfaces/PlayerInterface";
+import Link from "next/link";
 
 type Props = {
   experts : Array<{
@@ -18,14 +18,9 @@ type Props = {
 }
 
 
+const SquadsCompIndexTwo = ({experts} :  Props) => {
 
-const SquadsCompIndex = ({experts} :  Props) => {
-
-  const session  = useSession();
-
-
-
-
+  
   let expertRow = [];
 
   while (experts.length) {
@@ -33,13 +28,12 @@ const SquadsCompIndex = ({experts} :  Props) => {
       <HStack key={experts.length} marginBottom='50px'>
 
         {experts.splice(0, 2).map((expert) => {
-
-          const isAuthor = session?.data?.user?.id === expert._id;
           return (
-
-            <VStack key={expert.name} marginRight='40px' pointerEvents={isAuthor ? "auto" : "none"}>
-              <Text fontSize='20px'>{expert?.name}</Text>
-              <SquadsUI squad={expert?.squad} whichExpert={expert._id}></SquadsUI>
+            <VStack key={expert.name} marginRight='40px'>
+              <Link href={`/expert?load=${expert._id}`}>
+            {expert?.name}
+          </Link>
+              <SquadsUItwo squad={expert?.squad} whichExpert={expert._id}></SquadsUItwo>
             </VStack>
           );
         })}
@@ -64,4 +58,4 @@ const SquadsCompIndex = ({experts} :  Props) => {
   );
 };
 
-export default SquadsCompIndex;
+export default SquadsCompIndexTwo;

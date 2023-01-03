@@ -13,7 +13,7 @@ import { createTemplate } from "./template";
 
 
 // create reusable transporter object using the default SMTP transport
-const  transporter = nodemailer.createTransport({
+export const  transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false, // true for 465, false for other ports
@@ -230,7 +230,7 @@ export async  function generateWeeklyReports() {
     await mongooseConnection();
 
 
-    const weeklyMatches = await findMatchesBetweenDates(new Date("2022-11-4"),new Date("2022-11-12"));
+    const weeklyMatches = await findMatchesBetweenDates(new Date("2022-12-26"),new Date("2023-01-01"));
 
     const weeklyPlayerData = await getThisWeekPlayerData(weeklyMatches);
 

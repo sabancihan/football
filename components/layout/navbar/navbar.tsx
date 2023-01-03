@@ -1,5 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
-import { GraphQLProvider } from "../../../provider/GraphQLProvider";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import {
   Box,
   Flex,
@@ -16,7 +15,16 @@ import {
   MenuDivider,
   useDisclosure,
   useColorModeValue,
-  Stack,
+  Stack, 
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import Link from "next/link";
@@ -27,6 +35,9 @@ import * as Realm from "realm-web";
 import useDebounce from  "../../../hook/useDebounce";
 import SearchBar from "../../../pages/search";
 import { getToken } from "next-auth/jwt";
+import router, { useRouter } from "next/router";
+import axios from "axios";
+//import React from "react";
 // const Links = ["Dashboard", "Projects", "Team"];
 const Links = [
 
@@ -65,13 +76,19 @@ const dropdownLink3 = [
 const dropdownLink4 = [
   {
     name:"Expert Squads" ,
-    path: "/squads",
+    path: "/squadsView",
   },
 ];
 const dropdownLink5 = [
   {
     name:"Scoutff Squads" ,
     path: "/customsquads",
+  },
+];
+const dropdownLink6 = [
+  {
+    name:"Squads Showcase" ,
+    path: "/squads_showcase",
   },
 ];
 const buttonLink = [
@@ -88,6 +105,7 @@ const buttonLink = [
 
 const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
 
+  
   
 
 
@@ -107,12 +125,19 @@ const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
 );
 
 export default function Navbar(props : any) {
+
+  const toast = useToast();
   const client = useApolloClient();
+
+  const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
 
   const session = useSession();
+
+ 
+
 
 
 
@@ -120,7 +145,7 @@ export default function Navbar(props : any) {
 
 
   const app = useApp();
-
+  //const btnRef = useRef();
 
 
 
@@ -130,6 +155,7 @@ export default function Navbar(props : any) {
 
   return (
     <>
+    
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={8}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
@@ -143,12 +169,74 @@ export default function Navbar(props : any) {
           
           <HStack
               as={"nav"}
-              paddingLeft= {"50px"}
+              paddingLeft= {"10px"}
               fontWeight={"bold"}
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {LogoLink.map(({ name, path }) => ( 
+
+    {session.data?.user.role === "admin" && (
+      <Button /*ref={btnRef}*/ bg={"black"} textColor={"white"} onClick={onOpen} fontWeight="bold" size={"sm"} >
+        Admin 
+      </Button>
+    )}
+      <Drawer
+        isOpen={isOpen}
+        placement='left'
+        onClose={onClose}
+        //finalFocusRef={btnRef}
+        size={"xs"}
+        //closeOnOverlayClick= {true}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth='1px'>Administration</DrawerHeader>
+          <DrawerBody>
+
+            <VStack spacing={10}>
+            <Button onClick={() =>{
+              onClose()
+               router.push('/evaluation')
+               }} > Evaluate Applications </Button>
+
+          <Button onClick={() =>{
+                toast({
+                  title: "Weekly Reports tried",
+                  description: "We've tried  the weekly reports to all the users",
+                  status: "info",
+                  duration: 2000,
+                  isClosable: true,
+                })
+                 axios.post('/api/manual').then((res) => {
+                  toast({
+                    title: "Weekly Reports sent",
+                    description: "We've sent the weekly reports to all the users",
+                    status: "success",
+                    duration: 2000,
+                    isClosable: true,
+                  })
+                }).catch((err) => {
+                  toast({
+                    title: "Weekly Reports failed",
+                    description: "We've failed to send the weekly reports to all the users",
+                    status: "error",
+                    duration: 2000,
+                    isClosable: true,
+                  })
+                })
+                
+
+                
+               
+               }} > Send Weekly Reports
+              </Button>
+            </VStack>
+
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+                 {LogoLink.map(({ name, path }) => ( 
                 <NavLink key={path} path={path}>
                   {name}
                 </NavLink>
@@ -167,6 +255,7 @@ export default function Navbar(props : any) {
           <HStack
               as={"nav"}
               spacing={4}
+              fontWeight={"semibold"}
               display={{ base: "none", md: "flex" }}
             >
               {Links.map(({ name, path }) => (
@@ -183,6 +272,7 @@ export default function Navbar(props : any) {
         {isOpen ? 'Squads' : 'Squads'}
       </MenuButton>
       <MenuList>
+        
       {dropdownLink4.map(({ name, path }) => (
                       <NavLink key={path} path={path}>
                             <MenuItem >
@@ -198,6 +288,19 @@ export default function Navbar(props : any) {
                     ))}
         {dropdownLink5.map(({ name, path }) => (
                       <NavLink key={path} path={path}>
+                            <MenuItem >
+                          <HStack
+                          as={"nav"}
+                          spacing={4}
+                          display={{ base: "none", md: "flex" }}
+                          >
+                          </HStack>
+                          {name}
+                        </MenuItem>
+                      </NavLink>
+                    ))}
+                          {dropdownLink6.map(({ name, path }) => (
+                    <NavLink key={path} path={path}>
                             <MenuItem >
                           <HStack
                           as={"nav"}
@@ -231,6 +334,8 @@ export default function Navbar(props : any) {
                   {name}
                 </NavLink>
               ))}
+
+              {}
             </HStack>
             </Button>
             <Menu>
@@ -243,11 +348,12 @@ export default function Navbar(props : any) {
                 <Avatar
                   size={"sm"}
                   src={
-                    session?.data?.user?.image ??  "https://bit.ly/sage-adebayo"
+                    (session?.data?.user?.image === "undefined" ? undefined : session?.data?.user?.image) ?? undefined
                   }
                 />
               </MenuButton>
               <MenuList>
+                {}
 
 
 
@@ -288,18 +394,26 @@ export default function Navbar(props : any) {
 
                      
                       <MenuDivider />
-                      <MenuItem  onClick={() => signOut({callbackUrl: "/auth/signin"})}
+                      <MenuItem  onClick={async () => {
+                        await client.cache.reset()
+                  
+
+                        localStorage.clear()
+                        
+                        await signOut({callbackUrl: "/auth/signin"})
+
+
+                      }
+                      }
                       textColor={"red"}
                       ><HStack
                     as={"nav"}
                     spacing={4}
                     display={{ base: "none", md: "flex" }}
                   >
-                      <NavLink  path={session?.data ?  "/auth/signin" : "/api/auth/signout"}>
                         <div>
                           {session?.data  ? "Log Out" : "Log In"}
                         </div>
-                      </NavLink>
                     
                   </HStack>
                 </MenuItem>
