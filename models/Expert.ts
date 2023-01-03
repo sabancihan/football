@@ -8,7 +8,7 @@ export interface IExpert extends IUser {
         players : Array<PlayerInterface | null>
         _id ?: Schema.Types.ObjectId
     }>,
-    bio? : string
+    bio ?: string,
 }
 
 
@@ -35,12 +35,11 @@ const expertSchema  = new Schema<IExpert>({
 
         default : {}
     },
+
+
     bio : {
         type : String,
-        required : false
-    },
-
-
+    }
 
 
 
