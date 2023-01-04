@@ -1,119 +1,179 @@
+import { ObjectId } from "mongoose";
+import { PlayerInterface } from "../../interfaces/PlayerInterface";
+import Expert from "../../models/Expert";
+import Player from "../../models/Player";
 import mongooseConnection from "../mongoose"
-import Applyexpert, { IApplyexpert, IApplyexpert2 } from "../../models/Applyexpert";
-import console from "console";
-import User, { IUser } from "../../models/User";
-import nodemailer from "nodemailer";
+
+type WeeklyMatchProps = {
+    weekNumber : number,
+    expert : string
+}
+
+export type WeeklyMatchRecord = Record<string, SingleMatchRecord>
+
+export type SingleMatchRecord = {
+    comment : string,
+    players : Array<PlayerInterface | {
+        footballPosition : string
+    }>,
+}
+
+const indexToFootballPosition11Players = ["GK","LB","LCB","RCB","RB","LCM","RCM","CAM","LW","RW","ST"] as const;
 
 
-export const  transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: process.env.EMAIL_SERVER_USER, // generated ethereal user
-      pass: process.env.EMAIL_SERVER_PASSWORD // generated ethereal password
-    },
-  });
+export async function getAllExperts() {
+
+    await mongooseConnection();
+
+    const experts = await Expert.find().lean();
+
+    return experts;
+
+}
 
 
-export async function postrejectexpert(applyid : string): Promise<Boolean>
-{
+export async function  getAllSquadOfExpert(expert : string) {
+
     await mongooseConnection();
     
-    try {
 
 
 
-    const application = await Applyexpert.findById(applyid).populate("user")
-    
+    const allSquads  = await Expert.findById(expert).select(`weeklySquads -_id`).populate({
+        path : "weeklySquads.$*.players",
+        model : Player,
+        select : "name slug photo"
+    }).lean();
 
 
 
-    //if it is not pending, return false
-    if(application?.status !== "pending" || !application.user)
-    {
-        return false
-    }
-
-    const user = application.user as IUser
-
-    if (user.role === "commentator") {
-        return true;
-    }
-
-    const email = user.email
-
-
-    await application.updateOne({
-        status : "rejected"
-    })
+    Object.values(allSquads?.weeklySquads ?? {}).forEach((week) => {
 
 
 
-    const info = transporter.sendMail({
-        from : '"Scoutff Football" <bisiler@scoutff.com>',
-        to : email,
-        subject : "Your expert application is rejected",
-        text : "Your application is rejected. Please try again later."
+        if (!week.players) week.players = [];
+
+        else {
+            const filledPlayers = [...week.players, ...Array(11 - week.players.length).fill(null)] as Array<PlayerInterface | null>;
+     
         
+     
+       
+            week.players = (filledPlayers).map((player,index) => {
+                return {
+                    ...player as PlayerInterface,
+                    footballPosition : indexToFootballPosition11Players[index]
+                }
+            })
+
+        }
+
+
+
+
+        delete week._id;
     })
 
-    return true
-    }
-    catch(err)
-    {
-        return false
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+    return allSquads;
+
+
 }
-export async function postacceptexpert(applyid : string): Promise<Boolean>
-{
+
+
+export async function createSquadOfExpert({weekNumber,expert,comment,players} : WeeklyMatchProps & {comment : string,players : string[]}) {
+
     await mongooseConnection();
-    
-    try {
 
+    const  week = `week${weekNumber}`;
 
-    const application = await Applyexpert.findById(applyid).populate("user")
-
-    //if it is not pending, return false
-    if(application?.status !== "pending" || !application.user)
-    {
-        return false
-    }
-
-
-    const user = application.user as IUser
-
-
-    if (user.role === "commentator") {
-        return true;
-    }
-
-
-
-    const email = user.email    
-
-    await application.updateOne({
-        status : "accepted"
-    })
-    
-
-    
-    await User.findOneAndUpdate({email}, {
-        role : "commentator" , weeklySquads : {}, bio : application.bio
+    await Expert.findByIdAndUpdate(expert,{
+        $set : {
+            [`weeklySquads.${week}.comment`] : comment,
+            [`weeklySquads.${week}.players`] : players
+        }
     })
 
-    const info = transporter.sendMail({
-        from : '"Scoutff Football" <bisiler@scoutff.com>',
-        to : email,
-        subject : "Congratulations, you are now an expert",
-        text : "If you are already logged in, please log out and try logging in again to refresh your role status."
-        
-    })
-
-    return true
-    }
-    catch(err)
-    {
-        return false
-    }
 }
+
+
+
+
+export async function getSquadOfWeek({weekNumber,expert} : WeeklyMatchProps) {
+
+    await mongooseConnection();
+
+    const  week = `week${weekNumber}`;
+
+
+
+
+
+
+    const weeklyTeam  = await Expert.findById(expert).populate({
+        path : `weeklySquads.${week}.players`,
+        model : Player,
+        select : "name slug photo"
+    }).select(`weeklySquads.${week} -_id`).lean();
+
+
+
+
+    const teams = weeklyTeam?.weeklySquads as unknown as WeeklyMatchRecord
+
+    if (!teams) return null;
+
+    const team = teams[week];
+
+    if (!team) return null;
+
+
+    if (!team.players) return {
+        comment : team.comment,
+        team : []
+    }
+
+        //add null values until 11 players
+        const filledPlayers = [...team.players, ...Array(11 - team.players.length).fill(null)] as Array<PlayerInterface | null>;
+
+    
+
+    const teamWithFootballPositions = filledPlayers?.map((player,index) => {
+        return {
+            ...player,
+            footballPosition : indexToFootballPosition11Players[index]
+        }
+    })
+
+
+
+    
+
+
+                            
+
+    
+    
+
+    return  {
+        comment : team.comment,
+        team : teamWithFootballPositions
+    }
+
+
+  }
+
