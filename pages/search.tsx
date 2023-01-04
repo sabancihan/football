@@ -79,6 +79,7 @@ const SearchBar = () => {
       <SearchIcon/>
       </InputLeftElement>
       <Input placeholder="Search"
+      value={search || ""}
     type= "search"
     colorScheme="teal" 
     onChange={(e) => setSearch(e.target.value)}
@@ -90,24 +91,25 @@ const SearchBar = () => {
 
 
   {focusedSearch &&  
-  <div style={{position:"absolute"}}>
+    <div style={{position: "absolute", zIndex: 998}}>
     {players.map((player) => {
           return (
       
             <LinkBox key={player.slug}
-          
-            backgroundColor="Background"
-            width= "250px"
-            maxHeight={70}
-            z-index= "30"
-                  rounded="lg"
-                  _hover={{
-                    color: "gray",
-                    transform: 'scale(1.05)',
-                    transition: 'all 0.5s ease',
-                    bg: 'rgba(0,0,0,0.1)',
-                  }}
-                  as="article" borderWidth='1px' >
+  backgroundColor="Background"
+  position={"relative"}
+  width= "250px"
+  maxHeight={70}
+  z-index= "999"
+  rounded="lg"
+  _hover={{
+    color: "gray",
+    transform: 'scale(1.05)',
+    transition: 'all 0.5s ease',
+    opacity: 0.8,
+  }}                  
+  as="article" borderWidth='1px' >
+
                
             <Flex key={player.slug} p={4} >
               
@@ -122,7 +124,10 @@ const SearchBar = () => {
          
                 
               <Box style={{cursor:"pointer"}} onMouseDown={(e) => e.preventDefault()}  onClick={()=> {
-                       router.push(`/player_profile/${player.slug}`).then(() => setFocusedSearch(false));
+                       router.push(`/player_profile/${player.slug}`).then(() => {
+                        setSearch("");
+                        setPlayer([]);
+                       });
                         
                       }}
                       >
